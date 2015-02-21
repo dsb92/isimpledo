@@ -7,13 +7,39 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		46091FE81A7FD37A00DC2513 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46091FE61A7FD37A00DC2513 /* Main.storyboard */; };
+		46091FEB1A7FD5AA00DC2513 /* ReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46091FEA1A7FD5AA00DC2513 /* ReminderViewController.m */; };
+		4659BA521A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA471A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m */; };
+		4659BA531A8BF912002C6A48 /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA491A8BF912002C6A48 /* SWCellScrollView.m */; };
+		4659BA541A8BF912002C6A48 /* SWLongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA4B1A8BF912002C6A48 /* SWLongPressGestureRecognizer.m */; };
+		4659BA551A8BF912002C6A48 /* SWTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA4D1A8BF912002C6A48 /* SWTableViewCell.m */; };
+		4659BA561A8BF912002C6A48 /* SWUtilityButtonTapGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA4F1A8BF912002C6A48 /* SWUtilityButtonTapGestureRecognizer.m */; };
+		4659BA571A8BF912002C6A48 /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA511A8BF912002C6A48 /* SWUtilityButtonView.m */; };
+		4659BA601A8BF952002C6A48 /* list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4659BA581A8BF952002C6A48 /* list@2x.png */; };
+		4659BA611A8BF952002C6A48 /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4659BA591A8BF952002C6A48 /* check@2x.png */; };
+		4659BA621A8BF952002C6A48 /* cross@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4659BA5A1A8BF952002C6A48 /* cross@2x.png */; };
+		4659BA631A8BF952002C6A48 /* clock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4659BA5B1A8BF952002C6A48 /* clock@2x.png */; };
+		4659BA641A8BF952002C6A48 /* MI.png in Resources */ = {isa = PBXBuildFile; fileRef = 4659BA5C1A8BF952002C6A48 /* MI.png */; };
+		4659BA651A8BF952002C6A48 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 4659BA5D1A8BF952002C6A48 /* Default.png */; };
+		4659BA661A8BF952002C6A48 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4659BA5E1A8BF952002C6A48 /* Default@2x.png */; };
+		4659BA671A8BF952002C6A48 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4659BA5F1A8BF952002C6A48 /* Default-568h@2x.png */; };
+		4659BA731A8BFB27002C6A48 /* UMTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA721A8BFB27002C6A48 /* UMTableViewCell.m */; };
+		4659BA751A8BFB32002C6A48 /* um.png in Resources */ = {isa = PBXBuildFile; fileRef = 4659BA741A8BFB32002C6A48 /* um.png */; };
+		4659BA771A8BFC49002C6A48 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4659BA761A8BFC49002C6A48 /* QuartzCore.framework */; };
+		4659BA791A8BFC55002C6A48 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4659BA781A8BFC55002C6A48 /* UIKit.framework */; };
+		4659BA7B1A8BFC5E002C6A48 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4659BA7A1A8BFC5E002C6A48 /* Foundation.framework */; };
+		4659BA7D1A8BFC65002C6A48 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4659BA7C1A8BFC65002C6A48 /* CoreGraphics.framework */; };
+		467A525F1A86461A00BBE0BA /* AlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 467A525E1A86461A00BBE0BA /* AlertViewController.m */; };
+		467A52621A86529100BBE0BA /* RepeatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 467A52611A86529100BBE0BA /* RepeatViewController.m */; };
 		469C06B61A69857F00ED9A9B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06B51A69857F00ED9A9B /* main.m */; };
 		469C06B91A69857F00ED9A9B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06B81A69857F00ED9A9B /* AppDelegate.m */; };
-		469C06BC1A69857F00ED9A9B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06BB1A69857F00ED9A9B /* ViewController.m */; };
-		469C06BF1A69857F00ED9A9B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 469C06BD1A69857F00ED9A9B /* Main.storyboard */; };
 		469C06C11A69857F00ED9A9B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 469C06C01A69857F00ED9A9B /* Images.xcassets */; };
 		469C06C41A69857F00ED9A9B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 469C06C21A69857F00ED9A9B /* LaunchScreen.xib */; };
 		469C06D01A69857F00ED9A9B /* iOSDoToListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06CF1A69857F00ED9A9B /* iOSDoToListTests.m */; };
+		469C06DE1A6B03C900ED9A9B /* AddToDoItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06DD1A6B03C900ED9A9B /* AddToDoItemViewController.m */; };
+		469C06E11A6B048500ED9A9B /* ToDoListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06E01A6B048500ED9A9B /* ToDoListTableViewController.m */; };
+		469C06E41A6B0E5200ED9A9B /* ToDoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06E31A6B0E5200ED9A9B /* ToDoItem.m */; };
+		46C3B3A31A7ADD750062466A /* AddToItemNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46C3B3A21A7ADD750062466A /* AddToItemNavigationController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,19 +53,58 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		46091FE71A7FD37A00DC2513 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = iOSDoToList/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		46091FE91A7FD5AA00DC2513 /* ReminderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReminderViewController.h; sourceTree = "<group>"; };
+		46091FEA1A7FD5AA00DC2513 /* ReminderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReminderViewController.m; sourceTree = "<group>"; };
+		4659BA461A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+SWUtilityButtons.h"; sourceTree = "<group>"; };
+		4659BA471A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+SWUtilityButtons.m"; sourceTree = "<group>"; };
+		4659BA481A8BF912002C6A48 /* SWCellScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWCellScrollView.h; sourceTree = "<group>"; };
+		4659BA491A8BF912002C6A48 /* SWCellScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWCellScrollView.m; sourceTree = "<group>"; };
+		4659BA4A1A8BF912002C6A48 /* SWLongPressGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWLongPressGestureRecognizer.h; sourceTree = "<group>"; };
+		4659BA4B1A8BF912002C6A48 /* SWLongPressGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWLongPressGestureRecognizer.m; sourceTree = "<group>"; };
+		4659BA4C1A8BF912002C6A48 /* SWTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWTableViewCell.h; sourceTree = "<group>"; };
+		4659BA4D1A8BF912002C6A48 /* SWTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWTableViewCell.m; sourceTree = "<group>"; };
+		4659BA4E1A8BF912002C6A48 /* SWUtilityButtonTapGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWUtilityButtonTapGestureRecognizer.h; sourceTree = "<group>"; };
+		4659BA4F1A8BF912002C6A48 /* SWUtilityButtonTapGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonTapGestureRecognizer.m; sourceTree = "<group>"; };
+		4659BA501A8BF912002C6A48 /* SWUtilityButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWUtilityButtonView.h; sourceTree = "<group>"; };
+		4659BA511A8BF912002C6A48 /* SWUtilityButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonView.m; sourceTree = "<group>"; };
+		4659BA581A8BF952002C6A48 /* list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "list@2x.png"; sourceTree = "<group>"; };
+		4659BA591A8BF952002C6A48 /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@2x.png"; sourceTree = "<group>"; };
+		4659BA5A1A8BF952002C6A48 /* cross@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross@2x.png"; sourceTree = "<group>"; };
+		4659BA5B1A8BF952002C6A48 /* clock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clock@2x.png"; sourceTree = "<group>"; };
+		4659BA5C1A8BF952002C6A48 /* MI.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MI.png; sourceTree = "<group>"; };
+		4659BA5D1A8BF952002C6A48 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		4659BA5E1A8BF952002C6A48 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		4659BA5F1A8BF952002C6A48 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		4659BA711A8BFB27002C6A48 /* UMTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMTableViewCell.h; sourceTree = "<group>"; };
+		4659BA721A8BFB27002C6A48 /* UMTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMTableViewCell.m; sourceTree = "<group>"; };
+		4659BA741A8BFB32002C6A48 /* um.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = um.png; sourceTree = "<group>"; };
+		4659BA761A8BFC49002C6A48 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		4659BA781A8BFC55002C6A48 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		4659BA7A1A8BFC5E002C6A48 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		4659BA7C1A8BFC65002C6A48 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		467A525D1A86461A00BBE0BA /* AlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertViewController.h; sourceTree = "<group>"; };
+		467A525E1A86461A00BBE0BA /* AlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertViewController.m; sourceTree = "<group>"; };
+		467A52601A86529100BBE0BA /* RepeatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepeatViewController.h; sourceTree = "<group>"; };
+		467A52611A86529100BBE0BA /* RepeatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepeatViewController.m; sourceTree = "<group>"; };
 		469C06B01A69857F00ED9A9B /* iOSDoToList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSDoToList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		469C06B41A69857F00ED9A9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		469C06B51A69857F00ED9A9B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		469C06B71A69857F00ED9A9B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		469C06B81A69857F00ED9A9B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		469C06BA1A69857F00ED9A9B /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		469C06BB1A69857F00ED9A9B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		469C06BE1A69857F00ED9A9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		469C06C01A69857F00ED9A9B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		469C06C31A69857F00ED9A9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		469C06C91A69857F00ED9A9B /* iOSDoToListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSDoToListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		469C06CE1A69857F00ED9A9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		469C06CF1A69857F00ED9A9B /* iOSDoToListTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOSDoToListTests.m; sourceTree = "<group>"; };
+		469C06DC1A6B03C900ED9A9B /* AddToDoItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddToDoItemViewController.h; path = ../AddToDoItemViewController.h; sourceTree = "<group>"; };
+		469C06DD1A6B03C900ED9A9B /* AddToDoItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddToDoItemViewController.m; path = ../AddToDoItemViewController.m; sourceTree = "<group>"; };
+		469C06DF1A6B048500ED9A9B /* ToDoListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToDoListTableViewController.h; sourceTree = "<group>"; };
+		469C06E01A6B048500ED9A9B /* ToDoListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToDoListTableViewController.m; sourceTree = "<group>"; };
+		469C06E21A6B0E5200ED9A9B /* ToDoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToDoItem.h; path = ../ToDoItem.h; sourceTree = "<group>"; };
+		469C06E31A6B0E5200ED9A9B /* ToDoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToDoItem.m; path = ../ToDoItem.m; sourceTree = "<group>"; };
+		46C3B3A11A7ADD750062466A /* AddToItemNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddToItemNavigationController.h; sourceTree = "<group>"; };
+		46C3B3A21A7ADD750062466A /* AddToItemNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddToItemNavigationController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +112,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4659BA7D1A8BFC65002C6A48 /* CoreGraphics.framework in Frameworks */,
+				4659BA7B1A8BFC5E002C6A48 /* Foundation.framework in Frameworks */,
+				4659BA791A8BFC55002C6A48 /* UIKit.framework in Frameworks */,
+				4659BA771A8BFC49002C6A48 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,9 +129,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4659BA451A8BF8DF002C6A48 /* PodFiles */ = {
+			isa = PBXGroup;
+			children = (
+				4659BA461A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.h */,
+				4659BA471A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m */,
+				4659BA481A8BF912002C6A48 /* SWCellScrollView.h */,
+				4659BA491A8BF912002C6A48 /* SWCellScrollView.m */,
+				4659BA4A1A8BF912002C6A48 /* SWLongPressGestureRecognizer.h */,
+				4659BA4B1A8BF912002C6A48 /* SWLongPressGestureRecognizer.m */,
+				4659BA4C1A8BF912002C6A48 /* SWTableViewCell.h */,
+				4659BA4D1A8BF912002C6A48 /* SWTableViewCell.m */,
+				4659BA4E1A8BF912002C6A48 /* SWUtilityButtonTapGestureRecognizer.h */,
+				4659BA4F1A8BF912002C6A48 /* SWUtilityButtonTapGestureRecognizer.m */,
+				4659BA501A8BF912002C6A48 /* SWUtilityButtonView.h */,
+				4659BA511A8BF912002C6A48 /* SWUtilityButtonView.m */,
+			);
+			name = PodFiles;
+			sourceTree = "<group>";
+		};
 		469C06A71A69857F00ED9A9B = {
 			isa = PBXGroup;
 			children = (
+				4659BA7C1A8BFC65002C6A48 /* CoreGraphics.framework */,
+				4659BA7A1A8BFC5E002C6A48 /* Foundation.framework */,
+				4659BA781A8BFC55002C6A48 /* UIKit.framework */,
+				4659BA761A8BFC49002C6A48 /* QuartzCore.framework */,
 				469C06B21A69857F00ED9A9B /* iOSDoToList */,
 				469C06CC1A69857F00ED9A9B /* iOSDoToListTests */,
 				469C06B11A69857F00ED9A9B /* Products */,
@@ -81,12 +173,26 @@
 		469C06B21A69857F00ED9A9B /* iOSDoToList */ = {
 			isa = PBXGroup;
 			children = (
+				4659BA741A8BFB32002C6A48 /* um.png */,
+				4659BA451A8BF8DF002C6A48 /* PodFiles */,
+				46C3B3A11A7ADD750062466A /* AddToItemNavigationController.h */,
+				46C3B3A21A7ADD750062466A /* AddToItemNavigationController.m */,
+				469C06E21A6B0E5200ED9A9B /* ToDoItem.h */,
+				469C06E31A6B0E5200ED9A9B /* ToDoItem.m */,
+				469C06DC1A6B03C900ED9A9B /* AddToDoItemViewController.h */,
+				469C06DD1A6B03C900ED9A9B /* AddToDoItemViewController.m */,
+				467A525D1A86461A00BBE0BA /* AlertViewController.h */,
+				467A525E1A86461A00BBE0BA /* AlertViewController.m */,
+				467A52601A86529100BBE0BA /* RepeatViewController.h */,
+				467A52611A86529100BBE0BA /* RepeatViewController.m */,
+				46091FE91A7FD5AA00DC2513 /* ReminderViewController.h */,
+				46091FEA1A7FD5AA00DC2513 /* ReminderViewController.m */,
 				469C06B71A69857F00ED9A9B /* AppDelegate.h */,
 				469C06B81A69857F00ED9A9B /* AppDelegate.m */,
-				469C06BA1A69857F00ED9A9B /* ViewController.h */,
-				469C06BB1A69857F00ED9A9B /* ViewController.m */,
-				469C06BD1A69857F00ED9A9B /* Main.storyboard */,
+				469C06DF1A6B048500ED9A9B /* ToDoListTableViewController.h */,
+				469C06E01A6B048500ED9A9B /* ToDoListTableViewController.m */,
 				469C06C01A69857F00ED9A9B /* Images.xcassets */,
+				46091FE61A7FD37A00DC2513 /* Main.storyboard */,
 				469C06C21A69857F00ED9A9B /* LaunchScreen.xib */,
 				469C06B31A69857F00ED9A9B /* Supporting Files */,
 			);
@@ -96,6 +202,16 @@
 		469C06B31A69857F00ED9A9B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4659BA711A8BFB27002C6A48 /* UMTableViewCell.h */,
+				4659BA721A8BFB27002C6A48 /* UMTableViewCell.m */,
+				4659BA581A8BF952002C6A48 /* list@2x.png */,
+				4659BA591A8BF952002C6A48 /* check@2x.png */,
+				4659BA5A1A8BF952002C6A48 /* cross@2x.png */,
+				4659BA5B1A8BF952002C6A48 /* clock@2x.png */,
+				4659BA5C1A8BF952002C6A48 /* MI.png */,
+				4659BA5D1A8BF952002C6A48 /* Default.png */,
+				4659BA5E1A8BF952002C6A48 /* Default@2x.png */,
+				4659BA5F1A8BF952002C6A48 /* Default-568h@2x.png */,
 				469C06B41A69857F00ED9A9B /* Info.plist */,
 				469C06B51A69857F00ED9A9B /* main.m */,
 			);
@@ -168,6 +284,7 @@
 				TargetAttributes = {
 					469C06AF1A69857F00ED9A9B = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = WC3CDPK7H2;
 					};
 					469C06C81A69857F00ED9A9B = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -199,9 +316,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				469C06BF1A69857F00ED9A9B /* Main.storyboard in Resources */,
+				4659BA611A8BF952002C6A48 /* check@2x.png in Resources */,
+				4659BA671A8BF952002C6A48 /* Default-568h@2x.png in Resources */,
+				4659BA651A8BF952002C6A48 /* Default.png in Resources */,
+				4659BA751A8BFB32002C6A48 /* um.png in Resources */,
+				4659BA661A8BF952002C6A48 /* Default@2x.png in Resources */,
+				4659BA601A8BF952002C6A48 /* list@2x.png in Resources */,
+				46091FE81A7FD37A00DC2513 /* Main.storyboard in Resources */,
 				469C06C41A69857F00ED9A9B /* LaunchScreen.xib in Resources */,
+				4659BA631A8BF952002C6A48 /* clock@2x.png in Resources */,
 				469C06C11A69857F00ED9A9B /* Images.xcassets in Resources */,
+				4659BA621A8BF952002C6A48 /* cross@2x.png in Resources */,
+				4659BA641A8BF952002C6A48 /* MI.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,9 +345,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				469C06BC1A69857F00ED9A9B /* ViewController.m in Sources */,
 				469C06B91A69857F00ED9A9B /* AppDelegate.m in Sources */,
+				4659BA541A8BF912002C6A48 /* SWLongPressGestureRecognizer.m in Sources */,
+				467A525F1A86461A00BBE0BA /* AlertViewController.m in Sources */,
+				4659BA571A8BF912002C6A48 /* SWUtilityButtonView.m in Sources */,
+				4659BA521A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m in Sources */,
+				469C06E41A6B0E5200ED9A9B /* ToDoItem.m in Sources */,
+				46C3B3A31A7ADD750062466A /* AddToItemNavigationController.m in Sources */,
+				4659BA561A8BF912002C6A48 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
+				467A52621A86529100BBE0BA /* RepeatViewController.m in Sources */,
+				469C06E11A6B048500ED9A9B /* ToDoListTableViewController.m in Sources */,
+				4659BA531A8BF912002C6A48 /* SWCellScrollView.m in Sources */,
 				469C06B61A69857F00ED9A9B /* main.m in Sources */,
+				469C06DE1A6B03C900ED9A9B /* AddToDoItemViewController.m in Sources */,
+				4659BA551A8BF912002C6A48 /* SWTableViewCell.m in Sources */,
+				4659BA731A8BFB27002C6A48 /* UMTableViewCell.m in Sources */,
+				46091FEB1A7FD5AA00DC2513 /* ReminderViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,12 +383,13 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		469C06BD1A69857F00ED9A9B /* Main.storyboard */ = {
+		46091FE61A7FD37A00DC2513 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				469C06BE1A69857F00ED9A9B /* Base */,
+				46091FE71A7FD37A00DC2513 /* Base */,
 			);
 			name = Main.storyboard;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		469C06C21A69857F00ED9A9B /* LaunchScreen.xib */ = {
@@ -343,6 +483,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/iOSDoToList",
+				);
 				INFOPLIST_FILE = iOSDoToList/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -353,6 +497,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/iOSDoToList",
+				);
 				INFOPLIST_FILE = iOSDoToList/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -412,6 +560,7 @@
 				469C06D51A69857F00ED9A9B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		469C06D61A69857F00ED9A9B /* Build configuration list for PBXNativeTarget "iOSDoToListTests" */ = {
 			isa = XCConfigurationList;
@@ -420,6 +569,7 @@
 				469C06D81A69857F00ED9A9B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
