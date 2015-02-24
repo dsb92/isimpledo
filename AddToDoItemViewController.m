@@ -12,8 +12,6 @@
 @interface AddToDoItemViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
-@property (weak, nonatomic) IBOutlet UIPickerView *priorityPicker;
-@property (weak, nonatomic) IBOutlet UIButton *priorityButton;
 @property (weak, nonatomic) IBOutlet UILabel *dueDateLabel;
 @property (weak, nonatomic) IBOutlet UIButton *reminderButton;
 
@@ -56,39 +54,10 @@
     [self.textField resignFirstResponder];
 }
 
--(IBAction)setDueDate:(id)sender{
-    UIButton *dueButton = (UIButton*)sender;
-    dueButton.selected = !dueButton.selected;
-    if (dueButton.selected) {
-        self.datePicker.hidden = NO;
-        [sender setTitle:@"Hide due date" forState:UIControlStateSelected];
-    }
-    else {
-        self.datePicker.hidden = YES;
-        [sender setTitle:@"Set due date" forState:UIControlStateNormal];
-    }
-}
-
--(IBAction)setPriority:(id)sender{
-    UIButton *priorityButton = (UIButton*)sender;
-    priorityButton.selected = !priorityButton.selected;
-    if (priorityButton.selected) {
-        self.priorityPicker.hidden = NO;
-        [sender setTitle:@"Hide priority" forState:UIControlStateSelected];
-    }
-    else {
-        self.priorityPicker.hidden = YES;
-        [sender setTitle:@"Set priority" forState:UIControlStateNormal];
-    }
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    NSArray *priorities = [[NSArray alloc] initWithObjects:@"HIGH", @"MED", @"LOW", nil];
-    self.priorityArray = priorities;
-    
+
     if (self.isInEditMode) {
         // Show item name of item
         self.textField.text = self.toDoItem.itemName;
@@ -98,26 +67,10 @@
             self.dueDateLabel.text = self.toDoItem.endDate;
             [self.reminderButton setTitle:@"Edit reminder" forState:UIControlStateNormal];
         }
-        
-        // Show priority of item
-        if ([self.toDoItem.priority isEqualToString:@"HIGH"]) {
-            [self.priorityPicker selectRow:0 inComponent:0 animated:YES];
-        }
-        else if ([self.toDoItem.priority isEqualToString:@"MED"]) {
-            [self.priorityPicker selectRow:1 inComponent:0 animated:YES];
-        }
-        if ([self.toDoItem.priority isEqualToString:@"LOW"]) {
-            [self.priorityPicker selectRow:2 inComponent:0 animated:YES];
-        }
-        self.priorityPicker.hidden = NO;
-        self.priorityButton.selected = YES;
-        [self.priorityButton setTitle:@"Hide priority" forState:UIControlStateSelected];
     }
     else{
         self.toDoItem = [[ToDoItem alloc] init];
-        
-        [self.priorityPicker selectRow:1 inComponent:0 animated:YES];
-        
+
         [self.textField becomeFirstResponder];
     }
 }
@@ -126,7 +79,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 #pragma mark - Navigation
 
@@ -162,32 +114,9 @@
     
     if (self.isInEditMode == NO)
         self.toDoItem.creationDate = self.getCurrentDate;
-    
-    // get pririoty from priorioty wheel
-    NSInteger row = [self.priorityPicker selectedRowInComponent:0];
-    NSString *priority = [self.priorityArray objectAtIndex:row];
-    self.toDoItem.priority = priority;
-    
+
     // print out item
-    NSLog(@"Priority: %@\n, Itemname: %@\n, Creationdate: %@\n, Enddate: %@\n, Alert: %@\n, Repeat: %@\n", self.toDoItem.priority, self.toDoItem.itemName, self.toDoItem.creationDate, self.toDoItem.endDate, self.toDoItem.alertSelection, self.toDoItem.repeatSelection);
+    NSLog(@"Itemname: %@\n, Creationdate: %@\n, Enddate: %@\n, Alert: %@\n, Repeat: %@\n", self.toDoItem.itemName, self.toDoItem.creationDate, self.toDoItem.endDate, self.toDoItem.alertSelection, self.toDoItem.repeatSelection);
 }
-
-#pragma mark - Priority wheel
-
-// How many wheels?
--(NSInteger) numberOfComponentsInPickerView:(UIPickerView *)pickerView{
-    return 1;
-}
-
-// How many choices?
--(NSInteger) pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    return [self.priorityArray count];
-}
-
-// Titel for each choice
--(NSString *) pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    return [self.priorityArray objectAtIndex:row];
-}
-
 
 @end

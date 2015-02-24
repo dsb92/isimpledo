@@ -14,7 +14,6 @@
 @property BOOL completed;
 @property NSString *creationDate;
 @property NSString *endDate;
-@property NSString *priority;
 @property NSString *alertSelection;
 @property NSString *repeatSelection;
 

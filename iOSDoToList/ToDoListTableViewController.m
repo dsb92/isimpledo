@@ -197,7 +197,7 @@
     for (int i = 0; i<[self.toDoItems count]; i++)
     {
         ToDoItem *item = [self.toDoItems objectAtIndex:i];
-        NSArray *array = [[NSArray alloc]initWithObjects:item.priority, item.itemName, [NSNumber numberWithBool:item.completed], item.creationDate, item.endDate, item.alertSelection, item.repeatSelection, nil];
+        NSArray *array = [[NSArray alloc]initWithObjects:item.itemName, [NSNumber numberWithBool:item.completed], item.creationDate, item.endDate, item.alertSelection, item.repeatSelection, nil];
         [mainArray addObject:array];
     }
     
@@ -228,40 +228,38 @@
         ToDoItem *item = [[ToDoItem alloc]init];
         NSArray *array = [mainArray objectAtIndex:i];
         
-        // get priority
-        item.priority = [array objectAtIndex:0];
-        
         @try {
             
             // get item name
-            if ([array objectAtIndex:1]!=nil) {
-                // To retreive BOOL value from NSNumber object in array, add boolValue
-                item.itemName = [array objectAtIndex:1];
+            if ([array objectAtIndex:0]!=nil) {
+                
+                item.itemName = [array objectAtIndex:0];
             }
             
             // get complete state
-            if ([array objectAtIndex:2]!=nil) {
-                item.completed = [[array objectAtIndex:2]boolValue];
+            if ([array objectAtIndex:1]!=nil) {
+                // To retreive BOOL value from NSNumber object in array, add boolValue
+                item.completed = [[array objectAtIndex:1]boolValue];
             }
             
             // get creation date
-            if ([array objectAtIndex:3]!=nil) {
-                item.creationDate = [array objectAtIndex:3];
+            if ([array objectAtIndex:2]!=nil) {
+                item.creationDate = [array objectAtIndex:2];
             }
             
             // get end date
-            if ([array objectAtIndex:4]!=nil) {
-                item.endDate = [array objectAtIndex:4];
+            if ([array objectAtIndex:3]!=nil) {
+                item.endDate = [array objectAtIndex:3];
             }
             
             // get alert selection
-            if ([array objectAtIndex:5]!=nil) {
-                item.alertSelection = [array objectAtIndex:5];
+            if ([array objectAtIndex:4]!=nil) {
+                item.alertSelection = [array objectAtIndex:4];
             }
             
             // get repeat selection
-            if ([array objectAtIndex:6]!=nil) {
-                item.repeatSelection = [array objectAtIndex:6];
+            if ([array objectAtIndex:5]!=nil) {
+                item.repeatSelection = [array objectAtIndex:5];
             }
         }
         @catch (NSException *exception) {
@@ -300,7 +298,9 @@
 
 - (void) printDoToItems{
     for(ToDoItem *item in self.toDoItems){
-        NSLog(@"Item: %@\nPriority: %@\nCreation date: %@\nDue date: %@\nCompleted: %@\nAlert: %@\nRepeat: %@\n", item.itemName, item.priority, item.creationDate, item.endDate, item.completed, item.alertSelection, item.repeatSelection);
+        NSLog(@"Item: %@\nCreation date: %@\nDue date: %@\nAlert: %@\nRepeat: %@\n", item.itemName, item.creationDate, item.endDate, item.alertSelection, item.repeatSelection);
+        
+        NSLog(@"Completed: %s", item.completed ? "YES" : "NO");
         
         NSLog(@"\n");
     }
@@ -309,7 +309,9 @@
     
     for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications])
     {
-        [[UIApplication sharedApplication]cancelAllLocalNotifications];
+        /*!!!OBS OBS REMEBER TO COMMENT THIS WHEN NOT TESTING!!!
+         [[UIApplication sharedApplication]cancelAllLocalNotifications];
+         */
         NSLog(@"%@", localN.userInfo);
     }
     
@@ -398,26 +400,18 @@
     
     cell.textLabel.text = toDoItem.itemName;
     
-    NSString *priority = [[NSString alloc]initWithFormat:@"Priority: %@\t\t ", toDoItem.priority];
-    NSString *dueDate = [[NSString alloc]initWithFormat:@"Due date: %@", toDoItem.endDate];
+    NSString *dueDate = [[NSString alloc]initWithFormat:@"%@", toDoItem.endDate];
     
     if (toDoItem.endDate != nil && ![toDoItem.endDate isEqualToString:toDoItem.creationDate]){
-        cell.detailTextLabel.text = [priority stringByAppendingString:dueDate];
+        cell.detailTextLabel.text = dueDate;
     }
     else
-        cell.detailTextLabel.text = priority;
+        cell.detailTextLabel.text = @"";
     
-    /*
-    if (toDoItem.completed) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    } else {
+    if(toDoItem.completed)
         cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-    
-    return cell;
-     */
-    
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    else
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     return cell;
 }
@@ -440,11 +434,10 @@
      [tableView endUpdates];
      */
 
-    if(self.editing)
-        return;
+    ToDoItem *item = [self.toDoItems objectAtIndex:indexPath.row];
+    if(item.completed || self.editing) return;
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    
     
     if (!tableView.isEditing) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -491,10 +484,12 @@
         [leftUtilityButtons sw_addUtilityButtonWithColor:
          [UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0]
                                                     icon:[UIImage imageNamed:@"check.png"]];
+        
+        [leftUtilityButtons sw_addUtilityButtonWithColor:
+         [UIColor colorWithRed:1.0f green:1.0f blue:0.35f alpha:1.0]
+                                                    icon:[UIImage imageNamed:@"clock.png"]];
     }
-    [leftUtilityButtons sw_addUtilityButtonWithColor:
-     [UIColor colorWithRed:1.0f green:1.0f blue:0.35f alpha:1.0]
-                                                icon:[UIImage imageNamed:@"clock.png"]];
+    
     /*
     [leftUtilityButtons sw_addUtilityButtonWithColor:
      [UIColor colorWithRed:0.55f green:0.27f blue:0.07f alpha:1.0]
@@ -532,8 +527,17 @@
             NSLog(@"Index path: %ld", (long)cellIndexPath.row);
             ToDoItem *tappedItem = [self.toDoItems objectAtIndex:cellIndexPath.row];
             tappedItem.completed = !tappedItem.completed;
+            if (tappedItem.completed) {
+                [self cancelLocalNotification:tappedItem];
+                tappedItem.endDate = nil;
+                tappedItem.alertSelection = nil;
+                tappedItem.repeatSelection = nil;
+            }
+            
+            [cell hideUtilityButtonsAnimated:NO];
             [self.tableView reloadData];
-            [cell hideUtilityButtonsAnimated:YES];
+            
+            
         }
             break;
         case 1:{
@@ -712,7 +716,6 @@
      */
     
     UINavigationController *navController = (UINavigationController*)[segue destinationViewController];
-    
     AddToDoItemViewController *addToDoItemVIewController;
     ReminderViewController *reminderViewController;
     ToDoItem *item;
@@ -738,10 +741,9 @@
 }
 
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 90;
+    return 80;
 }
 
 

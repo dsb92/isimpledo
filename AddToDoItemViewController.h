@@ -9,10 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "ToDoItem.h"
 
-@interface AddToDoItemViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
+@interface AddToDoItemViewController : UIViewController
 
 @property ToDoItem *toDoItem;
-@property NSArray *priorityArray;
 @property BOOL isInEditMode;
 @property BOOL didCancel;
 
@@ -23,7 +22,5 @@
 -(IBAction)unWindFromReminder:(UIStoryboardSegue*) segue;
 -(IBAction)hideKeyboard:(id)sender;
 -(IBAction)tapBackground:(id)sender;
--(IBAction)setDueDate:(id)sender;
--(IBAction)setPriority:(id)sender;
 
 @end

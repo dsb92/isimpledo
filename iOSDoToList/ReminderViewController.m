@@ -39,6 +39,8 @@
 
     self.reminderTableViewArray = [[NSArray alloc]initWithObjects:@"Alert", @"Repeat", nil];
     
+    [self.reminderPicker setMinimumDate:[NSDate date]];
+    
     if( self.toDoItem.endDate == nil || [self.toDoItem.endDate length] == 0 )
         self.reminderDateLabel.text = self.getReminderDate;
     else {
