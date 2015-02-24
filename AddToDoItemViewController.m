@@ -82,6 +82,15 @@
 
 #pragma mark - Navigation
 
+-(void) cancelLocalNotification:(ToDoItem*)item{
+    for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications]){
+        if([[localN.userInfo objectForKey:@"name"] isEqualToString:item.itemName]){
+            [[UIApplication sharedApplication] cancelLocalNotification:localN];
+            return;
+        }
+    }
+}
+
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
@@ -108,6 +117,9 @@
     
     // get to do item name from textfield
     if (self.textField.text.length > 0) {
+        
+        // Cancel any local notifaction attached to the old item name contained in dictionary.
+        [self cancelLocalNotification:self.toDoItem];
         self.toDoItem.itemName = self.textField.text;
         self.toDoItem.completed = false;
     }

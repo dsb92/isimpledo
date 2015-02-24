@@ -309,10 +309,11 @@
     
     for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications])
     {
-        /*!!!OBS OBS REMEBER TO COMMENT THIS WHEN NOT TESTING!!!
+        /*
+        //!!!OBS OBS REMEBER TO COMMENT THIS WHEN NOT TESTING!!!
          [[UIApplication sharedApplication]cancelAllLocalNotifications];
-         */
-        NSLog(@"%@", localN.userInfo);
+        */
+        NSLog(@"%@\n %@\n %@\n", localN.userInfo, localN.alertBody, localN.fireDate);
     }
     
 }
