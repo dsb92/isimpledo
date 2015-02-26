@@ -8,6 +8,7 @@
 
 #import "AddToDoItemViewController.h"
 #import "ReminderViewController.h"
+#import "Utility.h"
 
 @interface AddToDoItemViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *textField;
@@ -71,6 +72,8 @@
     else{
         self.toDoItem = [[ToDoItem alloc] init];
 
+        toDoItem.itemid = [Utility generateUniqID];
+        
         [self.textField becomeFirstResponder];
     }
 }
@@ -84,8 +87,9 @@
 
 -(void) cancelLocalNotification:(ToDoItem*)item{
     for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications]){
-        if([[localN.userInfo objectForKey:@"name"] isEqualToString:item.itemName]){
+        if([[localN.userInfo objectForKey:@"itemid"] isEqualToString:item.itemid]){
             [[UIApplication sharedApplication] cancelLocalNotification:localN];
+            NSLog(@"Notification canceled");
             return;
         }
     }
@@ -128,7 +132,7 @@
         self.toDoItem.creationDate = self.getCurrentDate;
 
     // print out item
-    NSLog(@"Itemname: %@\n, Creationdate: %@\n, Enddate: %@\n, Alert: %@\n, Repeat: %@\n", self.toDoItem.itemName, self.toDoItem.creationDate, self.toDoItem.endDate, self.toDoItem.alertSelection, self.toDoItem.repeatSelection);
+    NSLog(@"Itemid: %@\n, Itemname: %@\n, Creationdate: %@\n, Enddate: %@\n, Alert: %@\n, Repeat: %@\n", self.toDoItem.itemid, self.toDoItem.itemName, self.toDoItem.creationDate, self.toDoItem.endDate, self.toDoItem.alertSelection, self.toDoItem.repeatSelection);
 }
 
 @end

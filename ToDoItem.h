@@ -10,6 +10,7 @@
 
 @interface ToDoItem : NSObject
 
+@property NSString* itemid;
 @property NSString *itemName;
 @property BOOL completed;
 @property NSString *creationDate;
