@@ -27,7 +27,6 @@
                                               otherButtonTitles:nil];
         [alert show];
     }
-    
     // Request to reload table view data
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:self];
     

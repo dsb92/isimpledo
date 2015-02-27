@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		46091FE81A7FD37A00DC2513 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46091FE61A7FD37A00DC2513 /* Main.storyboard */; };
 		46091FEB1A7FD5AA00DC2513 /* ReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46091FEA1A7FD5AA00DC2513 /* ReminderViewController.m */; };
+		460E22F21AA1243200D212EE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 460E22F11AA1243200D212EE /* Images.xcassets */; };
 		4659BA521A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA471A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m */; };
 		4659BA531A8BF912002C6A48 /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA491A8BF912002C6A48 /* SWCellScrollView.m */; };
 		4659BA541A8BF912002C6A48 /* SWLongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA4B1A8BF912002C6A48 /* SWLongPressGestureRecognizer.m */; };
@@ -33,7 +34,6 @@
 		467A52621A86529100BBE0BA /* RepeatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 467A52611A86529100BBE0BA /* RepeatViewController.m */; };
 		469C06B61A69857F00ED9A9B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06B51A69857F00ED9A9B /* main.m */; };
 		469C06B91A69857F00ED9A9B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06B81A69857F00ED9A9B /* AppDelegate.m */; };
-		469C06C11A69857F00ED9A9B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 469C06C01A69857F00ED9A9B /* Images.xcassets */; };
 		469C06C41A69857F00ED9A9B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 469C06C21A69857F00ED9A9B /* LaunchScreen.xib */; };
 		469C06D01A69857F00ED9A9B /* iOSDoToListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06CF1A69857F00ED9A9B /* iOSDoToListTests.m */; };
 		469C06DE1A6B03C900ED9A9B /* AddToDoItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06DD1A6B03C900ED9A9B /* AddToDoItemViewController.m */; };
@@ -41,6 +41,7 @@
 		469C06E41A6B0E5200ED9A9B /* ToDoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06E31A6B0E5200ED9A9B /* ToDoItem.m */; };
 		46C3B3A31A7ADD750062466A /* AddToItemNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46C3B3A21A7ADD750062466A /* AddToItemNavigationController.m */; };
 		46E6B2E81A9FAACE004AC3F2 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E6B2E71A9FAACE004AC3F2 /* Utility.m */; };
+		46E6B2EE1AA1185C004AC3F2 /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 46E6B2ED1AA1185C004AC3F2 /* LaunchScreen.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		46091FE71A7FD37A00DC2513 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = iOSDoToList/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		46091FE91A7FD5AA00DC2513 /* ReminderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReminderViewController.h; sourceTree = "<group>"; };
 		46091FEA1A7FD5AA00DC2513 /* ReminderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReminderViewController.m; sourceTree = "<group>"; };
+		460E22F11AA1243200D212EE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4659BA461A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+SWUtilityButtons.h"; sourceTree = "<group>"; };
 		4659BA471A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+SWUtilityButtons.m"; sourceTree = "<group>"; };
 		4659BA481A8BF912002C6A48 /* SWCellScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWCellScrollView.h; sourceTree = "<group>"; };
@@ -93,7 +95,6 @@
 		469C06B51A69857F00ED9A9B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		469C06B71A69857F00ED9A9B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		469C06B81A69857F00ED9A9B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		469C06C01A69857F00ED9A9B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		469C06C31A69857F00ED9A9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		469C06C91A69857F00ED9A9B /* iOSDoToListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSDoToListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		469C06CE1A69857F00ED9A9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -108,6 +109,7 @@
 		46C3B3A21A7ADD750062466A /* AddToItemNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddToItemNavigationController.m; sourceTree = "<group>"; };
 		46E6B2E61A9FAACE004AC3F2 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utility.h; path = ../Utility.h; sourceTree = "<group>"; };
 		46E6B2E71A9FAACE004AC3F2 /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utility.m; path = ../Utility.m; sourceTree = "<group>"; };
+		46E6B2ED1AA1185C004AC3F2 /* LaunchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreen.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +178,7 @@
 		469C06B21A69857F00ED9A9B /* iOSDoToList */ = {
 			isa = PBXGroup;
 			children = (
+				46E6B2ED1AA1185C004AC3F2 /* LaunchScreen.png */,
 				4659BA741A8BFB32002C6A48 /* um.png */,
 				4659BA451A8BF8DF002C6A48 /* PodFiles */,
 				46C3B3A11A7ADD750062466A /* AddToItemNavigationController.h */,
@@ -194,9 +197,9 @@
 				469C06B81A69857F00ED9A9B /* AppDelegate.m */,
 				469C06DF1A6B048500ED9A9B /* ToDoListTableViewController.h */,
 				469C06E01A6B048500ED9A9B /* ToDoListTableViewController.m */,
-				469C06C01A69857F00ED9A9B /* Images.xcassets */,
 				46091FE61A7FD37A00DC2513 /* Main.storyboard */,
 				469C06C21A69857F00ED9A9B /* LaunchScreen.xib */,
+				460E22F11AA1243200D212EE /* Images.xcassets */,
 				469C06B31A69857F00ED9A9B /* Supporting Files */,
 			);
 			path = iOSDoToList;
@@ -325,12 +328,13 @@
 				4659BA671A8BF952002C6A48 /* Default-568h@2x.png in Resources */,
 				4659BA651A8BF952002C6A48 /* Default.png in Resources */,
 				4659BA751A8BFB32002C6A48 /* um.png in Resources */,
+				46E6B2EE1AA1185C004AC3F2 /* LaunchScreen.png in Resources */,
 				4659BA661A8BF952002C6A48 /* Default@2x.png in Resources */,
 				4659BA601A8BF952002C6A48 /* list@2x.png in Resources */,
 				46091FE81A7FD37A00DC2513 /* Main.storyboard in Resources */,
+				460E22F21AA1243200D212EE /* Images.xcassets in Resources */,
 				469C06C41A69857F00ED9A9B /* LaunchScreen.xib in Resources */,
 				4659BA631A8BF952002C6A48 /* clock@2x.png in Resources */,
-				469C06C11A69857F00ED9A9B /* Images.xcassets in Resources */,
 				4659BA621A8BF952002C6A48 /* cross@2x.png in Resources */,
 				4659BA641A8BF952002C6A48 /* MI.png in Resources */,
 			);
