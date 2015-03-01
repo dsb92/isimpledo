@@ -214,8 +214,13 @@
     AddToDoItemViewController *source = [segue sourceViewController];
     ToDoItem *item = source.toDoItem;
   
-    if(source.didCancel)
+    if(source.isInEditMode){
+        if (source.didCancel == NO){
+            [self editLocalNotification:item];
+            [self.tableView reloadData];
+        }
         return;
+    }
     
     if (item != nil && item.itemName != nil){
         [self.toDoItems addObject:item];
