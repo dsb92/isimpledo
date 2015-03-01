@@ -9,6 +9,7 @@
 #import "AddToDoItemViewController.h"
 #import "ReminderViewController.h"
 #import "Utility.h"
+#import "DateWrapper.h"
 
 @interface AddToDoItemViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *textField;
@@ -43,7 +44,8 @@
     NSString *currentTime = self.getCurrentDate;
     
     if (![currentTime isEqualToString:self.toDoItem.endDate] && self.toDoItem.endDate != nil) {
-        self.dueDateLabel.text = self.toDoItem.endDate;
+        NSString *date = [DateWrapper wrapDate:self.toDoItem.endDate];
+        self.dueDateLabel.text = date;
         [self.reminderButton setTitle:@"Edit reminder" forState:UIControlStateNormal];
     }
 }
@@ -65,7 +67,8 @@
         
         // Show due date of item
         if(self.toDoItem.endDate != nil){
-            self.dueDateLabel.text = self.toDoItem.endDate;
+            NSString *date = [DateWrapper wrapDate:self.toDoItem.endDate];
+            self.dueDateLabel.text = date;
             [self.reminderButton setTitle:@"Edit reminder" forState:UIControlStateNormal];
         }
     }

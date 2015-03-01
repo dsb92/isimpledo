@@ -13,6 +13,7 @@
 #import "ReminderViewController.h"
 #import "ToDoItem.h"
 #import "Utility.h"
+#import "DateWrapper.h"
 
 @interface ToDoListTableViewController (){
     NSArray *_sections;
@@ -445,10 +446,8 @@
     
     cell.textLabel.text = toDoItem.itemName;
     
-    NSString *dueDate = [[NSString alloc]initWithFormat:@"%@", toDoItem.endDate];
-    
     if (toDoItem.endDate != nil && ![toDoItem.endDate isEqualToString:toDoItem.creationDate]){
-        cell.detailTextLabel.text = dueDate;
+        cell.detailTextLabel.text = [DateWrapper wrapDate:toDoItem.endDate];
     }
     else
         cell.detailTextLabel.text = @"";
