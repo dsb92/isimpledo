@@ -10,7 +10,18 @@
 
 @implementation DateWrapper
 
-+(NSString *)wrapDate:(NSString*)date{
++(NSString*)getCurrentDate{
+    // get current date/time value
+    NSDate *today = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    // display in 12HR/24HR (i.e. 11:25PM or 23:25) format according to User Settings
+    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    NSString *currentTime = [dateFormatter stringFromDate:today];
+    return currentTime;
+}
+
++(NSString*)wrapDate:(NSString*)date{
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     [df setDateStyle:NSDateFormatterShortStyle];
     [df setTimeStyle:NSDateFormatterShortStyle];

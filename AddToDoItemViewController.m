@@ -24,30 +24,8 @@
 
 @synthesize toDoItem;
 
--(NSString*)getCurrentDate{
-    // get current date/time value
-    NSDate *today = [NSDate date];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    // display in 12HR/24HR (i.e. 11:25PM or 23:25) format according to User Settings
-    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    NSString *currentTime = [dateFormatter stringFromDate:today];
-    return currentTime;
-}
-
--(IBAction)unWindFromReminder:(UIStoryboardSegue*) segue{
-    //Retreive the source view controller (EditToItemViewController) and get the data from it
-    ReminderViewController *source = [segue sourceViewController];
-    
-    self.toDoItem.endDate = source.toDoItem.endDate;
-    
-    NSString *currentTime = self.getCurrentDate;
-    
-    if (![currentTime isEqualToString:self.toDoItem.endDate] && self.toDoItem.endDate != nil) {
-        NSString *date = [DateWrapper wrapDate:self.toDoItem.endDate];
-        self.dueDateLabel.text = date;
-        [self.reminderButton setTitle:@"Edit reminder" forState:UIControlStateNormal];
-    }
+-(IBAction)cancelFromReminder:(UIStoryboardSegue*) segue{
+    // Do nothing
 }
 
 -(IBAction)hideKeyboard:(id)sender{
@@ -57,10 +35,24 @@
     [self.textField resignFirstResponder];
 }
 
+-(IBAction)textChanged:(id)sender{
+    if (self.textField.text.length > 0) {
+        self.reminderButton.hidden = NO;
+    }
+    else
+        self.reminderButton.hidden = YES;
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    
+    if(self.textField.text.length > 0 || (self.toDoItem.itemName != nil && self.toDoItem.itemName.length > 0))
+        self.reminderButton.hidden = NO;
+    else
+        self.reminderButton.hidden = YES;
+    
     if (self.isInEditMode) {
         // Show item name of item
         self.textField.text = self.toDoItem.itemName;
@@ -108,6 +100,14 @@
     {
         UINavigationController *navController = (UINavigationController*)[segue destinationViewController];
         ReminderViewController *reminderVIewController = (ReminderViewController*)[navController topViewController];
+        self.toDoItem.itemName = self.textField.text;
+        self.toDoItem.completed = false;
+        
+        if(self.isInEditMode)
+            reminderVIewController.isInEditMode = YES;
+        else
+            self.toDoItem.creationDate = [DateWrapper getCurrentDate];
+        
         reminderVIewController.toDoItem = self.toDoItem;
     }
     
@@ -132,7 +132,7 @@
     }
     
     if (self.isInEditMode == NO)
-        self.toDoItem.creationDate = self.getCurrentDate;
+        self.toDoItem.creationDate = [DateWrapper getCurrentDate];
 
     // print out item
     NSLog(@"Itemid: %@\n, Itemname: %@\n, Creationdate: %@\n, Enddate: %@\n, Alert: %@\n, Repeat: %@\n", self.toDoItem.itemid, self.toDoItem.itemName, self.toDoItem.creationDate, self.toDoItem.endDate, self.toDoItem.alertSelection, self.toDoItem.repeatSelection);

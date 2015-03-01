@@ -17,6 +17,7 @@
 @property NSString *alertDetail;
 @property NSString *repeatDetail;
 @property NSArray *reminderTableViewArray;
+@property BOOL isInEditMode;
 @property BOOL isShortcut;
 @property BOOL didCancel;
 

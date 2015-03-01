@@ -17,10 +17,10 @@
 
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *saveButton;
 
--(NSString*)getCurrentDate;
-
--(IBAction)unWindFromReminder:(UIStoryboardSegue*) segue;
+//-(IBAction)unWindFromReminder:(UIStoryboardSegue*) segue;
+-(IBAction)cancelFromReminder:(UIStoryboardSegue*) segue;
 -(IBAction)hideKeyboard:(id)sender;
 -(IBAction)tapBackground:(id)sender;
+-(IBAction)textChanged:(id)sender;
 
 @end

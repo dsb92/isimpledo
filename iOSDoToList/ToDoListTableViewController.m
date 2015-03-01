@@ -190,9 +190,8 @@
     NSLog(@"Notification created");
 }
 
--(IBAction)unWindFromAdd:(UIStoryboardSegue*) segue{
-    //Retreive the source view controller (AddToDoItemViewController) and get the data from it
-    AddToDoItemViewController *source = [segue sourceViewController];
+-(IBAction)unWindFromReminder:(UIStoryboardSegue*) segue{
+    ReminderViewController *source = [segue sourceViewController];
     ToDoItem *item = source.toDoItem;
     
     if(source.isInEditMode){
@@ -202,9 +201,23 @@
         }
         return;
     }
-  
-    if (item != nil && item.itemName != nil){
+    
+    if (item != nil){
         [self setLocalNotification:item];
+        [self.toDoItems addObject:item];
+        [self.tableView reloadData];
+    }
+}
+
+-(IBAction)unWindFromAdd:(UIStoryboardSegue*) segue{
+    //Retreive the source view controller (AddToDoItemViewController) and get the data from it
+    AddToDoItemViewController *source = [segue sourceViewController];
+    ToDoItem *item = source.toDoItem;
+  
+    if(source.didCancel)
+        return;
+    
+    if (item != nil && item.itemName != nil){
         [self.toDoItems addObject:item];
         [self.tableView reloadData];
     }
@@ -790,6 +803,7 @@
         addToDoItemVIewController = (AddToDoItemViewController*)[navController topViewController];
         addToDoItemVIewController.title = @"Edit To-Do item";
         addToDoItemVIewController.isInEditMode = YES;
+        reminderViewController.isInEditMode = YES;
         addToDoItemVIewController.toDoItem = item;
         return;
     }
@@ -802,6 +816,7 @@
     }
     
     addToDoItemVIewController.isInEditMode = NO;
+    reminderViewController.isInEditMode = NO;
     reminderViewController.isShortcut = NO;
 }
 

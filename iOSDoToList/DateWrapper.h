@@ -10,6 +10,7 @@
 
 @interface DateWrapper : NSObject
 
-+(NSString *)wrapDate:(NSString*)date;
++(NSString*)getCurrentDate;
++(NSString*)wrapDate:(NSString*)date;
 
 @end
