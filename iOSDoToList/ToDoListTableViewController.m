@@ -213,7 +213,9 @@
     //Retreive the source view controller (AddToDoItemViewController) and get the data from it
     AddToDoItemViewController *source = [segue sourceViewController];
     ToDoItem *item = source.toDoItem;
-  
+    
+    if(source.didCancel) return;
+    
     if(source.isInEditMode){
         if (source.didCancel == NO){
             [self editLocalNotification:item];
