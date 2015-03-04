@@ -265,6 +265,10 @@
     NSLog(@"%@", mainArray);
 }
 
+- (void)applicationDidBecomeActive:(NSNotification *)notification{
+    [self.tableView reloadData];
+}
+
 -(void)loadInitialData{
     /*
     ToDoItem *item1 = [[ToDoItem alloc]init];
@@ -405,6 +409,7 @@
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     
     [self printDoToItems];
     
