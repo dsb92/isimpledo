@@ -170,7 +170,8 @@
     localNotification.alertAction = @"Show me the item";
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     localNotification.timeZone = [NSTimeZone localTimeZone];
-    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]applicationIconBadgeNumber]+1;
+    NSUInteger nextBadgeNumber = [[[UIApplication sharedApplication] scheduledLocalNotifications] count] + 1;
+    localNotification.applicationIconBadgeNumber = nextBadgeNumber;
     
     if(![item.repeatSelection isEqualToString:@"Never"])
         localNotification.repeatInterval = [self getRepeat:item];
