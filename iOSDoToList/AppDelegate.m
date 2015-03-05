@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 David Buhauer. All rights reserved.
 //
 
-#import "AddToDoItemViewController.h"
 #import "AppDelegate.h"
 
 @interface AppDelegate ()
@@ -31,7 +30,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:self];
     
     // Count down icon badge number.
-    application.applicationIconBadgeNumber = 0;
+    //application.applicationIconBadgeNumber = 0;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -41,7 +40,7 @@
     UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     if (locationNotification) {
         // Set icon badge number to zero
-        application.applicationIconBadgeNumber = 0;
+        //application.applicationIconBadgeNumber = 0;
     }
     
     return YES;
@@ -62,35 +61,6 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    
-    // The following renumbers the badges of pending notifications (in case user deletes or changes some local notifications while the app was running). So the following code runs, when the user
-    // gets out of the app.
-    
-    // clear the badge on the icon
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-    
-    // first get a copy of all pending notifications (unfortunately you cannot 'modify' a pending notification)
-    NSArray *pendingNotifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
-    
-    // if there are any pending notifications -> adjust their badge number
-    if (pendingNotifications.count != 0)
-    {
-        // clear all pending notifications
-        [[UIApplication sharedApplication] cancelAllLocalNotifications];
-        
-        // the for loop will 'restore' the pending notifications, but with corrected badge numbers
-        // note : a more advanced method could 'sort' the notifications first !!!
-        NSUInteger badgeNbr = 1;
-        
-        for (UILocalNotification *notification in pendingNotifications)
-        {
-            // modify the badgeNumber
-            notification.applicationIconBadgeNumber = badgeNbr++;
-            
-            // schedule 'again'
-            [[UIApplication sharedApplication] scheduleLocalNotification:notification];
-        }
-    }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -100,7 +70,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
-    application.applicationIconBadgeNumber = 0;
+    //application.applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
