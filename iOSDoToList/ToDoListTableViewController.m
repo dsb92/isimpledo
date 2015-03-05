@@ -698,6 +698,24 @@
         NSDictionary* attributes = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleNone]};
         NSAttributedString* attributedString = [[NSAttributedString alloc] initWithString:item.itemName attributes:attributes];
         cell.textLabel.attributedText = attributedString;
+        
+        NSDate *currentDate = [DateWrapper convertToDate:[DateWrapper getCurrentDate]];
+        NSDate *itemDueDate = [DateWrapper convertToDate:item.endDate];
+        
+        cell.textLabel.textColor = [UIColor blackColor];
+        cell.detailTextLabel.textColor = [UIColor blackColor];
+        
+        if(itemDueDate==nil)return;
+        // If current date is greater than item's due date
+        if([currentDate compare:itemDueDate] == NSOrderedDescending || [currentDate compare:itemDueDate] == NSOrderedSame)
+        {
+            cell.textLabel.textColor = [UIColor redColor];
+            cell.detailTextLabel.textColor = [UIColor redColor];
+        }
+        else{
+            cell.textLabel.textColor = [UIColor blackColor];
+            cell.detailTextLabel.textColor = [UIColor blackColor];
+        }
     }
 }
 

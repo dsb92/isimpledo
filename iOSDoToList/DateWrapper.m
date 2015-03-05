@@ -37,4 +37,12 @@
     return [dfWrapper stringFromDate:dateWrapper];
 }
 
++(NSDate*)convertToDate:(NSString*)date{
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setDateStyle:NSDateFormatterShortStyle];
+    [df setTimeStyle:NSDateFormatterShortStyle];
+    
+    return [df dateFromString:date];
+}
+
 @end

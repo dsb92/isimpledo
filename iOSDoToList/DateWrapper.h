@@ -12,5 +12,6 @@
 
 +(NSString*)getCurrentDate;
 +(NSString*)wrapDate:(NSString*)date;
++(NSDate*)convertToDate:(NSString*)date;
 
 @end
