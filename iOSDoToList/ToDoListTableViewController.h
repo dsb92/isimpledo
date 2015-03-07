@@ -10,14 +10,17 @@
 #import "ToDoItem.h"
 #import "SWTableViewCell.h"
 
-@interface ToDoListTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate>{
+@interface ToDoListTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate>{
 }
 @property NSMutableArray *toDoItems;
+@property NSMutableArray *sortedItems;
+@property NSMutableArray *tempItems;
 @property ToDoItem *toDoItem;
 
 -(IBAction)unWindFromAdd:(UIStoryboardSegue*) segue;
 -(IBAction)unWindFromReminder:(UIStoryboardSegue*) segue;
 -(IBAction)unWindFromShortCut:(UIStoryboardSegue*) segue;
+-(IBAction)mainControlSwitched:(id)sender;
 -(IBAction)editButton:(id)sender;
 
 @end

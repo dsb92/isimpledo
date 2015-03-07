@@ -21,12 +21,14 @@
 }
 @property (weak, nonatomic) IBOutlet UILabel *progressText;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
+@property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic) BOOL useCustomCells;
 @property (nonatomic, weak) UIRefreshControl *refreshControl;
 
 // Is private and thats why it's not declared in .h file.
-
+@property NSMutableDictionary *dictionaryForSegmentIndex;
 @property NSInteger indexPath;
+@property NSNumber *selectedSegment;
 
 @end
 
@@ -34,7 +36,6 @@
 
 -(NSDate*) getAlertDate: (ToDoItem*) item{
     NSString *alertSelection = item.alertSelection;
-    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterShortStyle];
     [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
@@ -206,6 +207,12 @@
     if (item != nil){
         [self setLocalNotification:item];
         [self.toDoItems addObject:item];
+        if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
+            [self.tempItems addObject:item];
+        
+        NSString *segment = [NSString stringWithFormat:@"segment %@", self.selectedSegment];
+        [self.dictionaryForSegmentIndex setObject:item.itemid forKey:segment];
+        
         [self.tableView reloadData];
     }
 }
@@ -227,6 +234,12 @@
     
     if (item != nil && item.itemName != nil){
         [self.toDoItems addObject:item];
+        if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
+            [self.tempItems addObject:item];
+        
+        NSString *segment = [NSString stringWithFormat:@"segment %@", self.selectedSegment];
+        [self.dictionaryForSegmentIndex setObject:item.itemid forKey:segment];
+        
         [self.tableView reloadData];
     }
 }
@@ -456,6 +469,9 @@
     }
     
     self.toDoItems = [[NSMutableArray alloc]init];
+    self.tempItems = self.toDoItems;
+    self.dictionaryForSegmentIndex = [[NSMutableDictionary alloc]init];
+    self.selectedSegment = [NSNumber numberWithInt:0];
     [self loadInitialData];
     [self setProgressBar];
     
@@ -468,8 +484,8 @@
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    //Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.leftBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -810,7 +826,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         [self.toDoItems removeObjectAtIndex:indexPath.row];
-        
+        [self.tempItems removeObject:item];
         // Delete local notifications if any
         [self cancelLocalNotification:item];
         
@@ -911,6 +927,7 @@
 
 -(IBAction)editButton:(id)sender{
     self.editing = !self.editing;
+    [self.tableView setEditing:self.editing animated:YES];
     UIBarButtonItem *barButtonItem;
     if (self.editing){
         barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButton:)];
@@ -925,6 +942,81 @@
     
     self.navigationItem.leftBarButtonItem = barButtonItem;
     
+}
+
+-(void)groupItems:(NSInteger)comDay segment:(NSString*)segment{
+    for (ToDoItem *item in self.tempItems) {
+        NSDate *itemdate = [DateWrapper convertToDate:item.endDate];
+        
+        if(itemdate==nil)
+        {
+            if([[self.dictionaryForSegmentIndex objectForKey:segment] isEqualToString:item.itemid])
+            {
+                [self.sortedItems addObject:item];
+                continue;
+            }
+        }
+        else{
+            NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSCalendarUnitMinute | NSCalendarUnitHour
+                                          | NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:itemdate];
+            
+            NSDateComponents *components = [[NSDateComponents alloc]init];
+            
+            [components setDay:comDay];
+            
+            NSDate *tomorrow = [[NSCalendar currentCalendar] dateByAddingComponents:components toDate:[NSDate date] options:0];
+            
+            NSDateComponents *today = [[NSCalendar currentCalendar] components:NSCalendarUnitMinute | NSCalendarUnitHour
+                                       | NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:tomorrow];
+            
+            if(comDay == 2)
+            {
+                if([today year] <= [otherDay year] &&
+                   [today month] <= [otherDay month] &&
+                   [today day] <= [otherDay day]){
+                    //do stuff
+                    [self.sortedItems addObject:item];
+                }
+            }else{
+                if([today year] == [otherDay year] &&
+                   [today month] == [otherDay month] &&
+                   [today day] == [otherDay day]){
+                    //do stuff
+                    [self.sortedItems addObject:item];
+                }
+            }
+            
+        }
+    }
+    
+    self.toDoItems = self.sortedItems;
+    [self.tableView reloadData];
+}
+
+-(IBAction)mainControlSwitched:(id)sender{
+    self.sortedItems = [[NSMutableArray alloc]init];
+    self.selectedSegment = [NSNumber numberWithInteger:[sender selectedSegmentIndex]];
+
+    // All
+    if([sender selectedSegmentIndex]==0){
+        self.toDoItems = self.tempItems;
+        [self.tableView reloadData];
+    }
+    
+    // Today
+    else if([sender selectedSegmentIndex]==1){
+        [self groupItems:0 segment:@"segment 1"];
+    }
+    
+    // Tomorrow
+    else if([sender selectedSegmentIndex]==2){
+        [self groupItems:1 segment:@"segment 2"];
+    }
+    
+    // Future
+    else if([sender selectedSegmentIndex]==3){
+        [self groupItems:2 segment:@"segment 3"];
+    }
 }
 
 @end
