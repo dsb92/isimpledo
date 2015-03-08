@@ -93,7 +93,7 @@
     NSDate *reminderDate = [dateFormatter dateFromString:item.endDate];
 
             
-            if(item.repeatSelection == nil || [item.repeatSelection isEqualToString:@"Never"]) return reminderDate;
+            if([item.repeatSelection length] == 0 || [item.repeatSelection isEqualToString:@"Never"]) return reminderDate;
             
             NSDateComponents *dateComponents = [[NSDateComponents alloc]init];
             
@@ -161,7 +161,7 @@
 }
 
 -(void) setLocalNotification:(ToDoItem*) item{
-    if(item.alertSelection == nil || [item.alertSelection isEqualToString:@"None"]) return;
+    if([item.alertSelection length] == 0 || [item.alertSelection isEqualToString:@"None"]) return;
     
     // Schedule the notification
     UILocalNotification *localNotification = [[UILocalNotification alloc]init];
@@ -716,13 +716,13 @@
             NSLog(@"Index path: %ld", (long)cellIndexPath.row);
             ToDoItem *tappedItem = [self.toDoItems objectAtIndex:cellIndexPath.row];
             tappedItem.completed = !tappedItem.completed;
-            if (tappedItem.completed && (tappedItem.repeatSelection == nil || [tappedItem.repeatSelection isEqualToString:@"Never"])) {
+            if (tappedItem.completed && ([tappedItem.repeatSelection length]==0  || [tappedItem.repeatSelection isEqualToString:@"Never"])) {
                 [self cancelLocalNotification:tappedItem];
                 tappedItem.endDate = nil;
                 tappedItem.alertSelection = nil;
                 tappedItem.repeatSelection = nil;
             }
-            else if(tappedItem.completed && (tappedItem.repeatSelection != nil || ![tappedItem.repeatSelection isEqualToString:@"Never"])){
+            else if(tappedItem.completed && ([tappedItem.repeatSelection length]!=0 || ![tappedItem.repeatSelection isEqualToString:@"Never"])){
                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                 [dateFormatter setDateStyle:NSDateFormatterShortStyle];
                 [dateFormatter setTimeStyle:NSDateFormatterShortStyle];

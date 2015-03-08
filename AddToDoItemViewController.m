@@ -58,7 +58,7 @@
         self.textField.text = self.toDoItem.itemName;
         
         // Show due date of item
-        if(self.toDoItem.endDate != nil && [self.toDoItem.endDate length] != 0){
+        if([self.toDoItem.endDate length] != 0){
             NSString *date = [DateWrapper wrapDate:self.toDoItem.endDate];
             self.dueDateLabel.text = date;
             [self.reminderButton setTitle:@"Edit reminder" forState:UIControlStateNormal];

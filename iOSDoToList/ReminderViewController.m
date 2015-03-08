@@ -41,7 +41,7 @@
     
     [self.reminderPicker setMinimumDate:[NSDate date]];
     
-    if( self.toDoItem.endDate == nil || [self.toDoItem.endDate length] == 0 )
+    if([self.toDoItem.endDate length] == 0 )
         self.reminderDateLabel.text = self.getReminderDate;
     else {
         self.reminderDateLabel.text = self.toDoItem.endDate;
@@ -54,11 +54,11 @@
         self.reminderPicker.date = date;
     }
     
-    if (self.toDoItem.alertSelection != nil && [self.toDoItem.alertSelection length] != 0){
+    if ([self.toDoItem.alertSelection length] != 0){
         self.alertDetail = self.toDoItem.alertSelection;
     }
     
-    if (self.toDoItem.repeatSelection != nil && [self.toDoItem.repeatSelection length] != 0){
+    if ([self.toDoItem.repeatSelection length] != 0){
         self.repeatDetail = self.toDoItem.repeatSelection;
     }
 }
