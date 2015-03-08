@@ -744,7 +744,8 @@
                 
                 [self setLocalNotification:repeatItem];
                 [self.toDoItems addObject:repeatItem];
-                [self.tempItems addObject:repeatItem];
+                if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
+                    [self.tempItems addObject:repeatItem];
             }
             
             [cell hideUtilityButtonsAnimated:NO];
