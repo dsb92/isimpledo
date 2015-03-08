@@ -274,7 +274,40 @@
     for (int i = 0; i<[self.toDoItems count]; i++)
     {
         ToDoItem *item = [self.toDoItems objectAtIndex:i];
-        NSArray *array = [[NSArray alloc]initWithObjects:item.itemid, item.itemName, [NSNumber numberWithBool:item.completed], item.creationDate, item.segmentForItem.thestringid, item.segmentForItem.segment, item.endDate, item.alertSelection, item.repeatSelection, nil];
+        NSMutableArray *array = [[NSMutableArray alloc]init];
+        
+        /* Non-nullable values */
+        [array addObject:item.itemid];
+        [array addObject:item.itemName];
+        [array addObject:[NSNumber numberWithBool:item.completed]];
+        [array addObject:item.creationDate];
+        
+        /* Nullable values */
+        if(item.segmentForItem.thestringid == nil)
+            [array addObject:@""];
+        else
+            [array addObject:item.segmentForItem.thestringid];
+        
+        if(item.segmentForItem.segment == nil)
+            [array addObject:@""];
+        else
+            [array addObject:item.segmentForItem.segment];
+        
+        if(item.endDate == nil)
+            [array addObject:@""];
+        else
+            [array addObject:item.endDate];
+        
+        if(item.alertSelection== nil)
+            [array addObject:@""];
+        else
+            [array addObject:item.alertSelection];
+        
+        if(item.repeatSelection == nil)
+            [array addObject:@""];
+        else
+            [array addObject:item.repeatSelection];
+        
         [mainArray addObject:array];
     }
     
