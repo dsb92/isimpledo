@@ -436,6 +436,9 @@
     @catch (NSException *exception) {
         NSLog(@"0 out 0 tasks completed: %@", [NSThread callStackSymbols]);
     }
+    
+    if(currentProgress!=currentProgress)
+        currentProgress=0.0;
 
     
     [self.progressBar setProgress:currentProgress animated:YES];
@@ -708,6 +711,7 @@
                 
                 [self setLocalNotification:repeatItem];
                 [self.toDoItems addObject:repeatItem];
+                [self.tempItems addObject:repeatItem];
             }
             
             [cell hideUtilityButtonsAnimated:NO];
@@ -994,16 +998,16 @@
             
             if(comDay == 2)
             {
-                if([today year] <= [otherDay year] &&
+                if([today day] <= [otherDay day] &&
                    [today month] <= [otherDay month] &&
-                   [today day] <= [otherDay day]){
+                   [today year] <= [otherDay year]){
                     //do stuff
                     [self.sortedItems addObject:item];
                 }
             }else{
-                if([today year] == [otherDay year] &&
+                if([today day] == [otherDay day] &&
                    [today month] == [otherDay month] &&
-                   [today day] == [otherDay day]){
+                   [today year] == [otherDay year]){
                     //do stuff
                     [self.sortedItems addObject:item];
                 }
