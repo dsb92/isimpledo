@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="JBz-7D-bHK">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -400,6 +401,7 @@
                         <viewControllerLayoutGuide type="bottom" id="ua3-ed-VEN"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="pKC-Tr-WFG">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="YyQ-gW-DHA">
@@ -490,16 +492,16 @@
                                 <exclude reference="EFz-X1-hj3"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="C4t-l8-6i5"/>
-                                <exclude reference="bpa-Ml-7ma"/>
-                                <exclude reference="c0m-fb-FQC"/>
                                 <exclude reference="R4g-Hp-SOl"/>
                                 <exclude reference="XEq-E0-ijz"/>
                                 <exclude reference="c2v-2n-Lwi"/>
                                 <exclude reference="xOB-pt-6He"/>
+                                <exclude reference="6mb-Ln-zjC"/>
                                 <exclude reference="Z4A-sl-hBy"/>
                                 <exclude reference="oen-gr-XfR"/>
-                                <exclude reference="6mb-Ln-zjC"/>
+                                <exclude reference="C4t-l8-6i5"/>
+                                <exclude reference="bpa-Ml-7ma"/>
+                                <exclude reference="c0m-fb-FQC"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -509,16 +511,16 @@
                                 <include reference="EFz-X1-hj3"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="C4t-l8-6i5"/>
-                                <include reference="bpa-Ml-7ma"/>
-                                <include reference="c0m-fb-FQC"/>
                                 <include reference="R4g-Hp-SOl"/>
                                 <include reference="XEq-E0-ijz"/>
                                 <include reference="c2v-2n-Lwi"/>
                                 <include reference="xOB-pt-6He"/>
+                                <include reference="6mb-Ln-zjC"/>
                                 <include reference="Z4A-sl-hBy"/>
                                 <include reference="oen-gr-XfR"/>
-                                <include reference="6mb-Ln-zjC"/>
+                                <include reference="C4t-l8-6i5"/>
+                                <include reference="bpa-Ml-7ma"/>
+                                <include reference="c0m-fb-FQC"/>
                             </mask>
                         </variation>
                     </view>

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SegmentForToDoItem.h"
 
 @interface ToDoItem : NSObject
 
@@ -17,5 +18,7 @@
 @property NSString *endDate;
 @property NSString *alertSelection;
 @property NSString *repeatSelection;
+
+@property SegmentForToDoItem* segmentForItem;
 
 @end

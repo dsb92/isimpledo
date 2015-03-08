@@ -25,8 +25,7 @@
 @property (nonatomic) BOOL useCustomCells;
 @property (nonatomic, weak) UIRefreshControl *refreshControl;
 
-// Is private and thats why it's not declared in .h file.
-@property NSMutableDictionary *dictionaryForSegmentIndex;
+// Is private and thats why it's not declared in .h file
 @property NSInteger indexPath;
 @property NSNumber *selectedSegment;
 
@@ -209,10 +208,7 @@
         [self.toDoItems addObject:item];
         if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
             [self.tempItems addObject:item];
-        
-        NSString *segment = [NSString stringWithFormat:@"segment %@", self.selectedSegment];
-        [self.dictionaryForSegmentIndex setObject:item.itemid forKey:segment];
-        
+
         [self.tableView reloadData];
     }
 }
@@ -233,12 +229,17 @@
     }
     
     if (item != nil && item.itemName != nil){
+        NSString *segment = [NSString stringWithFormat:@"segment %@", self.selectedSegment];
+        
+        SegmentForToDoItem *segmentItem = [[SegmentForToDoItem alloc]init];
+        segmentItem.thestringid = item.itemid;
+        segmentItem.segment = segment;
+        
+        item.segmentForItem = segmentItem;
+        
         [self.toDoItems addObject:item];
         if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
             [self.tempItems addObject:item];
-        
-        NSString *segment = [NSString stringWithFormat:@"segment %@", self.selectedSegment];
-        [self.dictionaryForSegmentIndex setObject:item.itemid forKey:segment];
         
         [self.tableView reloadData];
     }
@@ -253,6 +254,7 @@
     [self.tableView reloadData];
 }
 
+
 -(NSString *)pathOfFile{
     // Returns an array of directories
     // App's document is the first element in this array
@@ -266,18 +268,19 @@
 - (void)applicationDidEnterBackground:(NSNotification *)notification{
     NSString *filePath= [self pathOfFile];
     
+    self.toDoItems = self.tempItems;
+    
     NSMutableArray *mainArray = [[NSMutableArray alloc]init];
     for (int i = 0; i<[self.toDoItems count]; i++)
     {
         ToDoItem *item = [self.toDoItems objectAtIndex:i];
-        NSArray *array = [[NSArray alloc]initWithObjects:item.itemid, item.itemName, [NSNumber numberWithBool:item.completed], item.creationDate, item.endDate, item.alertSelection, item.repeatSelection, nil];
+        NSArray *array = [[NSArray alloc]initWithObjects:item.itemid, item.itemName, [NSNumber numberWithBool:item.completed], item.creationDate, item.segmentForItem.thestringid, item.segmentForItem.segment, item.endDate, item.alertSelection, item.repeatSelection, nil];
         [mainArray addObject:array];
     }
     
     [mainArray writeToFile:filePath atomically:YES];
     NSLog(@"%@", filePath);
     NSLog(@"%@", mainArray);
-    
     
     // How many items have exceeded the current date(if any reminder given)
     NSUInteger count = 0;
@@ -354,6 +357,7 @@
     
     for (int i=0; i<[mainArray count]; i++) {
         ToDoItem *item = [[ToDoItem alloc]init];
+        item.segmentForItem = [[SegmentForToDoItem alloc]init];
         NSArray *array = [mainArray objectAtIndex:i];
         
         @try {
@@ -381,19 +385,29 @@
                 item.creationDate = [array objectAtIndex:3];
             }
             
-            // get end date
+            // get segment string id for to-do item
             if ([array objectAtIndex:4]!=nil) {
-                item.endDate = [array objectAtIndex:4];
+                item.segmentForItem.thestringid = [array objectAtIndex:4];
+            }
+            
+            // get segment segment for to-do item
+            if ([array objectAtIndex:5]!=nil) {
+                item.segmentForItem.segment = [array objectAtIndex:5];
+            }
+            
+            // get end date
+            if ([array objectAtIndex:6]!=nil) {
+                item.endDate = [array objectAtIndex:6];
             }
             
             // get alert selection
-            if ([array objectAtIndex:5]!=nil) {
-                item.alertSelection = [array objectAtIndex:5];
+            if ([array objectAtIndex:7]!=nil) {
+                item.alertSelection = [array objectAtIndex:7];
             }
             
             // get repeat selection
-            if ([array objectAtIndex:6]!=nil) {
-                item.repeatSelection = [array objectAtIndex:6];
+            if ([array objectAtIndex:8]!=nil) {
+                item.repeatSelection = [array objectAtIndex:8];
             }
         }
         @catch (NSException *exception) {
@@ -432,7 +446,7 @@
 
 - (void) printDoToItems{
     for(ToDoItem *item in self.toDoItems){
-        NSLog(@"Itemid: %@\nItemname: %@\nCreation date: %@\nDue date: %@\nAlert: %@\nRepeat: %@\n", item.itemid, item.itemName, item.creationDate, item.endDate, item.alertSelection, item.repeatSelection);
+        NSLog(@"Itemid: %@\nItemname: %@\nCreation date: %@\nDue date: %@\nAlert: %@\nRepeat: %@\nSegment string id: %@\nSegment segment: %@\n", item.itemid, item.itemName, item.creationDate, item.endDate, item.alertSelection, item.repeatSelection, item.segmentForItem.thestringid, item.segmentForItem.segment);
         
         NSLog(@"Completed: %s", item.completed ? "YES" : "NO");
         
@@ -461,6 +475,8 @@
     
     self.refreshControl = refreshControl;
     
+    [self.tableView addSubview:refreshControl];
+    
     self.useCustomCells = NO;
     
     // If you set the seperator inset on iOS 6 you get a NSInvalidArgumentException...weird
@@ -470,7 +486,7 @@
     
     self.toDoItems = [[NSMutableArray alloc]init];
     self.tempItems = self.toDoItems;
-    self.dictionaryForSegmentIndex = [[NSMutableDictionary alloc]init];
+    
     self.selectedSegment = [NSNumber numberWithInt:0];
     [self loadInitialData];
     [self setProgressBar];
@@ -944,17 +960,24 @@
     
 }
 
+-(NSMutableArray*)sortedItemsOnDate:(NSMutableArray*)items{
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"endDate"
+                                                 ascending:YES];
+    
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    NSArray *sortedArray = [items sortedArrayUsingDescriptors:sortDescriptors];
+    return [NSMutableArray arrayWithArray:sortedArray];
+}
+
 -(void)groupItems:(NSInteger)comDay segment:(NSString*)segment{
     for (ToDoItem *item in self.tempItems) {
         NSDate *itemdate = [DateWrapper convertToDate:item.endDate];
         
         if(itemdate==nil)
         {
-            if([[self.dictionaryForSegmentIndex objectForKey:segment] isEqualToString:item.itemid])
-            {
+            if([item.itemid isEqualToString:item.segmentForItem.thestringid] && [item.segmentForItem.segment isEqualToString:segment])
                 [self.sortedItems addObject:item];
-                continue;
-            }
         }
         else{
             NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSCalendarUnitMinute | NSCalendarUnitHour
@@ -989,7 +1012,7 @@
         }
     }
     
-    self.toDoItems = self.sortedItems;
+    self.toDoItems = [self sortedItemsOnDate:self.sortedItems];
     [self.tableView reloadData];
 }
 
@@ -999,6 +1022,7 @@
 
     // All
     if([sender selectedSegmentIndex]==0){
+        self.tempItems = [self sortedItemsOnDate:self.tempItems];
         self.toDoItems = self.tempItems;
         [self.tableView reloadData];
     }

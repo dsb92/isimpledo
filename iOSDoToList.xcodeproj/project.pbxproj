@@ -11,6 +11,7 @@
 		46091FEB1A7FD5AA00DC2513 /* ReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46091FEA1A7FD5AA00DC2513 /* ReminderViewController.m */; };
 		460E22F21AA1243200D212EE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 460E22F11AA1243200D212EE /* Images.xcassets */; };
 		460E22F81AA33A9D00D212EE /* DateWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 460E22F71AA33A9D00D212EE /* DateWrapper.m */; };
+		460E22FE1AABA26700D212EE /* SegmentForToDoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 460E22FD1AABA26700D212EE /* SegmentForToDoItem.m */; };
 		4659BA521A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA471A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m */; };
 		4659BA531A8BF912002C6A48 /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA491A8BF912002C6A48 /* SWCellScrollView.m */; };
 		4659BA541A8BF912002C6A48 /* SWLongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA4B1A8BF912002C6A48 /* SWLongPressGestureRecognizer.m */; };
@@ -62,6 +63,8 @@
 		460E22F11AA1243200D212EE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		460E22F61AA33A9D00D212EE /* DateWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateWrapper.h; sourceTree = "<group>"; };
 		460E22F71AA33A9D00D212EE /* DateWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateWrapper.m; sourceTree = "<group>"; };
+		460E22FC1AABA26700D212EE /* SegmentForToDoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentForToDoItem.h; sourceTree = "<group>"; };
+		460E22FD1AABA26700D212EE /* SegmentForToDoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentForToDoItem.m; sourceTree = "<group>"; };
 		4659BA461A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+SWUtilityButtons.h"; sourceTree = "<group>"; };
 		4659BA471A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+SWUtilityButtons.m"; sourceTree = "<group>"; };
 		4659BA481A8BF912002C6A48 /* SWCellScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWCellScrollView.h; sourceTree = "<group>"; };
@@ -188,6 +191,8 @@
 				46C3B3A21A7ADD750062466A /* AddToItemNavigationController.m */,
 				469C06E21A6B0E5200ED9A9B /* ToDoItem.h */,
 				469C06E31A6B0E5200ED9A9B /* ToDoItem.m */,
+				460E22FC1AABA26700D212EE /* SegmentForToDoItem.h */,
+				460E22FD1AABA26700D212EE /* SegmentForToDoItem.m */,
 				469C06DC1A6B03C900ED9A9B /* AddToDoItemViewController.h */,
 				469C06DD1A6B03C900ED9A9B /* AddToDoItemViewController.m */,
 				467A525D1A86461A00BBE0BA /* AlertViewController.h */,
@@ -368,6 +373,7 @@
 				46C3B3A31A7ADD750062466A /* AddToItemNavigationController.m in Sources */,
 				4659BA561A8BF912002C6A48 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				46E6B2E81A9FAACE004AC3F2 /* Utility.m in Sources */,
+				460E22FE1AABA26700D212EE /* SegmentForToDoItem.m in Sources */,
 				467A52621A86529100BBE0BA /* RepeatViewController.m in Sources */,
 				469C06E11A6B048500ED9A9B /* ToDoListTableViewController.m in Sources */,
 				4659BA531A8BF912002C6A48 /* SWCellScrollView.m in Sources */,
