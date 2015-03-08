@@ -54,11 +54,11 @@
         self.reminderPicker.date = date;
     }
     
-    if (self.toDoItem.alertSelection != nil){
+    if (self.toDoItem.alertSelection != nil && [self.toDoItem.alertSelection length] != 0){
         self.alertDetail = self.toDoItem.alertSelection;
     }
     
-    if (self.toDoItem.repeatSelection != nil){
+    if (self.toDoItem.repeatSelection != nil && [self.toDoItem.repeatSelection length] != 0){
         self.repeatDetail = self.toDoItem.repeatSelection;
     }
 }
