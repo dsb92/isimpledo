@@ -1032,7 +1032,7 @@
             
             if(comDay == 2)
             {
-                if([today day] < [otherDay day] ||
+                if([today day] <= [otherDay day] ||
                    [today month] < [otherDay month] ||
                    [today year] < [otherDay year]){
                     //do stuff
