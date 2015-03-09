@@ -239,7 +239,9 @@
         
         [self.toDoItems addObject:item];
         if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
+        {
             [self.tempItems addObject:item];
+        }
         
         [self.tableView reloadData];
     }
@@ -366,7 +368,7 @@
     }
     
     if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
-        self.toDoItems = self.sortedItems;
+        [self segmentControlHandling];
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification{
@@ -1061,6 +1063,8 @@
 }
 
 -(void)segmentControlHandling{
+    self.sortedItems = [[NSMutableArray alloc]init];
+    
     // All
     if([self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]]){
         self.tempItems = [self sortedItemsOnDate:self.tempItems];
@@ -1085,7 +1089,6 @@
 }
 
 -(IBAction)mainControlSwitched:(id)sender{
-    self.sortedItems = [[NSMutableArray alloc]init];
     self.selectedSegment = [NSNumber numberWithInteger:[sender selectedSegmentIndex]];
 
     [self segmentControlHandling];
