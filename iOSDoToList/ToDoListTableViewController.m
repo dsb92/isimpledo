@@ -315,6 +315,9 @@
     NSLog(@"%@", filePath);
     NSLog(@"%@", mainArray);
     
+    if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
+        self.toDoItems = self.sortedItems;
+    
     // How many items have exceeded the current date(if any reminder given)
     NSUInteger count = 0;
     
@@ -531,6 +534,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     
+    
     [self printDoToItems];
     
     // Uncomment the following line to preserve selection between presentations.
@@ -581,12 +585,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     // Configure the cell...
+    
     static NSString *cellIdentifier = @"ListPrototypeCell";
     //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     cell.leftUtilityButtons = [self leftButtons:indexPath];
     //cell.rightUtilityButtons = [self rightButtons];
     cell.delegate = self;
+    
     ToDoItem *toDoItem = [self.toDoItems objectAtIndex:indexPath.row];
     
     cell.textLabel.text = toDoItem.itemName;
@@ -601,7 +607,7 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
     else
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
+    
     return cell;
 }
 
@@ -1054,31 +1060,36 @@
     [self.tableView reloadData];
 }
 
--(IBAction)mainControlSwitched:(id)sender{
-    self.sortedItems = [[NSMutableArray alloc]init];
-    self.selectedSegment = [NSNumber numberWithInteger:[sender selectedSegmentIndex]];
-
+-(void)segmentControlHandling{
     // All
-    if([sender selectedSegmentIndex]==0){
+    if([self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]]){
         self.tempItems = [self sortedItemsOnDate:self.tempItems];
         self.toDoItems = self.tempItems;
         [self.tableView reloadData];
     }
     
     // Today
-    else if([sender selectedSegmentIndex]==1){
+    else if([self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:1]]){
         [self groupItems:0 segment:@"segment 1"];
     }
     
     // Tomorrow
-    else if([sender selectedSegmentIndex]==2){
+    else if([self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:2]]){
         [self groupItems:1 segment:@"segment 2"];
     }
     
     // Future
-    else if([sender selectedSegmentIndex]==3){
+    else if([self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:3]]){
         [self groupItems:2 segment:@"segment 3"];
     }
+}
+
+-(IBAction)mainControlSwitched:(id)sender{
+    self.sortedItems = [[NSMutableArray alloc]init];
+    self.selectedSegment = [NSNumber numberWithInteger:[sender selectedSegmentIndex]];
+
+    [self segmentControlHandling];
+    
 }
 
 @end
