@@ -315,16 +315,13 @@
     NSLog(@"%@", filePath);
     NSLog(@"%@", mainArray);
     
-    if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
-        self.toDoItems = self.sortedItems;
-    
     // How many items have exceeded the current date(if any reminder given)
     NSUInteger count = 0;
     
     NSDate *currentDate = [DateWrapper convertToDate:[DateWrapper getCurrentDate]];
     
     for (ToDoItem *item in self.toDoItems) {
-        if(!item.completed && (item.alertSelection != nil || ![item.alertSelection isEqualToString:@"None"])){
+        if(!item.completed && ([item.alertSelection length] != 0 || ![item.alertSelection isEqualToString:@"None"])){
             NSDate *itemDueDate = [DateWrapper convertToDate:item.endDate];
             if(itemDueDate==nil)continue;
             
@@ -367,6 +364,9 @@
             [[UIApplication sharedApplication] scheduleLocalNotification:notification];
         }
     }
+    
+    if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
+        self.toDoItems = self.sortedItems;
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification{
