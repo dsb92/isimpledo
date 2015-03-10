@@ -37,7 +37,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    self.reminderTableViewArray = [[NSArray alloc]initWithObjects:@"Alert", @"Repeat", nil];
+    self.reminderTableViewArray = [[NSArray alloc]initWithObjects:@"Alert", @"Repeat", @"Remind", nil];
     
     [self.reminderPicker setMinimumDate:[NSDate date]];
     
@@ -61,6 +61,8 @@
     if ([self.toDoItem.repeatSelection length] != 0){
         self.repeatDetail = self.toDoItem.repeatSelection;
     }
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -117,7 +119,7 @@
         
         return cell;
     }
-    else{
+    else if(indexPath.row == 1){
         cellIdentifier = @"RepeatCell";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
         if (self.repeatDetail != nil)
@@ -125,7 +127,19 @@
         
         return cell;
     }
-    
+    else{
+        cellIdentifier = @"ReminderCell";
+        [self.reminderTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        cell.textLabel.text = @"Remind";
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectZero];
+        cell.accessoryView = switchView;
+        [switchView setOn:YES animated:NO];
+        
+        return cell;
+    }
 }
 
 /*
