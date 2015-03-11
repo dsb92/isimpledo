@@ -57,11 +57,21 @@
     if ([self.toDoItem.alertSelection length] != 0){
         self.alertDetail = self.toDoItem.alertSelection;
     }
+    else
+        self.alertDetail = @"On current due date";
     
     if ([self.toDoItem.repeatSelection length] != 0){
         self.repeatDetail = self.toDoItem.repeatSelection;
     }
     
+    self.hasNotification = NO;
+    
+    for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications]){
+        if([[localN.userInfo objectForKey:@"itemid"] isEqualToString:self.toDoItem.itemid]){
+            NSLog(@"Has notification");
+            self.hasNotification = YES;
+        }
+    }
     
 }
 
@@ -122,9 +132,9 @@
     else if(indexPath.row == 1){
         cellIdentifier = @"RepeatCell";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-        if (self.repeatDetail != nil)
+        if (self.repeatDetail !=nil)
             cell.detailTextLabel.text = self.repeatDetail;
-        
+ 
         return cell;
     }
     else{
@@ -134,12 +144,29 @@
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         cell.textLabel.text = @"Remind";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectZero];
-        cell.accessoryView = switchView;
-        [switchView setOn:YES animated:NO];
+        
+        if(self.mainSwitch == nil)
+        {
+            UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectZero];
+            cell.accessoryView = switchView;
+            [switchView addTarget:self action:@selector(switchControlHandling) forControlEvents:UIControlEventValueChanged];
+            
+            if(self.isInEditMode)
+                [switchView setOn:self.hasNotification];
+            else if(self.isShortcut)
+                [switchView setOn:self.hasNotification];
+            else
+                [switchView setOn:YES];
+            self.mainSwitch = switchView;
+        }
         
         return cell;
     }
+}
+
+-(void)switchControlHandling{
+    NSLog(@"Switch is %s", [self.mainSwitch isOn] ? "on" : "off" );
+    
 }
 
 /*

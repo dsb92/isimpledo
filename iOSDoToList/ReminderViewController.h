@@ -20,7 +20,8 @@
 @property BOOL isInEditMode;
 @property BOOL isShortcut;
 @property BOOL didCancel;
-
+@property BOOL hasNotification;
+@property UISwitch *mainSwitch;
 -(NSString*)getReminderDate;
 
 -(IBAction)rightButtonAction:(id)sender;

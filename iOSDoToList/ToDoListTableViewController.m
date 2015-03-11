@@ -151,16 +151,21 @@
 }
 
 // In order to edit a local notification u need to cancel it/delete it and then make a new one (unfortunately)
--(void) editLocalNotification:(ToDoItem*)item{
+-(void) editLocalNotification:(ToDoItem*)item isOn:(BOOL)isOn{
     
     // Cancel
-    [self cancelLocalNotification:item];
-    
+    if(!isOn) {
+        [self cancelLocalNotification:item];
+        return;
+    }
+
     // Create a new
-    [self setLocalNotification:item];
+    [self setLocalNotification:item isOn:YES];
 }
 
--(void) setLocalNotification:(ToDoItem*) item{
+-(void) setLocalNotification:(ToDoItem*) item isOn:(BOOL)isOn{
+    if(!isOn) return;
+    
     if([item.alertSelection length] == 0 || [item.alertSelection isEqualToString:@"None"]) return;
     
     // Schedule the notification
@@ -194,17 +199,18 @@
 -(IBAction)unWindFromReminder:(UIStoryboardSegue*) segue{
     ReminderViewController *source = [segue sourceViewController];
     ToDoItem *item = source.toDoItem;
+    BOOL isOn = [source.mainSwitch isOn];
     
     if(source.isInEditMode){
         if (source.didCancel == NO){
-            [self editLocalNotification:item];
+            [self editLocalNotification:item isOn:isOn];
             [self.tableView reloadData];
         }
         return;
     }
     
     if (item != nil){
-        [self setLocalNotification:item];
+        [self setLocalNotification:item isOn:isOn];
         [self.toDoItems addObject:item];
         if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
             [self.tempItems addObject:item];
@@ -222,7 +228,7 @@
     
     if(source.isInEditMode){
         if (source.didCancel == NO){
-            [self editLocalNotification:item];
+            [self editLocalNotification:item isOn:YES];
             [self.tableView reloadData];
         }
         return;
@@ -249,9 +255,9 @@
 
 -(IBAction)unWindFromShortCut:(UIStoryboardSegue*) segue{
     ReminderViewController *source = [segue sourceViewController];
-    
+    BOOL isOn = [source.mainSwitch isOn];
     if(source.didCancel == NO){
-        [self editLocalNotification:source.toDoItem];
+        [self editLocalNotification:source.toDoItem isOn:isOn];
     }
     [self.tableView reloadData];
 }
@@ -750,7 +756,7 @@
                 tappedItem.repeatSelection = nil;
                 tappedItem.endDate = nil;
                 
-                [self setLocalNotification:repeatItem];
+                [self setLocalNotification:repeatItem isOn:YES];
                 [self.toDoItems addObject:repeatItem];
                 if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
                     [self.tempItems addObject:repeatItem];
