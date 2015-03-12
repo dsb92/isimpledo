@@ -256,6 +256,7 @@
     NSDate *choice = [self.reminderPicker date];
     NSString *endDate = [dateFormatter stringFromDate:choice];
     self.toDoItem.endDate = endDate;
+    self.toDoItem.actualEndDate = choice;
 }
 
 

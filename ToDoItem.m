@@ -9,5 +9,5 @@
 #import "ToDoItem.h"
 
 @implementation ToDoItem
-
+@synthesize actualEndDate;
 @end

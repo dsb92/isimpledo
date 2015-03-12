@@ -313,6 +313,8 @@
         else
             [array addObject:item.repeatSelection];
         
+        [array addObject:item.actualEndDate];
+        
         [mainArray addObject:array];
     }
     
@@ -449,6 +451,10 @@
             // get repeat selection
             if ([array objectAtIndex:8]!=nil) {
                 item.repeatSelection = [array objectAtIndex:8];
+            }
+            
+            if ([array objectAtIndex:9]!=nil) {
+                item.actualEndDate = [array objectAtIndex:9];
             }
         }
         @catch (NSException *exception) {
@@ -730,6 +736,7 @@
             if (tappedItem.completed && ([tappedItem.repeatSelection length]==0  || [tappedItem.repeatSelection isEqualToString:@"Never"])) {
                 [self cancelLocalNotification:tappedItem];
                 tappedItem.endDate = nil;
+                tappedItem.actualEndDate = nil;
                 tappedItem.alertSelection = nil;
                 tappedItem.repeatSelection = nil;
             }
@@ -746,12 +753,15 @@
                 repeatItem.creationDate = [dateFormatter stringFromDate:[NSDate date]];
                 repeatItem.alertSelection = tappedItem.alertSelection;
                 repeatItem.repeatSelection = tappedItem.repeatSelection;
-                repeatItem.endDate = [dateFormatter stringFromDate:[self updateAlertDate:tappedItem]];
+                NSDate *date = [self updateAlertDate:tappedItem];
+                repeatItem.endDate = [dateFormatter stringFromDate:date];
+                repeatItem.actualEndDate = date;
                 repeatItem.completed = NO;
  
                 tappedItem.alertSelection = nil;
                 tappedItem.repeatSelection = nil;
                 tappedItem.endDate = nil;
+                tappedItem.actualEndDate = nil;
                 
                 [self setLocalNotification:repeatItem isOn:YES];
                 [self.toDoItems addObject:repeatItem];
@@ -1011,7 +1021,7 @@
 
 -(NSMutableArray*)sortedItemsOnDate:(NSMutableArray*)items{
     NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"endDate"
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"actualEndDate"
                                                  ascending:YES];
     
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
