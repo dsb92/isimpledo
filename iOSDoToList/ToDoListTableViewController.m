@@ -154,11 +154,8 @@
 -(void) editLocalNotification:(ToDoItem*)item isOn:(BOOL)isOn{
     
     // Cancel
-    if(!isOn) {
-        [self cancelLocalNotification:item];
-        return;
-    }
-
+    [self cancelLocalNotification:item];
+   
     // Create a new
     [self setLocalNotification:item isOn:YES];
 }

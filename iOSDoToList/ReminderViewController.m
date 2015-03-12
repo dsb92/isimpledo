@@ -124,8 +124,10 @@
         cellIdentifier = @"AlertCell";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
         cell.textLabel.text = [self.reminderTableViewArray objectAtIndex:indexPath.row];
-        if (self.alertDetail != nil)
+        if (self.alertDetail != nil && ![self.alertDetail isEqualToString:@"None"])
             cell.detailTextLabel.text = self.alertDetail;
+        else
+            cell.detailTextLabel.text = @"None";
         
         return cell;
     }
@@ -160,12 +162,52 @@
             self.mainSwitch = switchView;
         }
         
+        if([self.alertDetail isEqualToString:@"None"])
+            [self.mainSwitch setOn:NO];
+        else
+            [self.mainSwitch setOn:YES];
+        
         return cell;
     }
 }
 
 -(void)switchControlHandling{
     NSLog(@"Switch is %s", [self.mainSwitch isOn] ? "on" : "off" );
+    
+    if(self.isInEditMode)
+    {
+        if(![self.mainSwitch isOn])
+        {
+            self.alertDetail = @"None";
+            [self.reminderTableView reloadData];
+        }
+        else{
+            
+            if(![self.toDoItem.alertSelection isEqualToString:@"None"])
+            {
+                self.alertDetail = self.toDoItem.alertSelection;
+                [self.reminderTableView reloadData];
+            }
+            else
+            {
+                self.alertDetail = @"On current due date";
+                [self.reminderTableView reloadData];
+            }
+        }
+    }
+    else
+    {
+        if(![self.mainSwitch isOn])
+        {
+            self.alertDetail = @"None";
+            [self.reminderTableView reloadData];
+        }
+        else{
+            self.alertDetail = @"On current due date";
+            [self.reminderTableView reloadData];
+        }
+    }
+    
     
 }
 
