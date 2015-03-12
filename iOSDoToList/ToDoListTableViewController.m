@@ -496,7 +496,7 @@
 
 - (void) printDoToItems{
     for(ToDoItem *item in self.toDoItems){
-        NSLog(@"Itemid: %@\nItemname: %@\nCreation date: %@\nDue date: %@\nAlert: %@\nRepeat: %@\nSegment string id: %@\nSegment segment: %@\n", item.itemid, item.itemName, item.creationDate, item.endDate, item.alertSelection, item.repeatSelection, item.segmentForItem.thestringid, item.segmentForItem.segment);
+        NSLog(@"Itemid: %@\nItemname: %@\nCreation date: %@\nDue date: %@\nActual date: %@\nAlert: %@\nRepeat: %@\nSegment string id: %@\nSegment segment: %@\n", item.itemid, item.itemName, item.creationDate, item.endDate, item.actualEndDate, item.alertSelection, item.repeatSelection, item.segmentForItem.thestringid, item.segmentForItem.segment);
         
         NSLog(@"Completed: %s", item.completed ? "YES" : "NO");
         
@@ -589,6 +589,8 @@
         self.refreshControl.tintColor = [UIColor blueColor];    
     }
      */
+    
+    self.toDoItems = [self sortedItemsOnDate:self.toDoItems];
     [self.tableView reloadData];
     [refreshControl endRefreshing];
 }
