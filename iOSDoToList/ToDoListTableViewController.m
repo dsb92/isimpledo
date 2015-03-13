@@ -313,7 +313,10 @@
         else
             [array addObject:item.repeatSelection];
         
-        [array addObject:item.actualEndDate];
+        if(item.actualEndDate == nil)
+            [array addObject:[NSDate date]];
+        else
+            [array addObject:item.actualEndDate];
         
         [mainArray addObject:array];
     }
