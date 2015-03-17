@@ -124,10 +124,8 @@
         cellIdentifier = @"AlertCell";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
         cell.textLabel.text = [self.reminderTableViewArray objectAtIndex:indexPath.row];
-        if (self.alertDetail != nil && ![self.alertDetail isEqualToString:@"None"])
-            cell.detailTextLabel.text = self.alertDetail;
-        else
-            cell.detailTextLabel.text = @"None";
+        
+        cell.detailTextLabel.text = self.alertDetail;
         
         return cell;
     }
@@ -183,7 +181,7 @@
         }
         else{
             
-            if(![self.toDoItem.alertSelection isEqualToString:@"None"])
+            if(![self.toDoItem.alertSelection isEqualToString:@"None"] && [self.toDoItem.alertSelection length] !=0)
             {
                 self.alertDetail = self.toDoItem.alertSelection;
                 [self.reminderTableView reloadData];
