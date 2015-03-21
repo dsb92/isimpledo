@@ -38,7 +38,10 @@
 -(IBAction)textChanged:(id)sender{
     if (self.textField.text.length > 0) {
         self.reminderButton.hidden = NO;
-        [self.reminderButton setHighlighted:NO];
+        if(self.isInEditMode)
+            [self.reminderButton setHighlighted:YES];
+        else
+            [self.reminderButton setHighlighted:NO];
     }
     else
         self.reminderButton.hidden = YES;
