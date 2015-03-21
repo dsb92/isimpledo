@@ -42,13 +42,27 @@
                                     <rect key="frame" x="16" y="210" width="768" height="21"/>
                                 </variation>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="748" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hjG-tL-BtT">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New to-do item" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="6ks-hz-jbQ">
+                                <rect key="frame" x="16" y="172" width="568" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="yes" spellCheckingType="yes" returnKeyType="done"/>
+                                <variation key="heightClass=regular-widthClass=regular" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="16" y="158" width="768" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="hideKeyboard:" destination="vXZ-lx-hvc" eventType="editingDidEndOnExit" id="JVs-Q5-vvV"/>
+                                    <action selector="textChanged:" destination="vXZ-lx-hvc" eventType="editingChanged" id="yHG-iS-iSy"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="748" ambiguous="YES" misplaced="YES" highlighted="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hjG-tL-BtT">
                                 <rect key="frame" x="496" y="143" width="88" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="99" id="Rwa-rK-NMe"/>
+                                    <constraint firstAttribute="width" constant="99" id="Rwa-rK-NMe">
+                                        <variation key="heightClass=regular-widthClass=compact" constant="27"/>
+                                    </constraint>
                                     <constraint firstAttribute="height" constant="21" id="sc1-UH-oFt"/>
                                 </constraints>
-                                <state key="normal" title="Set reminder">
+                                <state key="normal" image="reminder_clock">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="default">
@@ -70,18 +84,6 @@
                                     <segue destination="Dg2-97-vHh" kind="presentation" identifier="ReminderIdentifier" id="KXf-DN-cDc"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New to-do item" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="6ks-hz-jbQ">
-                                <rect key="frame" x="16" y="172" width="568" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="yes" spellCheckingType="yes" returnKeyType="done"/>
-                                <variation key="heightClass=regular-widthClass=regular" ambiguous="YES" misplaced="YES">
-                                    <rect key="frame" x="16" y="158" width="768" height="30"/>
-                                </variation>
-                                <connections>
-                                    <action selector="hideKeyboard:" destination="vXZ-lx-hvc" eventType="editingDidEndOnExit" id="JVs-Q5-vvV"/>
-                                    <action selector="textChanged:" destination="vXZ-lx-hvc" eventType="editingChanged" id="yHG-iS-iSy"/>
-                                </connections>
-                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -721,6 +723,9 @@
             <point key="canvasLocation" x="192" y="135.75"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="reminder_clock" width="64" height="64"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="vOp-nC-O4y"/>
         <segue reference="uIX-si-1wa"/>

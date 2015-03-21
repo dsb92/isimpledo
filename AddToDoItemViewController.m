@@ -25,7 +25,7 @@
 @synthesize toDoItem;
 
 -(IBAction)cancelFromReminder:(UIStoryboardSegue*) segue{
-    // Do nothing
+    [self.reminderButton setHighlighted:YES];
 }
 
 -(IBAction)hideKeyboard:(id)sender{
@@ -38,6 +38,7 @@
 -(IBAction)textChanged:(id)sender{
     if (self.textField.text.length > 0) {
         self.reminderButton.hidden = NO;
+        [self.reminderButton setHighlighted:NO];
     }
     else
         self.reminderButton.hidden = YES;
@@ -61,7 +62,7 @@
         if([self.toDoItem.endDate length] != 0){
             NSString *date = [DateWrapper wrapDate:self.toDoItem.endDate];
             self.dueDateLabel.text = date;
-            [self.reminderButton setTitle:@"Edit reminder" forState:UIControlStateNormal];
+            [self.reminderButton setHighlighted:YES];
         }
     }
     else{
