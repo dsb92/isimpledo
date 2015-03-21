@@ -694,15 +694,26 @@
         [leftUtilityButtons sw_addUtilityButtonWithColor:
          [UIColor colorWithRed:1.0f green:0.231f blue:0.188f alpha:1.0]
                                                     icon:[UIImage imageNamed:@"cross.png"]];
+        return leftUtilityButtons;
     }
     else{
         [leftUtilityButtons sw_addUtilityButtonWithColor:
          [UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0]
                                                     icon:[UIImage imageNamed:@"check.png"]];
         
+        for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications]){
+            if([[localN.userInfo objectForKey:@"itemid"] isEqualToString:tappedItem.itemid]){
+                [leftUtilityButtons sw_addUtilityButtonWithColor:
+                 [UIColor colorWithRed:0.05f green:0.69f blue:1.0f alpha:1.0]
+                                                            icon:[UIImage imageNamed:@"clock_alert.png"]];
+                return leftUtilityButtons;
+            }
+        }
+        
         [leftUtilityButtons sw_addUtilityButtonWithColor:
-         [UIColor colorWithRed:1.0f green:1.0f blue:0.35f alpha:1.0]
+         [UIColor colorWithRed:0.05f green:0.69f blue:1.0f alpha:1.0]
                                                     icon:[UIImage imageNamed:@"clock.png"]];
+        return leftUtilityButtons;
     }
     
     /*
@@ -711,7 +722,7 @@
                                                 icon:[UIImage imageNamed:@"list.png"]];
      */
     
-    return leftUtilityButtons;
+    
 }
 
 #pragma mark - SWTableViewDelegate
@@ -843,7 +854,10 @@
         NSAttributedString* attributedString = [[NSAttributedString alloc] initWithString:item.itemName attributes:attributes];
         
         cell.textLabel.attributedText = attributedString;
+        cell.textLabel.textColor = [UIColor blackColor];
+        return;
     }
+    
     else{
         cell.backgroundColor = [UIColor whiteColor];
         NSDictionary* attributes = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleNone]};
@@ -862,12 +876,17 @@
         {
             cell.textLabel.textColor = [UIColor redColor];
             cell.detailTextLabel.textColor = [UIColor redColor];
-        }
-        else{
-            cell.textLabel.textColor = [UIColor blackColor];
-            cell.detailTextLabel.textColor = [UIColor blackColor];
+            return;
         }
     }
+    
+//    for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications]){
+//        if([[localN.userInfo objectForKey:@"itemid"] isEqualToString:item.itemid]){
+//            NSString *t = @"ALERT ";
+//            cell.detailTextLabel.text = [t stringByAppendingString:item.endDate];
+//            return;
+//        }
+//    }
 }
 
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell
