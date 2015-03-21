@@ -111,13 +111,15 @@
         UINavigationController *navController = (UINavigationController*)[segue destinationViewController];
         ReminderViewController *reminderVIewController = (ReminderViewController*)[navController topViewController];
         self.toDoItem.completed = false;
-        
         if(self.isInEditMode)
             reminderVIewController.isInEditMode = YES;
         else
             self.toDoItem.creationDate = [DateWrapper getCurrentDate];
         
         reminderVIewController.toDoItem = self.toDoItem;
+        reminderVIewController.itemname = self.textField.text;
+        
+        return;
     }
     
     // If user did not press save button, return.
@@ -135,7 +137,8 @@
     if (self.textField.text.length > 0) {
         
         // Cancel any local notifaction attached to the old item name contained in dictionary.
-        [self cancelLocalNotification:self.toDoItem];
+        if(self.isInEditMode && [self.toDoItem.endDate length] != 0)
+            [self cancelLocalNotification:self.toDoItem];
         self.toDoItem.itemName = self.textField.text;
         self.toDoItem.completed = false;
     }

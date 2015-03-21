@@ -241,6 +241,7 @@
     
     self.didCancel = NO;
     
+    self.toDoItem.itemName = self.itemname;
     self.toDoItem.endDate = self.reminderDateLabel.text;
     self.toDoItem.alertSelection = self.alertDetail;
     self.toDoItem.repeatSelection = self.repeatDetail;

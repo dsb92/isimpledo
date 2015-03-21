@@ -16,6 +16,7 @@
 @property ToDoItem *toDoItem;
 @property NSString *alertDetail;
 @property NSString *repeatDetail;
+@property NSString *itemname;
 @property NSArray *reminderTableViewArray;
 @property BOOL isInEditMode;
 @property BOOL isShortcut;
