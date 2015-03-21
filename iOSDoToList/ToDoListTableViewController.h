@@ -22,5 +22,7 @@
 -(IBAction)unWindFromShortCut:(UIStoryboardSegue*) segue;
 -(IBAction)mainControlSwitched:(id)sender;
 -(IBAction)editButton:(id)sender;
+-(IBAction)selectAllItems:(id)sender;
+-(IBAction)deleteSelectedItems:(id)sender;
 
 @end

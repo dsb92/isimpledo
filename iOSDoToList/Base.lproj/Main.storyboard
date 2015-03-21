@@ -409,7 +409,7 @@
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="YyQ-gW-DHA">
                                 <rect key="frame" x="0.0" y="-2" width="150" height="2"/>
                             </progressView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="EFz-X1-hj3">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="EFz-X1-hj3">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VQQ-Al-iAP">
@@ -468,14 +468,35 @@
                                     <action selector="mainControlSwitched:" destination="jQQ-ge-ChJ" eventType="valueChanged" id="Ek8-wh-Usa"/>
                                 </connections>
                             </segmentedControl>
+                            <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nGd-KC-eNu">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <items>
+                                    <barButtonItem title="Select all" id="nzI-bG-sLH">
+                                        <connections>
+                                            <action selector="selectAllItems:" destination="jQQ-ge-ChJ" id="oFy-JH-2Fp"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="nv5-Fx-RT0"/>
+                                    <barButtonItem title="Delete" id="hUs-IH-9ne">
+                                        <connections>
+                                            <action selector="deleteSelectedItems:" destination="jQQ-ge-ChJ" id="KNW-KR-T3h"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="nGd-KC-eNu" firstAttribute="trailing" secondItem="YyQ-gW-DHA" secondAttribute="trailing" id="1oe-jb-VTK"/>
                             <constraint firstItem="ua3-ed-VEN" firstAttribute="top" secondItem="EFz-X1-hj3" secondAttribute="bottom" constant="55" id="6mb-Ln-zjC">
                                 <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                             </constraint>
                             <constraint firstItem="EFz-X1-hj3" firstAttribute="centerY" secondItem="pKC-Tr-WFG" secondAttribute="centerY" id="C4t-l8-6i5">
                                 <variation key="heightClass=regular-widthClass=compact" constant="55"/>
+                            </constraint>
+                            <constraint firstItem="nGd-KC-eNu" firstAttribute="leading" secondItem="EFz-X1-hj3" secondAttribute="leading" id="N9v-sR-2gd"/>
+                            <constraint firstItem="nGd-KC-eNu" firstAttribute="top" secondItem="EFz-X1-hj3" secondAttribute="bottom" id="Qy3-pZ-9fA">
+                                <variation key="heightClass=regular-widthClass=compact" constant="-44"/>
                             </constraint>
                             <constraint firstItem="YyQ-gW-DHA" firstAttribute="leading" secondItem="EFz-X1-hj3" secondAttribute="leading" id="R4g-Hp-SOl"/>
                             <constraint firstAttribute="trailing" secondItem="YyQ-gW-DHA" secondAttribute="trailing" id="XEq-E0-ijz"/>
@@ -491,18 +512,22 @@
                                 <exclude reference="YyQ-gW-DHA"/>
                                 <exclude reference="EFz-X1-hj3"/>
                                 <exclude reference="74i-yi-lJ3"/>
+                                <exclude reference="nGd-KC-eNu"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="R4g-Hp-SOl"/>
                                 <exclude reference="XEq-E0-ijz"/>
                                 <exclude reference="c2v-2n-Lwi"/>
                                 <exclude reference="xOB-pt-6He"/>
-                                <exclude reference="6mb-Ln-zjC"/>
                                 <exclude reference="Z4A-sl-hBy"/>
                                 <exclude reference="oen-gr-XfR"/>
                                 <exclude reference="C4t-l8-6i5"/>
                                 <exclude reference="bpa-Ml-7ma"/>
                                 <exclude reference="c0m-fb-FQC"/>
+                                <exclude reference="1oe-jb-VTK"/>
+                                <exclude reference="N9v-sR-2gd"/>
+                                <exclude reference="Qy3-pZ-9fA"/>
+                                <exclude reference="6mb-Ln-zjC"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -510,18 +535,22 @@
                                 <include reference="YyQ-gW-DHA"/>
                                 <include reference="EFz-X1-hj3"/>
                                 <include reference="74i-yi-lJ3"/>
+                                <include reference="nGd-KC-eNu"/>
                             </mask>
                             <mask key="constraints">
                                 <include reference="R4g-Hp-SOl"/>
                                 <include reference="XEq-E0-ijz"/>
                                 <include reference="c2v-2n-Lwi"/>
                                 <include reference="xOB-pt-6He"/>
-                                <include reference="6mb-Ln-zjC"/>
                                 <include reference="Z4A-sl-hBy"/>
                                 <include reference="oen-gr-XfR"/>
                                 <include reference="C4t-l8-6i5"/>
                                 <include reference="bpa-Ml-7ma"/>
                                 <include reference="c0m-fb-FQC"/>
+                                <include reference="1oe-jb-VTK"/>
+                                <include reference="N9v-sR-2gd"/>
+                                <include reference="Qy3-pZ-9fA"/>
+                                <include reference="6mb-Ln-zjC"/>
                             </mask>
                         </variation>
                     </view>
@@ -538,8 +567,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="myToolbar" destination="nGd-KC-eNu" id="g7y-tr-5Gf"/>
                         <outlet property="progressBar" destination="YyQ-gW-DHA" id="Wa8-Tb-fvo"/>
                         <outlet property="progressText" destination="VQQ-Al-iAP" id="DTj-OF-gEz"/>
+                        <outlet property="selectAllButton" destination="nzI-bG-sLH" id="WUc-We-7S8"/>
                         <outlet property="tableView" destination="EFz-X1-hj3" id="oGi-fH-FFV"/>
                         <segue destination="oly-rT-dUJ" kind="show" identifier="ReminderShortcutIdentifier" id="SuQ-d4-IEI"/>
                     </connections>
@@ -726,8 +757,8 @@
         <image name="reminder_clock" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="vOp-nC-O4y"/>
         <segue reference="uIX-si-1wa"/>
+        <segue reference="vOp-nC-O4y"/>
         <segue reference="jDg-9v-zG5"/>
     </inferredMetricsTieBreakers>
 </document>

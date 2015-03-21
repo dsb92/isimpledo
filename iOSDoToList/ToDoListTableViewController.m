@@ -22,12 +22,15 @@
 @property (weak, nonatomic) IBOutlet UILabel *progressText;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIToolbar *myToolbar;
+@property (retain, nonatomic) IBOutlet UIBarButtonItem *selectAllButton;
 @property (nonatomic) BOOL useCustomCells;
 @property (nonatomic, weak) UIRefreshControl *refreshControl;
 
 // Is private and thats why it's not declared in .h file
 @property NSInteger indexPath;
 @property NSNumber *selectedSegment;
+@property BOOL hasSelectedAllInEdit;
 
 @end
 
@@ -519,9 +522,22 @@
     
 }
 
+-(void)doSingleViewAnimation:(UIView*)incomingView animType:(NSString*)animType hidden:(BOOL)show
+{
+    CATransition *animation = [CATransition animation];
+    [animation setType:kCATransitionPush];
+    [animation setSubtype:animType];
+    
+    [animation setDuration:0.5];
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    [[incomingView layer] addAnimation:animation forKey:kCATransition];
+    incomingView.hidden = show;
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     // Setup refresh control for example app
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(toggleCells:) forControlEvents:UIControlEventValueChanged];
@@ -550,6 +566,7 @@
     
     
     [self printDoToItems];
+    
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -1032,19 +1049,75 @@
     self.editing = !self.editing;
     [self.tableView setEditing:self.editing animated:YES];
     UIBarButtonItem *barButtonItem;
+    
     if (self.editing){
         barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButton:)];
         
         self.navigationItem.rightBarButtonItem.enabled = NO;
+        
+        [self doSingleViewAnimation:self.myToolbar animType:kCATransitionFromTop hidden:NO];
     }
     else{
         barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButton:)];
         
         self.navigationItem.rightBarButtonItem.enabled = YES;
+        
+        [self doSingleViewAnimation:self.myToolbar animType:kCATransitionFromBottom hidden:YES];
     }
     
     self.navigationItem.leftBarButtonItem = barButtonItem;
     
+}
+
+-(IBAction)deleteSelectedItems:(id)sender{
+    NSArray *selectedRows = [self.tableView indexPathsForSelectedRows];
+    BOOL deleteSpecificRows = selectedRows.count > 0;
+    
+    if(deleteSpecificRows){
+        // Build an NSIndexSet of all the objects to delete, so they can all be removed at once.
+        NSMutableIndexSet *indicesOfItemsToDelete = [NSMutableIndexSet new];
+        for (NSIndexPath *selectionIndex in selectedRows)
+        {
+            [indicesOfItemsToDelete addIndex:selectionIndex.row];
+        }
+        NSArray *items = [self.toDoItems objectsAtIndexes:indicesOfItemsToDelete];
+        // Delete the objects from our data model.
+        [self.toDoItems removeObjectsAtIndexes:indicesOfItemsToDelete];
+        
+        
+        // Cancel any notifications and remove from temp array.
+        for (ToDoItem *item in items)
+        {
+            [self cancelLocalNotification:item];
+            [self.tempItems removeObject:item];
+        }
+
+        // Tell the tableView that we deleted the objects
+        [self.tableView deleteRowsAtIndexPaths:selectedRows withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    
+    // When user has deleted, go out of edit mode.
+    [self editButton:self];
+}
+
+-(IBAction)selectAllItems:(id)sender{
+    self.hasSelectedAllInEdit = !self.hasSelectedAllInEdit;
+    
+    NSString *selectText = self.hasSelectedAllInEdit ? @"Deselect all" : @"Select all";
+    [self.selectAllButton setTitle:selectText];
+    
+    if(self.hasSelectedAllInEdit)
+    {
+        for (int i=0; i<self.toDoItems.count; i++) {
+            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
+        }
+    }
+    else
+    {
+        for (int i=0; i<self.toDoItems.count; i++) {
+            [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:YES];
+        }
+    }
 }
 
 -(NSMutableArray*)sortedItemsOnDate:(NSMutableArray*)items{
