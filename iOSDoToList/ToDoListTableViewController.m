@@ -1204,6 +1204,10 @@
     else if([self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:3]]){
         [self groupItems:2 segment:@"segment 3"];
     }
+    
+    // If user is in editmode, get out.
+    self.editing = YES;
+    [self editButton:self];
 }
 
 -(IBAction)mainControlSwitched:(id)sender{
