@@ -38,7 +38,7 @@
 -(IBAction)textChanged:(id)sender{
     if (self.textField.text.length > 0) {
         self.reminderButton.hidden = NO;
-        if(self.isInEditMode)
+        if(self.isInEditMode && self.toDoItem.endDate != nil)
             [self.reminderButton setHighlighted:YES];
         else
             [self.reminderButton setHighlighted:NO];
@@ -67,6 +67,8 @@
             self.dueDateLabel.text = date;
             [self.reminderButton setHighlighted:YES];
         }
+        else
+            [self.reminderButton setHighlighted:NO];
     }
     else{
         self.toDoItem = [[ToDoItem alloc] init];

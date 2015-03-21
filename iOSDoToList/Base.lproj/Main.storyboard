@@ -408,7 +408,6 @@
                         <subviews>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="YyQ-gW-DHA">
                                 <rect key="frame" x="0.0" y="-2" width="150" height="2"/>
-                                <color key="tintColor" red="0.48670177650000002" green="1" blue="0.1236419183" alpha="1" colorSpace="calibratedRGB"/>
                             </progressView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="EFz-X1-hj3">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
