@@ -1024,6 +1024,7 @@
         item = [self.toDoItems objectAtIndex:self.indexPath];
         reminderViewController = (ReminderViewController*)navController;
         reminderViewController.toDoItem = item;
+        reminderViewController.itemname = item.itemName;
         reminderViewController.isShortcut = YES;
         return;
     }
