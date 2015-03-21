@@ -110,7 +110,6 @@
     {
         UINavigationController *navController = (UINavigationController*)[segue destinationViewController];
         ReminderViewController *reminderVIewController = (ReminderViewController*)[navController topViewController];
-        self.toDoItem.itemName = self.textField.text;
         self.toDoItem.completed = false;
         
         if(self.isInEditMode)
