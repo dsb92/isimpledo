@@ -528,7 +528,7 @@
     [animation setType:kCATransitionPush];
     [animation setSubtype:animType];
     
-    [animation setDuration:0.5];
+    [animation setDuration:0.25];
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
     [[incomingView layer] addAnimation:animation forKey:kCATransition];
     incomingView.hidden = show;
@@ -547,11 +547,6 @@
     [self.tableView addSubview:refreshControl];
     
     self.useCustomCells = NO;
-    
-    // If you set the seperator inset on iOS 6 you get a NSInvalidArgumentException...weird
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
-        self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0); // Makes the horizontal row seperator stretch the entire length of the table view
-    }
     
     self.toDoItems = [[NSMutableArray alloc]init];
     self.tempItems = self.toDoItems;

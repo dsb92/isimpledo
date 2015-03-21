@@ -25,7 +25,7 @@
 @synthesize toDoItem;
 
 -(IBAction)cancelFromReminder:(UIStoryboardSegue*) segue{
-    [self.reminderButton setHighlighted:YES];
+    [self updateHighlightForReminderButton];
 }
 
 -(IBAction)hideKeyboard:(id)sender{
@@ -38,10 +38,7 @@
 -(IBAction)textChanged:(id)sender{
     if (self.textField.text.length > 0) {
         self.reminderButton.hidden = NO;
-        if(self.isInEditMode && self.toDoItem.endDate != nil)
-            [self.reminderButton setHighlighted:YES];
-        else
-            [self.reminderButton setHighlighted:NO];
+        [self updateHighlightForReminderButton];
     }
     else
         self.reminderButton.hidden = YES;
@@ -85,6 +82,13 @@
 }
 
 #pragma mark - Navigation
+-(void)updateHighlightForReminderButton{
+    if(self.isInEditMode && [self.toDoItem.endDate length] != 0)
+        [self.reminderButton setHighlighted:YES];
+    else
+        [self.reminderButton setHighlighted:NO];
+}
+
 
 -(void) cancelLocalNotification:(ToDoItem*)item{
     for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications]){
