@@ -42,9 +42,9 @@
                                     <rect key="frame" x="16" y="210" width="768" height="21"/>
                                 </variation>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New to-do item" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="6ks-hz-jbQ">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New to-do item" minimumFontSize="20" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="6ks-hz-jbQ">
                                 <rect key="frame" x="16" y="172" width="568" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes" returnKeyType="done"/>
                                 <variation key="heightClass=regular-widthClass=regular" ambiguous="YES" misplaced="YES">
                                     <rect key="frame" x="16" y="158" width="768" height="30"/>
@@ -58,9 +58,11 @@
                                 <rect key="frame" x="496" y="143" width="88" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="99" id="Rwa-rK-NMe">
-                                        <variation key="heightClass=regular-widthClass=compact" constant="27"/>
+                                        <variation key="heightClass=regular-widthClass=compact" constant="33"/>
                                     </constraint>
-                                    <constraint firstAttribute="height" constant="21" id="sc1-UH-oFt"/>
+                                    <constraint firstAttribute="height" constant="21" id="sc1-UH-oFt">
+                                        <variation key="heightClass=regular-widthClass=compact" constant="30"/>
+                                    </constraint>
                                 </constraints>
                                 <state key="normal" image="reminder_clock">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -91,7 +93,9 @@
                             <constraint firstItem="6ks-hz-jbQ" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="KhV-mB-84d"/>
                             <constraint firstItem="YCK-mt-9Nz" firstAttribute="leading" secondItem="6ks-hz-jbQ" secondAttribute="leading" id="LdB-c2-zlY"/>
                             <constraint firstItem="hjG-tL-BtT" firstAttribute="trailing" secondItem="YCK-mt-9Nz" secondAttribute="trailing" id="UNe-02-qtX"/>
-                            <constraint firstItem="YCK-mt-9Nz" firstAttribute="top" secondItem="hjG-tL-BtT" secondAttribute="bottom" constant="27" id="VO0-L6-iy2"/>
+                            <constraint firstItem="YCK-mt-9Nz" firstAttribute="top" secondItem="hjG-tL-BtT" secondAttribute="bottom" constant="27" id="VO0-L6-iy2">
+                                <variation key="heightClass=regular-widthClass=compact" constant="22"/>
+                            </constraint>
                             <constraint firstItem="YCK-mt-9Nz" firstAttribute="top" secondItem="6ks-hz-jbQ" secondAttribute="bottom" constant="22" id="cEr-fw-VoJ"/>
                             <constraint firstItem="6ks-hz-jbQ" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="94" id="loE-Cc-ZKB"/>
                             <constraint firstItem="hjG-tL-BtT" firstAttribute="leading" secondItem="6ks-hz-jbQ" secondAttribute="trailing" constant="8" symbolic="YES" id="xO3-Tf-Cye"/>
