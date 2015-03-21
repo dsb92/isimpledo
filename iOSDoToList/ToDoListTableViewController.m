@@ -605,16 +605,20 @@
     static NSString *cellIdentifier = @"ListPrototypeCell";
     //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    //SWTableViewCell *cell = [[SWTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
     cell.leftUtilityButtons = [self leftButtons:indexPath];
     //cell.rightUtilityButtons = [self rightButtons];
     cell.delegate = self;
     
     ToDoItem *toDoItem = [self.toDoItems objectAtIndex:indexPath.row];
-    
+
     cell.textLabel.text = toDoItem.itemName;
     
-    if (toDoItem.endDate != nil && ![toDoItem.endDate isEqualToString:toDoItem.creationDate]){
-        cell.detailTextLabel.text = [DateWrapper wrapDate:toDoItem.endDate];
+    if (toDoItem.endDate != nil &&  ![toDoItem.endDate isEqualToString:toDoItem.creationDate]){
+        NSString *detailText = [DateWrapper wrapDate:toDoItem.endDate];
+        cell.detailTextLabel.text = detailText;
+        // Redraw the cell immediately
+        [cell layoutSubviews];
     }
     else
         cell.detailTextLabel.text = @"";
