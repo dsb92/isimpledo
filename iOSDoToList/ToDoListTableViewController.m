@@ -1046,12 +1046,16 @@
     [self.tableView setEditing:self.editing animated:YES];
     UIBarButtonItem *barButtonItem;
     
+    
     if (self.editing){
         barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButton:)];
         
         self.navigationItem.rightBarButtonItem.enabled = NO;
         
         [self doSingleViewAnimation:self.myToolbar animType:kCATransitionFromTop hidden:NO];
+        
+        [self.selectAllButton setTitle:@"Select all"];
+        self.hasSelectedAllInEdit = NO;
     }
     else{
         barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButton:)];
@@ -1059,6 +1063,10 @@
         self.navigationItem.rightBarButtonItem.enabled = YES;
         
         [self doSingleViewAnimation:self.myToolbar animType:kCATransitionFromBottom hidden:YES];
+        
+        [self.selectAllButton setTitle:@"Deselect all"];
+        
+        self.hasSelectedAllInEdit = NO;
     }
     
     self.navigationItem.leftBarButtonItem = barButtonItem;
