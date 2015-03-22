@@ -499,7 +499,7 @@
     
     [self.progressBar setProgress:currentProgress animated:YES];
     [self.progressBar setNeedsDisplay];
-    NSString *progressText = [NSString stringWithFormat:@"%1.0f/%1.0f completed tasks", completed, tasks];
+    NSString *progressText = [NSString stringWithFormat:@"%1.0f/%1.0f completed", completed, tasks];
     [self.progressText setText:progressText];
 }
 
@@ -642,6 +642,12 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
     else
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    UIImageView *repeatImage = (UIImageView*)[cell viewWithTag:100];
+    if([toDoItem.repeatSelection length] !=0 && ![toDoItem.repeatSelection isEqualToString:@"Never"])
+        repeatImage.hidden = NO;
+    else
+        repeatImage.hidden = YES;
     
     return cell;
 }

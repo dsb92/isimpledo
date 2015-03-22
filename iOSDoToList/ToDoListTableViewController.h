@@ -11,6 +11,7 @@
 #import "SWTableViewCell.h"
 
 @interface ToDoListTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate>{
+    UIImageView *imageView;
 }
 @property NSMutableArray *toDoItems;
 @property NSMutableArray *sortedItems;
