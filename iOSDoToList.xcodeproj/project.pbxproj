@@ -41,7 +41,6 @@
 		469C06DE1A6B03C900ED9A9B /* AddToDoItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06DD1A6B03C900ED9A9B /* AddToDoItemViewController.m */; };
 		469C06E11A6B048500ED9A9B /* ToDoListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06E01A6B048500ED9A9B /* ToDoListTableViewController.m */; };
 		469C06E41A6B0E5200ED9A9B /* ToDoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06E31A6B0E5200ED9A9B /* ToDoItem.m */; };
-		46C3B3A31A7ADD750062466A /* AddToItemNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46C3B3A21A7ADD750062466A /* AddToItemNavigationController.m */; };
 		46E6B2E81A9FAACE004AC3F2 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E6B2E71A9FAACE004AC3F2 /* Utility.m */; };
 		46E6B2EE1AA1185C004AC3F2 /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 46E6B2ED1AA1185C004AC3F2 /* LaunchScreen.png */; };
 /* End PBXBuildFile section */
@@ -110,8 +109,6 @@
 		469C06E01A6B048500ED9A9B /* ToDoListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToDoListTableViewController.m; sourceTree = "<group>"; };
 		469C06E21A6B0E5200ED9A9B /* ToDoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToDoItem.h; path = ../ToDoItem.h; sourceTree = "<group>"; };
 		469C06E31A6B0E5200ED9A9B /* ToDoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToDoItem.m; path = ../ToDoItem.m; sourceTree = "<group>"; };
-		46C3B3A11A7ADD750062466A /* AddToItemNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddToItemNavigationController.h; sourceTree = "<group>"; };
-		46C3B3A21A7ADD750062466A /* AddToItemNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddToItemNavigationController.m; sourceTree = "<group>"; };
 		46E6B2E61A9FAACE004AC3F2 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utility.h; path = ../Utility.h; sourceTree = "<group>"; };
 		46E6B2E71A9FAACE004AC3F2 /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utility.m; path = ../Utility.m; sourceTree = "<group>"; };
 		46E6B2ED1AA1185C004AC3F2 /* LaunchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreen.png; sourceTree = "<group>"; };
@@ -185,8 +182,6 @@
 			children = (
 				46E6B2ED1AA1185C004AC3F2 /* LaunchScreen.png */,
 				4659BA451A8BF8DF002C6A48 /* PodFiles */,
-				46C3B3A11A7ADD750062466A /* AddToItemNavigationController.h */,
-				46C3B3A21A7ADD750062466A /* AddToItemNavigationController.m */,
 				469C06E21A6B0E5200ED9A9B /* ToDoItem.h */,
 				469C06E31A6B0E5200ED9A9B /* ToDoItem.m */,
 				460E22FC1AABA26700D212EE /* SegmentForToDoItem.h */,
@@ -369,7 +364,6 @@
 				4659BA571A8BF912002C6A48 /* SWUtilityButtonView.m in Sources */,
 				4659BA521A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				469C06E41A6B0E5200ED9A9B /* ToDoItem.m in Sources */,
-				46C3B3A31A7ADD750062466A /* AddToItemNavigationController.m in Sources */,
 				4659BA561A8BF912002C6A48 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				46E6B2E81A9FAACE004AC3F2 /* Utility.m in Sources */,
 				460E22FE1AABA26700D212EE /* SegmentForToDoItem.m in Sources */,
