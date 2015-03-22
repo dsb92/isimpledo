@@ -383,6 +383,9 @@
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification{
+    // If user is in editmode, get out.
+    self.editing = YES;
+    [self editButton:self];
     [self.tableView reloadData];
 }
 
