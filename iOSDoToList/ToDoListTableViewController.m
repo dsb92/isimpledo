@@ -13,6 +13,7 @@
 #import "ToDoItem.h"
 #import "Utility.h"
 #import "DateWrapper.h"
+#import "LocalNotifications.h"
 
 @interface ToDoListTableViewController (){
     NSArray *_sections;
@@ -297,7 +298,7 @@
             ToDoItem *tappedItem = [self.toDoItems objectAtIndex:cellIndexPath.row];
             tappedItem.completed = !tappedItem.completed;
             if (tappedItem.completed && ([tappedItem.repeatSelection length]==0  || [tappedItem.repeatSelection isEqualToString:@"Never"])) {
-                [self cancelLocalNotification:tappedItem];
+                [LocalNotifications cancelLocalNotification:tappedItem];
                 tappedItem.endDate = nil;
                 tappedItem.actualEndDate = nil;
                 tappedItem.alertSelection = nil;
@@ -308,7 +309,7 @@
                 [dateFormatter setDateStyle:NSDateFormatterShortStyle];
                 [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
                 
-                [self cancelLocalNotification:tappedItem];
+                [LocalNotifications cancelLocalNotification:tappedItem];
                 
                 ToDoItem *repeatItem = [[ToDoItem alloc]init];
                 repeatItem.itemid = [Utility generateUniqID];
@@ -316,7 +317,7 @@
                 repeatItem.creationDate = [dateFormatter stringFromDate:[NSDate date]];
                 repeatItem.alertSelection = tappedItem.alertSelection;
                 repeatItem.repeatSelection = tappedItem.repeatSelection;
-                NSDate *date = [self updateAlertDate:tappedItem];
+                NSDate *date = [ToDoItem updateAlertDate:tappedItem];
                 repeatItem.endDate = [dateFormatter stringFromDate:date];
                 repeatItem.actualEndDate = date;
                 repeatItem.completed = NO;
@@ -326,7 +327,7 @@
                 tappedItem.endDate = nil;
                 tappedItem.actualEndDate = nil;
                 
-                [self setLocalNotification:repeatItem isOn:YES];
+                [LocalNotifications setLocalNotification:repeatItem isOn:YES];
                 [self.toDoItems addObject:repeatItem];
                 if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
                     [self.tempItems addObject:repeatItem];
@@ -466,7 +467,7 @@
         [self.toDoItems removeObjectAtIndex:indexPath.row];
         [self.tempItems removeObject:item];
         // Delete local notifications if any
-        [self cancelLocalNotification:item];
+        [LocalNotifications cancelLocalNotification:item];
         
         // Delete the row from the data source
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -566,14 +567,14 @@
     
     if(source.isInEditMode){
         if (source.didCancel == NO){
-            [self editLocalNotification:item isOn:isOn];
+            [LocalNotifications editLocalNotification:item isOn:isOn];
             [self.tableView reloadData];
         }
         return;
     }
     
     if (item != nil){
-        [self setLocalNotification:item isOn:isOn];
+        [LocalNotifications setLocalNotification:item isOn:isOn];
         [self.toDoItems addObject:item];
         if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
             [self.tempItems addObject:item];
@@ -591,7 +592,7 @@
     
     if(source.isInEditMode){
         if (source.didCancel == NO){
-            [self editLocalNotification:item isOn:YES];
+            [LocalNotifications editLocalNotification:item isOn:YES];
             [self.tableView reloadData];
         }
         return;
@@ -620,7 +621,7 @@
     ReminderViewController *source = [segue sourceViewController];
     BOOL isOn = [source.mainSwitch isOn];
     if(source.didCancel == NO){
-        [self editLocalNotification:source.toDoItem isOn:isOn];
+        [LocalNotifications editLocalNotification:source.toDoItem isOn:isOn];
     }
     [self.tableView reloadData];
 }
@@ -677,7 +678,7 @@
         // Cancel any notifications and remove from temp array.
         for (ToDoItem *item in items)
         {
-            [self cancelLocalNotification:item];
+            [LocalNotifications cancelLocalNotification:item];
             [self.tempItems removeObject:item];
         }
         
@@ -767,167 +768,6 @@
 
 #pragma mark - Private functions
 
--(NSDate*) getAlertDate: (ToDoItem*) item{
-    NSString *alertSelection = item.alertSelection;
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    
-    NSDate *reminderDate = [dateFormatter dateFromString:item.endDate];
-    
-    NSDateComponents *dateComponents = [[NSDateComponents alloc]init];
-    
-    if([alertSelection isEqualToString:@"5 minutes before"]){
-        [dateComponents setMinute:-5];
-    }
-    
-    else if([alertSelection isEqualToString:@"15 minuttes before"]){
-        [dateComponents setMinute:-15];
-    }
-    
-    else if([alertSelection isEqualToString:@"30 minutes before"]){
-        [dateComponents setMinute:-30];
-    }
-    
-    else if([alertSelection isEqualToString:@"1 hour before"]){
-        [dateComponents setHour:-1];
-    }
-    
-    else if([alertSelection isEqualToString:@"2 hours before"]){
-        [dateComponents setHour:-2];
-    }
-    
-    else if([alertSelection isEqualToString:@"1 day before"]){
-        [dateComponents setDay:-1];
-    }
-    
-    else if([alertSelection isEqualToString:@"2 days before"]){
-        [dateComponents setDay:-2];
-    }
-    
-    else if([alertSelection isEqualToString:@"1 week before"]){
-        [dateComponents setDay:-7];
-    }
-    
-    else{
-        // Return alert on current due date.
-        return reminderDate;
-    }
-    
-    NSDate *alert = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:reminderDate options:0];
-    return alert;
-}
-
-
--(NSDate*) updateAlertDate:(ToDoItem*)item{
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    
-    NSDate *reminderDate = [dateFormatter dateFromString:item.endDate];
-
-            
-            if([item.repeatSelection length] == 0 || [item.repeatSelection isEqualToString:@"Never"]) return reminderDate;
-            
-            NSDateComponents *dateComponents = [[NSDateComponents alloc]init];
-            
-            switch([self getRepeat:item]){
-                case NSCalendarUnitDay:
-                    [dateComponents setDay:1];
-                    break;
-                
-                case NSCalendarUnitWeekday:
-                    [dateComponents setDay:7];
-                    break;
-                
-                case NSCalendarUnitMonth:
-                    [dateComponents setMonth:1];
-                    break;
-                
-                case NSCalendarUnitYear:
-                    [dateComponents setYear:1];
-                    break;
-                
-                default:
-                    [dateComponents setDay:0];
-            }
-            
-            NSDate *alert = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:reminderDate options:0];
-            return alert;
-}
- 
--(NSCalendarUnit) getRepeat:(ToDoItem*) item{
-    if([item.repeatSelection isEqualToString:@"Every day"])
-        return NSCalendarUnitDay;
-    
-    else if([item.repeatSelection isEqualToString:@"Every week"])
-        return NSCalendarUnitWeekday;
-    
-    
-    else if([item.repeatSelection isEqualToString:@"Every month"])
-        return NSCalendarUnitMonth;
-    
-    else if([item.repeatSelection isEqualToString:@"Every year"])
-        return NSCalendarUnitYear;
-    
-    else
-        return 0;
-}
-
--(void) cancelLocalNotification:(ToDoItem*)item{
-    for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications]){
-        if([[localN.userInfo objectForKey:@"itemid"] isEqualToString:item.itemid]){
-            [[UIApplication sharedApplication] cancelLocalNotification:localN];
-            NSLog(@"Notification canceled");
-            return;
-        }
-    }
-}
-
-// In order to edit a local notification u need to cancel it/delete it and then make a new one (unfortunately)
--(void) editLocalNotification:(ToDoItem*)item isOn:(BOOL)isOn{
-    
-    // Cancel
-    [self cancelLocalNotification:item];
-   
-    // Create a new
-    [self setLocalNotification:item isOn:YES];
-}
-
--(void) setLocalNotification:(ToDoItem*) item isOn:(BOOL)isOn{
-    if(!isOn) return;
-    
-    if([item.alertSelection length] == 0 || [item.alertSelection isEqualToString:@"None"]) return;
-    
-    // Schedule the notification
-    UILocalNotification *localNotification = [[UILocalNotification alloc]init];
-    localNotification.fireDate = [self getAlertDate:item];
-    localNotification.alertBody = item.itemName;
-    localNotification.alertAction = @"Show me the item";
-    localNotification.soundName = UILocalNotificationDefaultSoundName;
-    localNotification.timeZone = [NSTimeZone localTimeZone];
-    NSUInteger nextBadgeNumber = [[[UIApplication sharedApplication] scheduledLocalNotifications] count] + 1;
-    localNotification.applicationIconBadgeNumber = nextBadgeNumber;
-    
-    if(![item.repeatSelection isEqualToString:@"Never"])
-        localNotification.repeatInterval = [self getRepeat:item];
-    
-    // Use a dictionary to keep track on each notification attacted to each to-do item.
-    NSDictionary *info = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@", item.itemid] forKey:@"itemid"];
-    localNotification.userInfo = info;
-    NSLog(@"Notification userInfo gets item id : %@",[info objectForKey:@"itemid"]);
-    
-    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-    
-    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
-        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound
-                                                                                                              categories:nil]];
-    }
-    
-    NSLog(@"Notification created");
-}
-
-
 -(NSString *)pathOfFile{
     // Returns an array of directories
     // App's document is the first element in this array
@@ -939,19 +779,6 @@
 }
 
 -(void)loadInitialData{
-    /*
-    ToDoItem *item1 = [[ToDoItem alloc]init];
-    item1.itemName = @"Buy milk";
-    [self.toDoItems addObject:item1];
-    
-    ToDoItem *item2 = [[ToDoItem alloc]init];
-    item2.itemName = @"Buy eggs";
-    [self.toDoItems addObject:item2];
-    
-    ToDoItem *item3 = [[ToDoItem alloc]init];
-    item3.itemName = @"Read a book";
-    [self.toDoItems addObject:item3];
-     */
     NSString *filePath= [self pathOfFile];
 
     NSMutableArray *mainArray = [NSMutableArray arrayWithContentsOfFile:filePath];
@@ -1172,7 +999,4 @@
     self.editing = YES;
     [self editButton:self];
 }
-
-
-
 @end

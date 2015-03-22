@@ -22,4 +22,7 @@
 
 @property SegmentForToDoItem* segmentForItem;
 
++(NSDate*) getAlertDate: (ToDoItem*) item;
++(NSDate*) updateAlertDate:(ToDoItem*)item;
++(NSCalendarUnit) getRepeat:(ToDoItem*) item;
 @end

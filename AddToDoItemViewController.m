@@ -10,6 +10,7 @@
 #import "ReminderViewController.h"
 #import "Utility.h"
 #import "DateWrapper.h"
+#import "LocalNotifications.h"
 
 @interface AddToDoItemViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *textField;
@@ -94,16 +95,6 @@
 }
 
 
--(void) cancelLocalNotification:(ToDoItem*)item{
-    for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications]){
-        if([[localN.userInfo objectForKey:@"itemid"] isEqualToString:item.itemid]){
-            [[UIApplication sharedApplication] cancelLocalNotification:localN];
-            NSLog(@"Notification canceled");
-            return;
-        }
-    }
-}
-
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -144,7 +135,7 @@
         
         // Cancel any local notifaction attached to the old item name contained in dictionary.
         if(self.isInEditMode && [self.toDoItem.endDate length] != 0)
-            [self cancelLocalNotification:self.toDoItem];
+            [LocalNotifications cancelLocalNotification:self.toDoItem];
         self.toDoItem.itemName = self.textField.text;
         self.toDoItem.completed = false;
     }
