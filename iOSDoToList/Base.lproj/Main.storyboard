@@ -419,7 +419,7 @@
                                     <segment title="All"/>
                                     <segment title="Today"/>
                                     <segment title="Tomorrow"/>
-                                    <segment title="Future"/>
+                                    <segment title="Upcoming"/>
                                 </segments>
                                 <connections>
                                     <action selector="mainControlSwitched:" destination="jQQ-ge-ChJ" eventType="valueChanged" id="Ek8-wh-Usa"/>
