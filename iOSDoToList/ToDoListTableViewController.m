@@ -607,9 +607,11 @@
         self.refreshControl.tintColor = [UIColor blueColor];    
     }
      */
-    
-    self.toDoItems = [self sortedItemsOnDate:self.toDoItems];
-    [self.tableView reloadData];
+    if(!self.editing)
+    {
+        self.toDoItems = [self sortedItemsOnDate:self.toDoItems];
+        [self.tableView reloadData];
+    }
     [refreshControl endRefreshing];
 }
 
