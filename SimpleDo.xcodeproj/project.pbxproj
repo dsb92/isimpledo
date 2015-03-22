@@ -97,13 +97,13 @@
 		468743C31ABDC56800145F39 /* reminder_clock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reminder_clock@2x.png"; sourceTree = "<group>"; };
 		468743CB1ABEDEB600145F39 /* clock_alert@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clock_alert@2x.png"; sourceTree = "<group>"; };
 		468743CD1ABEE94400145F39 /* repeat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "repeat@2x.png"; sourceTree = "<group>"; };
-		469C06B01A69857F00ED9A9B /* iOSDoToList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSDoToList.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		469C06B01A69857F00ED9A9B /* SimpleDo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleDo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		469C06B41A69857F00ED9A9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		469C06B51A69857F00ED9A9B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		469C06B71A69857F00ED9A9B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		469C06B81A69857F00ED9A9B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		469C06C31A69857F00ED9A9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		469C06C91A69857F00ED9A9B /* iOSDoToListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSDoToListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		469C06C91A69857F00ED9A9B /* SimpleDoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleDoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		469C06CE1A69857F00ED9A9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		469C06CF1A69857F00ED9A9B /* iOSDoToListTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOSDoToListTests.m; sourceTree = "<group>"; };
 		469C06DC1A6B03C900ED9A9B /* AddToDoItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddToDoItemViewController.h; path = ../AddToDoItemViewController.h; sourceTree = "<group>"; };
@@ -174,8 +174,8 @@
 		469C06B11A69857F00ED9A9B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				469C06B01A69857F00ED9A9B /* iOSDoToList.app */,
-				469C06C91A69857F00ED9A9B /* iOSDoToListTests.xctest */,
+				469C06B01A69857F00ED9A9B /* SimpleDo.app */,
+				469C06C91A69857F00ED9A9B /* SimpleDoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -254,9 +254,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		469C06AF1A69857F00ED9A9B /* iOSDoToList */ = {
+		469C06AF1A69857F00ED9A9B /* SimpleDo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 469C06D31A69857F00ED9A9B /* Build configuration list for PBXNativeTarget "iOSDoToList" */;
+			buildConfigurationList = 469C06D31A69857F00ED9A9B /* Build configuration list for PBXNativeTarget "SimpleDo" */;
 			buildPhases = (
 				469C06AC1A69857F00ED9A9B /* Sources */,
 				469C06AD1A69857F00ED9A9B /* Frameworks */,
@@ -266,14 +266,14 @@
 			);
 			dependencies = (
 			);
-			name = iOSDoToList;
+			name = SimpleDo;
 			productName = iOSDoToList;
-			productReference = 469C06B01A69857F00ED9A9B /* iOSDoToList.app */;
+			productReference = 469C06B01A69857F00ED9A9B /* SimpleDo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		469C06C81A69857F00ED9A9B /* iOSDoToListTests */ = {
+		469C06C81A69857F00ED9A9B /* SimpleDoTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 469C06D61A69857F00ED9A9B /* Build configuration list for PBXNativeTarget "iOSDoToListTests" */;
+			buildConfigurationList = 469C06D61A69857F00ED9A9B /* Build configuration list for PBXNativeTarget "SimpleDoTests" */;
 			buildPhases = (
 				469C06C51A69857F00ED9A9B /* Sources */,
 				469C06C61A69857F00ED9A9B /* Frameworks */,
@@ -284,9 +284,9 @@
 			dependencies = (
 				469C06CB1A69857F00ED9A9B /* PBXTargetDependency */,
 			);
-			name = iOSDoToListTests;
+			name = SimpleDoTests;
 			productName = iOSDoToListTests;
-			productReference = 469C06C91A69857F00ED9A9B /* iOSDoToListTests.xctest */;
+			productReference = 469C06C91A69857F00ED9A9B /* SimpleDoTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -308,7 +308,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 469C06AB1A69857F00ED9A9B /* Build configuration list for PBXProject "iOSDoToList" */;
+			buildConfigurationList = 469C06AB1A69857F00ED9A9B /* Build configuration list for PBXProject "SimpleDo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -321,8 +321,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				469C06AF1A69857F00ED9A9B /* iOSDoToList */,
-				469C06C81A69857F00ED9A9B /* iOSDoToListTests */,
+				469C06AF1A69857F00ED9A9B /* SimpleDo */,
+				469C06C81A69857F00ED9A9B /* SimpleDoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -397,7 +397,7 @@
 /* Begin PBXTargetDependency section */
 		469C06CB1A69857F00ED9A9B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 469C06AF1A69857F00ED9A9B /* iOSDoToList */;
+			target = 469C06AF1A69857F00ED9A9B /* SimpleDo */;
 			targetProxy = 469C06CA1A69857F00ED9A9B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -508,8 +508,10 @@
 					"$(PROJECT_DIR)/iOSDoToList",
 				);
 				INFOPLIST_FILE = iOSDoToList/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = SimpleDo;
 			};
 			name = Debug;
 		};
@@ -522,8 +524,10 @@
 					"$(PROJECT_DIR)/iOSDoToList",
 				);
 				INFOPLIST_FILE = iOSDoToList/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = SimpleDo;
 			};
 			name = Release;
 		};
@@ -541,7 +545,7 @@
 				);
 				INFOPLIST_FILE = iOSDoToListTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SimpleDoTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOSDoToList.app/iOSDoToList";
 			};
 			name = Debug;
@@ -556,7 +560,7 @@
 				);
 				INFOPLIST_FILE = iOSDoToListTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SimpleDoTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOSDoToList.app/iOSDoToList";
 			};
 			name = Release;
@@ -564,7 +568,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		469C06AB1A69857F00ED9A9B /* Build configuration list for PBXProject "iOSDoToList" */ = {
+		469C06AB1A69857F00ED9A9B /* Build configuration list for PBXProject "SimpleDo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				469C06D11A69857F00ED9A9B /* Debug */,
@@ -573,7 +577,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		469C06D31A69857F00ED9A9B /* Build configuration list for PBXNativeTarget "iOSDoToList" */ = {
+		469C06D31A69857F00ED9A9B /* Build configuration list for PBXNativeTarget "SimpleDo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				469C06D41A69857F00ED9A9B /* Debug */,
@@ -582,7 +586,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		469C06D61A69857F00ED9A9B /* Build configuration list for PBXNativeTarget "iOSDoToListTests" */ = {
+		469C06D61A69857F00ED9A9B /* Build configuration list for PBXNativeTarget "SimpleDoTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				469C06D71A69857F00ED9A9B /* Debug */,
