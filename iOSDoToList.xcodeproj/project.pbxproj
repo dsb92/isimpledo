@@ -22,12 +22,9 @@
 		4659BA611A8BF952002C6A48 /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4659BA591A8BF952002C6A48 /* check@2x.png */; };
 		4659BA621A8BF952002C6A48 /* cross@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4659BA5A1A8BF952002C6A48 /* cross@2x.png */; };
 		4659BA631A8BF952002C6A48 /* clock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4659BA5B1A8BF952002C6A48 /* clock@2x.png */; };
-		4659BA641A8BF952002C6A48 /* MI.png in Resources */ = {isa = PBXBuildFile; fileRef = 4659BA5C1A8BF952002C6A48 /* MI.png */; };
 		4659BA651A8BF952002C6A48 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 4659BA5D1A8BF952002C6A48 /* Default.png */; };
 		4659BA661A8BF952002C6A48 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4659BA5E1A8BF952002C6A48 /* Default@2x.png */; };
 		4659BA671A8BF952002C6A48 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4659BA5F1A8BF952002C6A48 /* Default-568h@2x.png */; };
-		4659BA731A8BFB27002C6A48 /* UMTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA721A8BFB27002C6A48 /* UMTableViewCell.m */; };
-		4659BA751A8BFB32002C6A48 /* um.png in Resources */ = {isa = PBXBuildFile; fileRef = 4659BA741A8BFB32002C6A48 /* um.png */; };
 		4659BA771A8BFC49002C6A48 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4659BA761A8BFC49002C6A48 /* QuartzCore.framework */; };
 		4659BA791A8BFC55002C6A48 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4659BA781A8BFC55002C6A48 /* UIKit.framework */; };
 		4659BA7B1A8BFC5E002C6A48 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4659BA7A1A8BFC5E002C6A48 /* Foundation.framework */; };
@@ -84,13 +81,9 @@
 		4659BA591A8BF952002C6A48 /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@2x.png"; sourceTree = "<group>"; };
 		4659BA5A1A8BF952002C6A48 /* cross@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross@2x.png"; sourceTree = "<group>"; };
 		4659BA5B1A8BF952002C6A48 /* clock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clock@2x.png"; sourceTree = "<group>"; };
-		4659BA5C1A8BF952002C6A48 /* MI.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MI.png; sourceTree = "<group>"; };
 		4659BA5D1A8BF952002C6A48 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		4659BA5E1A8BF952002C6A48 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		4659BA5F1A8BF952002C6A48 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		4659BA711A8BFB27002C6A48 /* UMTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMTableViewCell.h; sourceTree = "<group>"; };
-		4659BA721A8BFB27002C6A48 /* UMTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMTableViewCell.m; sourceTree = "<group>"; };
-		4659BA741A8BFB32002C6A48 /* um.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = um.png; sourceTree = "<group>"; };
 		4659BA761A8BFC49002C6A48 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4659BA781A8BFC55002C6A48 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4659BA7A1A8BFC5E002C6A48 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -191,7 +184,6 @@
 			isa = PBXGroup;
 			children = (
 				46E6B2ED1AA1185C004AC3F2 /* LaunchScreen.png */,
-				4659BA741A8BFB32002C6A48 /* um.png */,
 				4659BA451A8BF8DF002C6A48 /* PodFiles */,
 				46C3B3A11A7ADD750062466A /* AddToItemNavigationController.h */,
 				46C3B3A21A7ADD750062466A /* AddToItemNavigationController.m */,
@@ -226,8 +218,6 @@
 				46E6B2E71A9FAACE004AC3F2 /* Utility.m */,
 				460E22F61AA33A9D00D212EE /* DateWrapper.h */,
 				460E22F71AA33A9D00D212EE /* DateWrapper.m */,
-				4659BA711A8BFB27002C6A48 /* UMTableViewCell.h */,
-				4659BA721A8BFB27002C6A48 /* UMTableViewCell.m */,
 				4659BA581A8BF952002C6A48 /* list@2x.png */,
 				4659BA591A8BF952002C6A48 /* check@2x.png */,
 				4659BA5A1A8BF952002C6A48 /* cross@2x.png */,
@@ -235,7 +225,6 @@
 				468743CD1ABEE94400145F39 /* repeat@2x.png */,
 				468743CB1ABEDEB600145F39 /* clock_alert@2x.png */,
 				468743C31ABDC56800145F39 /* reminder_clock@2x.png */,
-				4659BA5C1A8BF952002C6A48 /* MI.png */,
 				4659BA5D1A8BF952002C6A48 /* Default.png */,
 				4659BA5E1A8BF952002C6A48 /* Default@2x.png */,
 				4659BA5F1A8BF952002C6A48 /* Default-568h@2x.png */,
@@ -346,7 +335,6 @@
 				4659BA611A8BF952002C6A48 /* check@2x.png in Resources */,
 				4659BA671A8BF952002C6A48 /* Default-568h@2x.png in Resources */,
 				4659BA651A8BF952002C6A48 /* Default.png in Resources */,
-				4659BA751A8BFB32002C6A48 /* um.png in Resources */,
 				46E6B2EE1AA1185C004AC3F2 /* LaunchScreen.png in Resources */,
 				4659BA661A8BF952002C6A48 /* Default@2x.png in Resources */,
 				4659BA601A8BF952002C6A48 /* list@2x.png in Resources */,
@@ -358,7 +346,6 @@
 				468743C41ABDC56800145F39 /* reminder_clock@2x.png in Resources */,
 				4659BA621A8BF952002C6A48 /* cross@2x.png in Resources */,
 				468743CC1ABEDEB600145F39 /* clock_alert@2x.png in Resources */,
-				4659BA641A8BF952002C6A48 /* MI.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,7 +380,6 @@
 				469C06DE1A6B03C900ED9A9B /* AddToDoItemViewController.m in Sources */,
 				4659BA551A8BF912002C6A48 /* SWTableViewCell.m in Sources */,
 				460E22F81AA33A9D00D212EE /* DateWrapper.m in Sources */,
-				4659BA731A8BFB27002C6A48 /* UMTableViewCell.m in Sources */,
 				46091FEB1A7FD5AA00DC2513 /* ReminderViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
