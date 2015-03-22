@@ -17,7 +17,6 @@
 
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *saveButton;
 
-//-(IBAction)unWindFromReminder:(UIStoryboardSegue*) segue;
 -(IBAction)cancelFromReminder:(UIStoryboardSegue*) segue;
 -(IBAction)hideKeyboard:(id)sender;
 -(IBAction)tapBackground:(id)sender;

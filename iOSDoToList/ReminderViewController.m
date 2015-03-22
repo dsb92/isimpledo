@@ -12,26 +12,13 @@
 
 @interface ReminderViewController () 
 @property (weak, nonatomic) IBOutlet UIDatePicker *reminderPicker;
-@property (weak, nonatomic) IBOutlet UILabel *reminderDateLabel;
 @property (strong, nonatomic) IBOutlet UITableView *reminderTableView;
 
 @end
 
 @implementation ReminderViewController
 
-
--(IBAction)rightButtonAction:(id)sender;{
-    
-    //UIBarButtonItem *barButton = (UIBarButtonItem *)sender;
-    
-    if (!self.isShortcut) {
-        //[self performSegueWithIdentifier:@"AddToItemSegueIdentifier" sender:sender];
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
-    else{
-        [self performSegueWithIdentifier:@"ToDoListTableViewSegueIdentifier" sender:sender];
-    }
-}
+#pragma mark - didLoad
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -41,10 +28,8 @@
     
     [self.reminderPicker setMinimumDate:[NSDate date]];
     
-    if([self.toDoItem.endDate length] == 0 )
-        self.reminderDateLabel.text = self.getReminderDate;
-    else {
-        self.reminderDateLabel.text = self.toDoItem.endDate;
+    if([self.toDoItem.endDate length] != 0 )
+    {
         // set datepicker end value
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateStyle:NSDateFormatterShortStyle];
@@ -81,18 +66,7 @@
     NSLog(@"MEMORY WARNING!!!");
 }
 
-
--(NSString*)getReminderDate{
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    // display in 12HR/24HR (i.e. 11:25PM or 23:25) format according to User Settings
-    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    
-    // get datepicker end value
-    NSDate *choice = [self.reminderPicker date];
-    NSString *endDate = [dateFormatter stringFromDate:choice];
-    return endDate;
-}
+#pragma mark - IBActions
 
 -(IBAction)unWindFromAlert:(UIStoryboardSegue*) segue{
     //Retreive the source view controller and get the data from it
@@ -107,11 +81,8 @@
     [self.reminderTableView reloadData];
 }
 
--(IBAction)reminderDateChanged:(id)sender{
-    self.reminderDateLabel.text = self.getReminderDate;
-}
 
-
+#pragma mark - Tableview setup
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.reminderTableViewArray count];
@@ -169,6 +140,20 @@
     }
 }
 
+#pragma mark - Private functions
+
+-(NSString*)getReminderDate{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    // display in 12HR/24HR (i.e. 11:25PM or 23:25) format according to User Settings
+    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    
+    // get datepicker end value
+    NSDate *choice = [self.reminderPicker date];
+    NSString *endDate = [dateFormatter stringFromDate:choice];
+    return endDate;
+}
+
 -(void)switchControlHandling{
     NSLog(@"Switch is %s", [self.mainSwitch isOn] ? "on" : "off" );
     
@@ -209,13 +194,6 @@
     
 }
 
-/*
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    
-}
- */
 
 #pragma mark - Navigation
 
@@ -242,7 +220,6 @@
     self.didCancel = NO;
     
     self.toDoItem.itemName = self.itemname;
-    self.toDoItem.endDate = self.reminderDateLabel.text;
     self.toDoItem.alertSelection = self.alertDetail;
     self.toDoItem.repeatSelection = self.repeatDetail;
     

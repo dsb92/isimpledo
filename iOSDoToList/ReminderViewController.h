@@ -25,9 +25,7 @@
 @property UISwitch *mainSwitch;
 -(NSString*)getReminderDate;
 
--(IBAction)rightButtonAction:(id)sender;
 -(IBAction)unWindFromAlert:(UIStoryboardSegue*) segue;
 -(IBAction)unWindFromRepeat:(UIStoryboardSegue*) segue;
--(IBAction)reminderDateChanged:(id)sender;
 
 @end

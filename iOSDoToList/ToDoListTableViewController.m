@@ -23,7 +23,6 @@
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIToolbar *myToolbar;
 @property (retain, nonatomic) IBOutlet UIBarButtonItem *selectAllButton;
-@property (nonatomic) BOOL useCustomCells;
 @property (nonatomic, weak) UIRefreshControl *refreshControl;
 
 // Is private and thats why it's not declared in .h file
@@ -35,242 +34,47 @@
 
 @implementation ToDoListTableViewController
 
--(NSDate*) getAlertDate: (ToDoItem*) item{
-    NSString *alertSelection = item.alertSelection;
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+#pragma mark - didLoad
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
     
-    NSDate *reminderDate = [dateFormatter dateFromString:item.endDate];
-    //NSDateComponents *calComponents = [[NSCalendar currentCalendar] components: NSCalendarUnitMinute | NSCalendarUnitHour| NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date];
+    // Setup refresh control for example app
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(toggleCells:) forControlEvents:UIControlEventValueChanged];
     
-    NSDateComponents *dateComponents = [[NSDateComponents alloc]init];
+    self.refreshControl = refreshControl;
     
-    if([alertSelection isEqualToString:@"5 minutes before"]){
-        [dateComponents setMinute:-5];
-    }
+    [self.tableView addSubview:refreshControl];
     
-    else if([alertSelection isEqualToString:@"15 minuttes before"]){
-        [dateComponents setMinute:-15];
-    }
+    self.toDoItems = [[NSMutableArray alloc]init];
+    self.tempItems = self.toDoItems;
     
-    else if([alertSelection isEqualToString:@"30 minutes before"]){
-        [dateComponents setMinute:-30];
-    }
+    self.selectedSegment = [NSNumber numberWithInt:0];
+    [self loadInitialData];
+    [self setProgressBar];
     
-    else if([alertSelection isEqualToString:@"1 hour before"]){
-        [dateComponents setHour:-1];
-    }
     
-    else if([alertSelection isEqualToString:@"2 hours before"]){
-        [dateComponents setHour:-2];
-    }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     
-    else if([alertSelection isEqualToString:@"1 day before"]){
-        [dateComponents setDay:-1];
-    }
     
-    else if([alertSelection isEqualToString:@"2 days before"]){
-        [dateComponents setDay:-2];
-    }
+    [self printDoToItems];
     
-    else if([alertSelection isEqualToString:@"1 week before"]){
-        [dateComponents setDay:-7];
-    }
     
-    else{
-        // Return alert on current due date.
-        return reminderDate;
-    }
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
     
-    NSDate *alert = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:reminderDate options:0];
-    return alert;
+    //Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.leftBarButtonItem = self.editButtonItem;
 }
 
--(NSDate*) updateAlertDate:(ToDoItem*)item{
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    
-    NSDate *reminderDate = [dateFormatter dateFromString:item.endDate];
-
-            
-            if([item.repeatSelection length] == 0 || [item.repeatSelection isEqualToString:@"Never"]) return reminderDate;
-            
-            NSDateComponents *dateComponents = [[NSDateComponents alloc]init];
-            
-            switch([self getRepeat:item]){
-                case NSCalendarUnitDay:
-                    [dateComponents setDay:1];
-                    break;
-                
-                case NSCalendarUnitWeekday:
-                    [dateComponents setDay:7];
-                    break;
-                
-                case NSCalendarUnitMonth:
-                    [dateComponents setMonth:1];
-                    break;
-                
-                case NSCalendarUnitYear:
-                    [dateComponents setYear:1];
-                    break;
-                
-                default:
-                    [dateComponents setDay:0];
-            }
-            
-            NSDate *alert = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:reminderDate options:0];
-            return alert;
-}
- 
--(NSCalendarUnit) getRepeat:(ToDoItem*) item{
-    if([item.repeatSelection isEqualToString:@"Every day"])
-        return NSCalendarUnitDay;
-    
-    else if([item.repeatSelection isEqualToString:@"Every week"])
-        return NSCalendarUnitWeekday;
-    
-    
-    else if([item.repeatSelection isEqualToString:@"Every month"])
-        return NSCalendarUnitMonth;
-    
-    else if([item.repeatSelection isEqualToString:@"Every year"])
-        return NSCalendarUnitYear;
-    
-    else
-        return 0;
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
--(void) cancelLocalNotification:(ToDoItem*)item{
-    for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications]){
-        if([[localN.userInfo objectForKey:@"itemid"] isEqualToString:item.itemid]){
-            [[UIApplication sharedApplication] cancelLocalNotification:localN];
-            NSLog(@"Notification canceled");
-            return;
-        }
-    }
-}
-
-// In order to edit a local notification u need to cancel it/delete it and then make a new one (unfortunately)
--(void) editLocalNotification:(ToDoItem*)item isOn:(BOOL)isOn{
-    
-    // Cancel
-    [self cancelLocalNotification:item];
-   
-    // Create a new
-    [self setLocalNotification:item isOn:YES];
-}
-
--(void) setLocalNotification:(ToDoItem*) item isOn:(BOOL)isOn{
-    if(!isOn) return;
-    
-    if([item.alertSelection length] == 0 || [item.alertSelection isEqualToString:@"None"]) return;
-    
-    // Schedule the notification
-    UILocalNotification *localNotification = [[UILocalNotification alloc]init];
-    localNotification.fireDate = [self getAlertDate:item];
-    localNotification.alertBody = item.itemName;
-    localNotification.alertAction = @"Show me the item";
-    localNotification.soundName = UILocalNotificationDefaultSoundName;
-    localNotification.timeZone = [NSTimeZone localTimeZone];
-    NSUInteger nextBadgeNumber = [[[UIApplication sharedApplication] scheduledLocalNotifications] count] + 1;
-    localNotification.applicationIconBadgeNumber = nextBadgeNumber;
-    
-    if(![item.repeatSelection isEqualToString:@"Never"])
-        localNotification.repeatInterval = [self getRepeat:item];
-    
-    // Use a dictionary to keep track on each notification attacted to each to-do item.
-    NSDictionary *info = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@", item.itemid] forKey:@"itemid"];
-    localNotification.userInfo = info;
-    NSLog(@"Notification userInfo gets item id : %@",[info objectForKey:@"itemid"]);
-    
-    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-    
-    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
-        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound
-                                                                                                              categories:nil]];
-    }
-    
-    NSLog(@"Notification created");
-}
-
--(IBAction)unWindFromReminder:(UIStoryboardSegue*) segue{
-    ReminderViewController *source = [segue sourceViewController];
-    ToDoItem *item = source.toDoItem;
-    BOOL isOn = [source.mainSwitch isOn];
-    
-    if(source.isInEditMode){
-        if (source.didCancel == NO){
-            [self editLocalNotification:item isOn:isOn];
-            [self.tableView reloadData];
-        }
-        return;
-    }
-    
-    if (item != nil){
-        [self setLocalNotification:item isOn:isOn];
-        [self.toDoItems addObject:item];
-        if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
-            [self.tempItems addObject:item];
-
-        [self.tableView reloadData];
-    }
-}
-
--(IBAction)unWindFromAdd:(UIStoryboardSegue*) segue{
-    //Retreive the source view controller (AddToDoItemViewController) and get the data from it
-    AddToDoItemViewController *source = [segue sourceViewController];
-    ToDoItem *item = source.toDoItem;
-    
-    if(source.didCancel) return;
-    
-    if(source.isInEditMode){
-        if (source.didCancel == NO){
-            [self editLocalNotification:item isOn:YES];
-            [self.tableView reloadData];
-        }
-        return;
-    }
-    
-    if (item != nil && item.itemName != nil){
-        NSString *segment = [NSString stringWithFormat:@"segment %@", self.selectedSegment];
-        
-        SegmentForToDoItem *segmentItem = [[SegmentForToDoItem alloc]init];
-        segmentItem.thestringid = item.itemid;
-        segmentItem.segment = segment;
-        
-        item.segmentForItem = segmentItem;
-        
-        [self.toDoItems addObject:item];
-        if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
-        {
-            [self.tempItems addObject:item];
-        }
-        
-        [self.tableView reloadData];
-    }
-}
-
--(IBAction)unWindFromShortCut:(UIStoryboardSegue*) segue{
-    ReminderViewController *source = [segue sourceViewController];
-    BOOL isOn = [source.mainSwitch isOn];
-    if(source.didCancel == NO){
-        [self editLocalNotification:source.toDoItem isOn:isOn];
-    }
-    [self.tableView reloadData];
-}
-
-
--(NSString *)pathOfFile{
-    // Returns an array of directories
-    // App's document is the first element in this array
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *path =[[NSString alloc] initWithString:[documentsDirectory stringByAppendingPathComponent:@"todolist.plist"]];
-    
-    return path;
-}
+#pragma mark - applicationDidEnterBackGround
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification{
     NSString *filePath= [self pathOfFile];
@@ -381,11 +185,757 @@
         [self segmentControlHandling];
 }
 
+#pragma mark - applicationDidBecomeActive
+
 - (void)applicationDidBecomeActive:(NSNotification *)notification{
     // If user is in editmode, get out.
     self.editing = YES;
     [self editButton:self];
     [self.tableView reloadData];
+}
+
+#pragma mark - Tableview setup
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    // Return the number of sections.
+    [self setProgressBar];
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    // Return the number of rows in the section.
+    return [self.toDoItems count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Configure the cell...
+    
+    static NSString *cellIdentifier = @"ListPrototypeCell";
+    //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    //SWTableViewCell *cell = [[SWTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+    cell.leftUtilityButtons = [self leftButtons:indexPath];
+    //cell.rightUtilityButtons = [self rightButtons];
+    cell.delegate = self;
+    
+    ToDoItem *toDoItem = [self.toDoItems objectAtIndex:indexPath.row];
+    
+    cell.textLabel.text = toDoItem.itemName;
+    
+    if (toDoItem.endDate != nil &&  ![toDoItem.endDate isEqualToString:toDoItem.creationDate]){
+        NSString *detailText = [DateWrapper wrapDate:toDoItem.endDate];
+        cell.detailTextLabel.text = detailText;
+        // Redraw the cell immediately
+        [cell layoutSubviews];
+    }
+    else
+        cell.detailTextLabel.text = @"";
+    
+    if(toDoItem.completed)
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    else
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    UIImageView *repeatImage = (UIImageView*)[cell viewWithTag:100];
+    if([toDoItem.repeatSelection length] !=0 && ![toDoItem.repeatSelection isEqualToString:@"Never"])
+        repeatImage.hidden = NO;
+    else
+        repeatImage.hidden = YES;
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    ToDoItem *item = [self.toDoItems objectAtIndex:indexPath.row];
+    if(item.completed || self.editing) return;
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    
+    if (!tableView.isEditing) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+    
+    // Bug in SWTableViewCell API when using selectedRowAtIndexPath, so save this indexPath to NSInteger variable.
+    self.indexPath = indexPath.row;
+    
+    // Manually performSegue since using SWTableViewCell API does not work with it, when cell tapped.
+    [self performSegueWithIdentifier:@"EditToDoItem" sender:self];
+}
+
+
+#pragma mark - SWTableView setup
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state
+{
+    switch (state) {
+        case 0:
+            NSLog(@"utility buttons closed");
+            break;
+        case 1:
+            NSLog(@"left utility buttons open");
+            break;
+        case 2:
+            NSLog(@"right utility buttons open");
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index
+{
+    NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
+    switch (index) {
+        case 0:{
+            NSLog(@"left button 0 was pressed");
+            NSLog(@"Index path: %ld", (long)cellIndexPath.row);
+            ToDoItem *tappedItem = [self.toDoItems objectAtIndex:cellIndexPath.row];
+            tappedItem.completed = !tappedItem.completed;
+            if (tappedItem.completed && ([tappedItem.repeatSelection length]==0  || [tappedItem.repeatSelection isEqualToString:@"Never"])) {
+                [self cancelLocalNotification:tappedItem];
+                tappedItem.endDate = nil;
+                tappedItem.actualEndDate = nil;
+                tappedItem.alertSelection = nil;
+                tappedItem.repeatSelection = nil;
+            }
+            else if(tappedItem.completed && ([tappedItem.repeatSelection length]!=0 || ![tappedItem.repeatSelection isEqualToString:@"Never"])){
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+                [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+                
+                [self cancelLocalNotification:tappedItem];
+                
+                ToDoItem *repeatItem = [[ToDoItem alloc]init];
+                repeatItem.itemid = [Utility generateUniqID];
+                repeatItem.itemName = tappedItem.itemName;
+                repeatItem.creationDate = [dateFormatter stringFromDate:[NSDate date]];
+                repeatItem.alertSelection = tappedItem.alertSelection;
+                repeatItem.repeatSelection = tappedItem.repeatSelection;
+                NSDate *date = [self updateAlertDate:tappedItem];
+                repeatItem.endDate = [dateFormatter stringFromDate:date];
+                repeatItem.actualEndDate = date;
+                repeatItem.completed = NO;
+                
+                tappedItem.alertSelection = nil;
+                tappedItem.repeatSelection = nil;
+                tappedItem.endDate = nil;
+                tappedItem.actualEndDate = nil;
+                
+                [self setLocalNotification:repeatItem isOn:YES];
+                [self.toDoItems addObject:repeatItem];
+                if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
+                    [self.tempItems addObject:repeatItem];
+            }
+            
+            [cell hideUtilityButtonsAnimated:NO];
+            [self.tableView reloadData];
+        }
+            break;
+        case 1:{
+            NSLog(@"Code to open ReminderViewController passed with to do item object.");
+            // Code for Reminder functionalicty.
+            
+            //ReminderViewController *reminderController = [self.storyboard instantiateViewControllerWithIdentifier:@"ReminderController"];
+            //reminderController.cancelButton = [[UIBarButtonItem alloc]init];
+            //[reminderController.cancelButton setTarget:self];
+            //[reminderController.cancelButton setAction:@selector(unWindFromReminder:)];
+            //[self.navigationController pushViewController:reminderController animated:YES];
+            
+            NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
+            self.indexPath = cellIndexPath.row;
+            [self performSegueWithIdentifier:@"ReminderShortcutIdentifier" sender:self];
+        }
+            break;
+        case 2:
+            NSLog(@"left button 2 was pressed");
+            break;
+        case 3:
+            NSLog(@"left btton 3 was pressed");
+        default:
+            break;
+    }
+}
+
+/*
+ - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
+ {
+ switch (index) {
+ case 0:
+ {
+ // Delete button was pressed
+ NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
+ 
+ [self.toDoItems removeObjectAtIndex:cellIndexPath.row];
+ // Delete the row from the data source
+ [self.tableView deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+ break;
+ }
+ case 1:
+ {
+ [cell hideUtilityButtonsAnimated:YES];
+ break;
+ }
+ default:
+ break;
+ }
+ }
+ */
+
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Set background color of cell here if you don't want default white
+    ToDoItem *item = [self.toDoItems objectAtIndex:indexPath.row];
+    
+    if(item.completed){
+        cell.backgroundColor = [UIColor lightGrayColor];
+        NSDictionary* attributes = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleSingle]};
+        NSAttributedString* attributedString = [[NSAttributedString alloc] initWithString:item.itemName attributes:attributes];
+        
+        cell.textLabel.attributedText = attributedString;
+        cell.textLabel.textColor = [UIColor blackColor];
+        return;
+    }
+    
+    else{
+        cell.backgroundColor = [UIColor whiteColor];
+        NSDictionary* attributes = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleNone]};
+        NSAttributedString* attributedString = [[NSAttributedString alloc] initWithString:item.itemName attributes:attributes];
+        cell.textLabel.attributedText = attributedString;
+        
+        NSDate *currentDate = [DateWrapper convertToDate:[DateWrapper getCurrentDate]];
+        NSDate *itemDueDate = [DateWrapper convertToDate:item.endDate];
+        
+        cell.textLabel.textColor = [UIColor blackColor];
+        cell.detailTextLabel.textColor = [UIColor blackColor];
+        
+        if(itemDueDate==nil)return;
+        // If current date is greater than item's due date
+        if([currentDate compare:itemDueDate] == NSOrderedDescending || [currentDate compare:itemDueDate] == NSOrderedSame)
+        {
+            cell.textLabel.textColor = [UIColor redColor];
+            cell.detailTextLabel.textColor = [UIColor redColor];
+            return;
+        }
+    }
+}
+
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell
+{
+    // allow just one cell's utility button to be open at once
+    return YES;
+}
+
+- (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state
+{
+    switch (state) {
+        case 1:
+            // set to NO to disable all left utility buttons appearing
+            return YES;
+            break;
+        case 2:
+            // set to NO to disable all right utility buttons appearing
+            return YES;
+            break;
+        default:
+            break;
+    }
+    
+    return YES;
+}
+
+
+// Override to support conditional editing of the table view.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the specified item to be editable.
+    return YES;
+}
+
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    ToDoItem *item = [self.toDoItems objectAtIndex:indexPath.row];
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        [self.toDoItems removeObjectAtIndex:indexPath.row];
+        [self.tempItems removeObject:item];
+        // Delete local notifications if any
+        [self cancelLocalNotification:item];
+        
+        // Delete the row from the data source
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }
+}
+
+
+// Override to support rearranging the table view.
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+    
+    ToDoItem *item = [self.toDoItems objectAtIndex:fromIndexPath.row];
+    [self.toDoItems removeObjectAtIndex:fromIndexPath.row];
+    [self.toDoItems insertObject:item atIndex:toIndexPath.row];
+    
+}
+
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the item to be re-orderable.
+    return YES;
+}
+
+- (NSArray *)rightButtons
+{
+    
+    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+    /*
+     [rightUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
+     title:@"More"];
+     */
+    [rightUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
+                                                title:@"Delete"];
+    
+    return rightUtilityButtons;
+}
+
+
+// Take a cell as parameter
+- (NSArray *)leftButtons: (NSIndexPath*)indexPath
+{
+    NSMutableArray *leftUtilityButtons = [NSMutableArray new];
+    NSIndexPath *cellIndexPath = indexPath;
+    ToDoItem *tappedItem = [self.toDoItems objectAtIndex:cellIndexPath.row];
+    
+    if (tappedItem.completed) {
+        [leftUtilityButtons sw_addUtilityButtonWithColor:
+         [UIColor colorWithRed:1.0f green:0.231f blue:0.188f alpha:1.0]
+                                                    icon:[UIImage imageNamed:@"cross.png"]];
+        return leftUtilityButtons;
+    }
+    else{
+        [leftUtilityButtons sw_addUtilityButtonWithColor:
+         [UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0]
+                                                    icon:[UIImage imageNamed:@"check.png"]];
+        
+        for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications]){
+            if([[localN.userInfo objectForKey:@"itemid"] isEqualToString:tappedItem.itemid]){
+                [leftUtilityButtons sw_addUtilityButtonWithColor:
+                 [UIColor colorWithRed:0.05f green:0.69f blue:1.0f alpha:1.0]
+                                                            icon:[UIImage imageNamed:@"clock_alert.png"]];
+                return leftUtilityButtons;
+            }
+        }
+        
+        [leftUtilityButtons sw_addUtilityButtonWithColor:
+         [UIColor colorWithRed:0.05f green:0.69f blue:1.0f alpha:1.0]
+                                                    icon:[UIImage imageNamed:@"clock.png"]];
+        return leftUtilityButtons;
+    }
+    
+    /*
+     [leftUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:0.55f green:0.27f blue:0.07f alpha:1.0]
+     icon:[UIImage imageNamed:@"list.png"]];
+     */
+}
+
+
+#pragma mark - IBActions
+
+-(IBAction)mainControlSwitched:(id)sender{
+    self.selectedSegment = [NSNumber numberWithInteger:[sender selectedSegmentIndex]];
+    
+    [self segmentControlHandling];
+    
+}
+
+-(IBAction)unWindFromReminder:(UIStoryboardSegue*) segue{
+    ReminderViewController *source = [segue sourceViewController];
+    ToDoItem *item = source.toDoItem;
+    BOOL isOn = [source.mainSwitch isOn];
+    
+    if(source.isInEditMode){
+        if (source.didCancel == NO){
+            [self editLocalNotification:item isOn:isOn];
+            [self.tableView reloadData];
+        }
+        return;
+    }
+    
+    if (item != nil){
+        [self setLocalNotification:item isOn:isOn];
+        [self.toDoItems addObject:item];
+        if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
+            [self.tempItems addObject:item];
+        
+        [self.tableView reloadData];
+    }
+}
+
+-(IBAction)unWindFromAdd:(UIStoryboardSegue*) segue{
+    //Retreive the source view controller (AddToDoItemViewController) and get the data from it
+    AddToDoItemViewController *source = [segue sourceViewController];
+    ToDoItem *item = source.toDoItem;
+    
+    if(source.didCancel) return;
+    
+    if(source.isInEditMode){
+        if (source.didCancel == NO){
+            [self editLocalNotification:item isOn:YES];
+            [self.tableView reloadData];
+        }
+        return;
+    }
+    
+    if (item != nil && item.itemName != nil){
+        NSString *segment = [NSString stringWithFormat:@"segment %@", self.selectedSegment];
+        
+        SegmentForToDoItem *segmentItem = [[SegmentForToDoItem alloc]init];
+        segmentItem.thestringid = item.itemid;
+        segmentItem.segment = segment;
+        
+        item.segmentForItem = segmentItem;
+        
+        [self.toDoItems addObject:item];
+        if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
+        {
+            [self.tempItems addObject:item];
+        }
+        
+        [self.tableView reloadData];
+    }
+}
+
+-(IBAction)unWindFromShortCut:(UIStoryboardSegue*) segue{
+    ReminderViewController *source = [segue sourceViewController];
+    BOOL isOn = [source.mainSwitch isOn];
+    if(source.didCancel == NO){
+        [self editLocalNotification:source.toDoItem isOn:isOn];
+    }
+    [self.tableView reloadData];
+}
+
+
+-(IBAction)editButton:(id)sender{
+    self.editing = !self.editing;
+    [self.tableView setEditing:self.editing animated:YES];
+    UIBarButtonItem *barButtonItem;
+    
+    
+    if (self.editing){
+        barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButton:)];
+        
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+        
+        [self doSingleViewAnimation:self.myToolbar animType:kCATransitionFromTop hidden:NO];
+        
+        [self.selectAllButton setTitle:@"Select all"];
+        self.hasSelectedAllInEdit = NO;
+    }
+    else{
+        barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButton:)];
+        
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+        
+        [self doSingleViewAnimation:self.myToolbar animType:kCATransitionFromBottom hidden:YES];
+        
+        [self.selectAllButton setTitle:@"Deselect all"];
+        
+        self.hasSelectedAllInEdit = NO;
+    }
+    
+    self.navigationItem.leftBarButtonItem = barButtonItem;
+    
+}
+
+-(IBAction)deleteSelectedItems:(id)sender{
+    NSArray *selectedRows = [self.tableView indexPathsForSelectedRows];
+    BOOL deleteSpecificRows = selectedRows.count > 0;
+    
+    if(deleteSpecificRows){
+        // Build an NSIndexSet of all the objects to delete, so they can all be removed at once.
+        NSMutableIndexSet *indicesOfItemsToDelete = [NSMutableIndexSet new];
+        for (NSIndexPath *selectionIndex in selectedRows)
+        {
+            [indicesOfItemsToDelete addIndex:selectionIndex.row];
+        }
+        NSArray *items = [self.toDoItems objectsAtIndexes:indicesOfItemsToDelete];
+        // Delete the objects from our data model.
+        [self.toDoItems removeObjectsAtIndexes:indicesOfItemsToDelete];
+        
+        
+        // Cancel any notifications and remove from temp array.
+        for (ToDoItem *item in items)
+        {
+            [self cancelLocalNotification:item];
+            [self.tempItems removeObject:item];
+        }
+        
+        // Tell the tableView that we deleted the objects
+        [self.tableView deleteRowsAtIndexPaths:selectedRows withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    
+    // When user has deleted, go out of edit mode.
+    [self editButton:self];
+}
+
+-(IBAction)selectAllItems:(id)sender{
+    self.hasSelectedAllInEdit = !self.hasSelectedAllInEdit;
+    
+    NSString *selectText = self.hasSelectedAllInEdit ? @"Deselect all" : @"Select all";
+    [self.selectAllButton setTitle:selectText];
+    
+    if(self.hasSelectedAllInEdit)
+    {
+        for (int i=0; i<self.toDoItems.count; i++) {
+            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
+        }
+    }
+    else
+    {
+        for (int i=0; i<self.toDoItems.count; i++) {
+            [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:YES];
+        }
+    }
+}
+
+
+#pragma mark - Navigation
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    return YES;
+}
+
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    
+    UINavigationController *navController = (UINavigationController*)[segue destinationViewController];
+    AddToDoItemViewController *addToDoItemVIewController;
+    ReminderViewController *reminderViewController;
+    ToDoItem *item;
+    
+    if ([segue.identifier isEqualToString:@"EditToDoItem"]) {
+        item = [self.toDoItems objectAtIndex:self.indexPath];
+        addToDoItemVIewController = (AddToDoItemViewController*)[navController topViewController];
+        addToDoItemVIewController.title = @"Edit To-Do item";
+        addToDoItemVIewController.isInEditMode = YES;
+        reminderViewController.isInEditMode = YES;
+        addToDoItemVIewController.toDoItem = item;
+        return;
+    }
+    else if ([segue.identifier isEqualToString:@"ReminderShortcutIdentifier"]){
+        item = [self.toDoItems objectAtIndex:self.indexPath];
+        reminderViewController = (ReminderViewController*)navController;
+        reminderViewController.toDoItem = item;
+        reminderViewController.itemname = item.itemName;
+        reminderViewController.isShortcut = YES;
+        return;
+    }
+    
+    addToDoItemVIewController.isInEditMode = NO;
+    reminderViewController.isInEditMode = NO;
+    reminderViewController.isShortcut = NO;
+}
+
+
+#pragma mark - UIRefreshControl Selector
+
+- (void)toggleCells:(UIRefreshControl*)refreshControl
+{
+    [refreshControl beginRefreshing];
+
+    if(!self.editing)
+    {
+        self.toDoItems = [self sortedItemsOnDate:self.toDoItems];
+        [self.tableView reloadData];
+    }
+    [refreshControl endRefreshing];
+}
+
+#pragma mark - Private functions
+
+-(NSDate*) getAlertDate: (ToDoItem*) item{
+    NSString *alertSelection = item.alertSelection;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    
+    NSDate *reminderDate = [dateFormatter dateFromString:item.endDate];
+    
+    NSDateComponents *dateComponents = [[NSDateComponents alloc]init];
+    
+    if([alertSelection isEqualToString:@"5 minutes before"]){
+        [dateComponents setMinute:-5];
+    }
+    
+    else if([alertSelection isEqualToString:@"15 minuttes before"]){
+        [dateComponents setMinute:-15];
+    }
+    
+    else if([alertSelection isEqualToString:@"30 minutes before"]){
+        [dateComponents setMinute:-30];
+    }
+    
+    else if([alertSelection isEqualToString:@"1 hour before"]){
+        [dateComponents setHour:-1];
+    }
+    
+    else if([alertSelection isEqualToString:@"2 hours before"]){
+        [dateComponents setHour:-2];
+    }
+    
+    else if([alertSelection isEqualToString:@"1 day before"]){
+        [dateComponents setDay:-1];
+    }
+    
+    else if([alertSelection isEqualToString:@"2 days before"]){
+        [dateComponents setDay:-2];
+    }
+    
+    else if([alertSelection isEqualToString:@"1 week before"]){
+        [dateComponents setDay:-7];
+    }
+    
+    else{
+        // Return alert on current due date.
+        return reminderDate;
+    }
+    
+    NSDate *alert = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:reminderDate options:0];
+    return alert;
+}
+
+
+-(NSDate*) updateAlertDate:(ToDoItem*)item{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    
+    NSDate *reminderDate = [dateFormatter dateFromString:item.endDate];
+
+            
+            if([item.repeatSelection length] == 0 || [item.repeatSelection isEqualToString:@"Never"]) return reminderDate;
+            
+            NSDateComponents *dateComponents = [[NSDateComponents alloc]init];
+            
+            switch([self getRepeat:item]){
+                case NSCalendarUnitDay:
+                    [dateComponents setDay:1];
+                    break;
+                
+                case NSCalendarUnitWeekday:
+                    [dateComponents setDay:7];
+                    break;
+                
+                case NSCalendarUnitMonth:
+                    [dateComponents setMonth:1];
+                    break;
+                
+                case NSCalendarUnitYear:
+                    [dateComponents setYear:1];
+                    break;
+                
+                default:
+                    [dateComponents setDay:0];
+            }
+            
+            NSDate *alert = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:reminderDate options:0];
+            return alert;
+}
+ 
+-(NSCalendarUnit) getRepeat:(ToDoItem*) item{
+    if([item.repeatSelection isEqualToString:@"Every day"])
+        return NSCalendarUnitDay;
+    
+    else if([item.repeatSelection isEqualToString:@"Every week"])
+        return NSCalendarUnitWeekday;
+    
+    
+    else if([item.repeatSelection isEqualToString:@"Every month"])
+        return NSCalendarUnitMonth;
+    
+    else if([item.repeatSelection isEqualToString:@"Every year"])
+        return NSCalendarUnitYear;
+    
+    else
+        return 0;
+}
+
+-(void) cancelLocalNotification:(ToDoItem*)item{
+    for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications]){
+        if([[localN.userInfo objectForKey:@"itemid"] isEqualToString:item.itemid]){
+            [[UIApplication sharedApplication] cancelLocalNotification:localN];
+            NSLog(@"Notification canceled");
+            return;
+        }
+    }
+}
+
+// In order to edit a local notification u need to cancel it/delete it and then make a new one (unfortunately)
+-(void) editLocalNotification:(ToDoItem*)item isOn:(BOOL)isOn{
+    
+    // Cancel
+    [self cancelLocalNotification:item];
+   
+    // Create a new
+    [self setLocalNotification:item isOn:YES];
+}
+
+-(void) setLocalNotification:(ToDoItem*) item isOn:(BOOL)isOn{
+    if(!isOn) return;
+    
+    if([item.alertSelection length] == 0 || [item.alertSelection isEqualToString:@"None"]) return;
+    
+    // Schedule the notification
+    UILocalNotification *localNotification = [[UILocalNotification alloc]init];
+    localNotification.fireDate = [self getAlertDate:item];
+    localNotification.alertBody = item.itemName;
+    localNotification.alertAction = @"Show me the item";
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    localNotification.timeZone = [NSTimeZone localTimeZone];
+    NSUInteger nextBadgeNumber = [[[UIApplication sharedApplication] scheduledLocalNotifications] count] + 1;
+    localNotification.applicationIconBadgeNumber = nextBadgeNumber;
+    
+    if(![item.repeatSelection isEqualToString:@"Never"])
+        localNotification.repeatInterval = [self getRepeat:item];
+    
+    // Use a dictionary to keep track on each notification attacted to each to-do item.
+    NSDictionary *info = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@", item.itemid] forKey:@"itemid"];
+    localNotification.userInfo = info;
+    NSLog(@"Notification userInfo gets item id : %@",[info objectForKey:@"itemid"]);
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    
+    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound
+                                                                                                              categories:nil]];
+    }
+    
+    NSLog(@"Notification created");
+}
+
+
+-(NSString *)pathOfFile{
+    // Returns an array of directories
+    // App's document is the first element in this array
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path =[[NSString alloc] initWithString:[documentsDirectory stringByAppendingPathComponent:@"todolist.plist"]];
+    
+    return path;
 }
 
 -(void)loadInitialData{
@@ -537,603 +1087,6 @@
 }
 
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    // Setup refresh control for example app
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(toggleCells:) forControlEvents:UIControlEventValueChanged];
-    
-    self.refreshControl = refreshControl;
-    
-    [self.tableView addSubview:refreshControl];
-    
-    self.useCustomCells = NO;
-    
-    self.toDoItems = [[NSMutableArray alloc]init];
-    self.tempItems = self.toDoItems;
-    
-    self.selectedSegment = [NSNumber numberWithInt:0];
-    [self loadInitialData];
-    [self setProgressBar];
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    
-    
-    [self printDoToItems];
-    
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    //Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.leftBarButtonItem = self.editButtonItem;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    [self setProgressBar];
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
-    return [self.toDoItems count];
-}
-
-#pragma mark - UIRefreshControl Selector
-
-- (void)toggleCells:(UIRefreshControl*)refreshControl
-{
-    [refreshControl beginRefreshing];
-    /*
-    self.useCustomCells = !self.useCustomCells;
-    if (self.useCustomCells)
-    {
-        self.refreshControl.tintColor = [UIColor yellowColor];
-    }
-    else
-    {
-        self.refreshControl.tintColor = [UIColor blueColor];    
-    }
-     */
-    if(!self.editing)
-    {
-        self.toDoItems = [self sortedItemsOnDate:self.toDoItems];
-        [self.tableView reloadData];
-    }
-    [refreshControl endRefreshing];
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Configure the cell...
-    
-    static NSString *cellIdentifier = @"ListPrototypeCell";
-    //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    //SWTableViewCell *cell = [[SWTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
-    cell.leftUtilityButtons = [self leftButtons:indexPath];
-    //cell.rightUtilityButtons = [self rightButtons];
-    cell.delegate = self;
-    
-    ToDoItem *toDoItem = [self.toDoItems objectAtIndex:indexPath.row];
-
-    cell.textLabel.text = toDoItem.itemName;
-    
-    if (toDoItem.endDate != nil &&  ![toDoItem.endDate isEqualToString:toDoItem.creationDate]){
-        NSString *detailText = [DateWrapper wrapDate:toDoItem.endDate];
-        cell.detailTextLabel.text = detailText;
-        // Redraw the cell immediately
-        [cell layoutSubviews];
-    }
-    else
-        cell.detailTextLabel.text = @"";
-    
-    if(toDoItem.completed)
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    else
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
-    UIImageView *repeatImage = (UIImageView*)[cell viewWithTag:100];
-    if([toDoItem.repeatSelection length] !=0 && ![toDoItem.repeatSelection isEqualToString:@"Never"])
-        repeatImage.hidden = NO;
-    else
-        repeatImage.hidden = YES;
-    
-    return cell;
-}
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    /*
-     if ([self.expandedCells containsObject:indexPath]){
-     [self.expandedCells removeObject:indexPath];
-     }
-     else{
-     [self.expandedCells addObject:indexPath];
-     }
-     [tableView beginUpdates];
-     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListPrototypeCell" forIndexPath:indexPath];
-     cell.detailTextLabel.text = @"TEST";
-     cell.detailTextLabel.hidden = NO;
-     [tableView endUpdates];
-     */
-
-    ToDoItem *item = [self.toDoItems objectAtIndex:indexPath.row];
-    if(item.completed || self.editing) return;
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    
-    if (!tableView.isEditing) {
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    }
-    
-    // Bug in SWTableViewCell API when using selectedRowAtIndexPath, so save this indexPath to NSInteger variable.
-    self.indexPath = indexPath.row;
-    
-    // Manually performSegue since using SWTableViewCell API does not work with it, when cell tapped.
-    [self performSegueWithIdentifier:@"EditToDoItem" sender:self];
-}
-
-
-- (NSArray *)rightButtons
-{
-    
-    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
-    /*
-    [rightUtilityButtons sw_addUtilityButtonWithColor:
-     [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
-                                                title:@"More"];
-    */
-    [rightUtilityButtons sw_addUtilityButtonWithColor:
-     [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
-                                                title:@"Delete"];
-    
-    return rightUtilityButtons;
-}
-
-
-// Take a cell as parameter
-- (NSArray *)leftButtons: (NSIndexPath*)indexPath
-{
-    NSMutableArray *leftUtilityButtons = [NSMutableArray new];
-    NSIndexPath *cellIndexPath = indexPath;
-    ToDoItem *tappedItem = [self.toDoItems objectAtIndex:cellIndexPath.row];
-    
-    if (tappedItem.completed) {
-        [leftUtilityButtons sw_addUtilityButtonWithColor:
-         [UIColor colorWithRed:1.0f green:0.231f blue:0.188f alpha:1.0]
-                                                    icon:[UIImage imageNamed:@"cross.png"]];
-        return leftUtilityButtons;
-    }
-    else{
-        [leftUtilityButtons sw_addUtilityButtonWithColor:
-         [UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0]
-                                                    icon:[UIImage imageNamed:@"check.png"]];
-        
-        for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications]){
-            if([[localN.userInfo objectForKey:@"itemid"] isEqualToString:tappedItem.itemid]){
-                [leftUtilityButtons sw_addUtilityButtonWithColor:
-                 [UIColor colorWithRed:0.05f green:0.69f blue:1.0f alpha:1.0]
-                                                            icon:[UIImage imageNamed:@"clock_alert.png"]];
-                return leftUtilityButtons;
-            }
-        }
-        
-        [leftUtilityButtons sw_addUtilityButtonWithColor:
-         [UIColor colorWithRed:0.05f green:0.69f blue:1.0f alpha:1.0]
-                                                    icon:[UIImage imageNamed:@"clock.png"]];
-        return leftUtilityButtons;
-    }
-    
-    /*
-    [leftUtilityButtons sw_addUtilityButtonWithColor:
-     [UIColor colorWithRed:0.55f green:0.27f blue:0.07f alpha:1.0]
-                                                icon:[UIImage imageNamed:@"list.png"]];
-     */
-    
-    
-}
-
-#pragma mark - SWTableViewDelegate
-
-- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state
-{
-    switch (state) {
-        case 0:
-            NSLog(@"utility buttons closed");
-            break;
-        case 1:
-            NSLog(@"left utility buttons open");
-            break;
-        case 2:
-            NSLog(@"right utility buttons open");
-            break;
-        default:
-            break;
-    }
-}
-
-- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index
-{
-    NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
-    switch (index) {
-        case 0:{
-            NSLog(@"left button 0 was pressed");
-            NSLog(@"Index path: %ld", (long)cellIndexPath.row);
-            ToDoItem *tappedItem = [self.toDoItems objectAtIndex:cellIndexPath.row];
-            tappedItem.completed = !tappedItem.completed;
-            if (tappedItem.completed && ([tappedItem.repeatSelection length]==0  || [tappedItem.repeatSelection isEqualToString:@"Never"])) {
-                [self cancelLocalNotification:tappedItem];
-                tappedItem.endDate = nil;
-                tappedItem.actualEndDate = nil;
-                tappedItem.alertSelection = nil;
-                tappedItem.repeatSelection = nil;
-            }
-            else if(tappedItem.completed && ([tappedItem.repeatSelection length]!=0 || ![tappedItem.repeatSelection isEqualToString:@"Never"])){
-                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-                [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    
-                [self cancelLocalNotification:tappedItem];
-                
-                ToDoItem *repeatItem = [[ToDoItem alloc]init];
-                repeatItem.itemid = [Utility generateUniqID];
-                repeatItem.itemName = tappedItem.itemName;
-                repeatItem.creationDate = [dateFormatter stringFromDate:[NSDate date]];
-                repeatItem.alertSelection = tappedItem.alertSelection;
-                repeatItem.repeatSelection = tappedItem.repeatSelection;
-                NSDate *date = [self updateAlertDate:tappedItem];
-                repeatItem.endDate = [dateFormatter stringFromDate:date];
-                repeatItem.actualEndDate = date;
-                repeatItem.completed = NO;
- 
-                tappedItem.alertSelection = nil;
-                tappedItem.repeatSelection = nil;
-                tappedItem.endDate = nil;
-                tappedItem.actualEndDate = nil;
-                
-                [self setLocalNotification:repeatItem isOn:YES];
-                [self.toDoItems addObject:repeatItem];
-                if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
-                    [self.tempItems addObject:repeatItem];
-            }
-            
-            [cell hideUtilityButtonsAnimated:NO];
-            [self.tableView reloadData];
-        }
-            break;
-        case 1:{
-            NSLog(@"Code to open ReminderViewController passed with to do item object.");
-            // Code for Reminder functionalicty.
-            
-            //ReminderViewController *reminderController = [self.storyboard instantiateViewControllerWithIdentifier:@"ReminderController"];
-            //reminderController.cancelButton = [[UIBarButtonItem alloc]init];
-            //[reminderController.cancelButton setTarget:self];
-            //[reminderController.cancelButton setAction:@selector(unWindFromReminder:)];
-            //[self.navigationController pushViewController:reminderController animated:YES];
-            
-            NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
-            self.indexPath = cellIndexPath.row;
-            [self performSegueWithIdentifier:@"ReminderShortcutIdentifier" sender:self];
-        }
-            break;
-        case 2:
-            NSLog(@"left button 2 was pressed");
-            break;
-        case 3:
-            NSLog(@"left btton 3 was pressed");
-        default:
-            break;
-    }
-}
-
-/*
-- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
-{
-    switch (index) {
-        case 0:
-        {
-            // Delete button was pressed
-            NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
-            
-            [self.toDoItems removeObjectAtIndex:cellIndexPath.row];
-            // Delete the row from the data source
-            [self.tableView deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-        }
-        case 1:
-        {
-            [cell hideUtilityButtonsAnimated:YES];
-            break;
-        }
-        default:
-            break;
-    }
-}
- */
-
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Set background color of cell here if you don't want default white
-    ToDoItem *item = [self.toDoItems objectAtIndex:indexPath.row];
-    
-    if(item.completed){
-        cell.backgroundColor = [UIColor lightGrayColor];
-        NSDictionary* attributes = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleSingle]};
-        NSAttributedString* attributedString = [[NSAttributedString alloc] initWithString:item.itemName attributes:attributes];
-        
-        cell.textLabel.attributedText = attributedString;
-        cell.textLabel.textColor = [UIColor blackColor];
-        return;
-    }
-    
-    else{
-        cell.backgroundColor = [UIColor whiteColor];
-        NSDictionary* attributes = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleNone]};
-        NSAttributedString* attributedString = [[NSAttributedString alloc] initWithString:item.itemName attributes:attributes];
-        cell.textLabel.attributedText = attributedString;
-        
-        NSDate *currentDate = [DateWrapper convertToDate:[DateWrapper getCurrentDate]];
-        NSDate *itemDueDate = [DateWrapper convertToDate:item.endDate];
-        
-        cell.textLabel.textColor = [UIColor blackColor];
-        cell.detailTextLabel.textColor = [UIColor blackColor];
-        
-        if(itemDueDate==nil)return;
-        // If current date is greater than item's due date
-        if([currentDate compare:itemDueDate] == NSOrderedDescending || [currentDate compare:itemDueDate] == NSOrderedSame)
-        {
-            cell.textLabel.textColor = [UIColor redColor];
-            cell.detailTextLabel.textColor = [UIColor redColor];
-            return;
-        }
-    }
-    
-//    for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications]){
-//        if([[localN.userInfo objectForKey:@"itemid"] isEqualToString:item.itemid]){
-//            NSString *t = @"ALERT ";
-//            cell.detailTextLabel.text = [t stringByAppendingString:item.endDate];
-//            return;
-//        }
-//    }
-}
-
-- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell
-{
-    // allow just one cell's utility button to be open at once
-    return YES;
-}
-
-- (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state
-{
-    switch (state) {
-        case 1:
-            // set to NO to disable all left utility buttons appearing
-            return YES;
-            break;
-        case 2:
-            // set to NO to disable all right utility buttons appearing
-            return YES;
-            break;
-        default:
-            break;
-    }
-    
-    return YES;
-}
-
-
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-
-
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    ToDoItem *item = [self.toDoItems objectAtIndex:indexPath.row];
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
-        [self.toDoItems removeObjectAtIndex:indexPath.row];
-        [self.tempItems removeObject:item];
-        // Delete local notifications if any
-        [self cancelLocalNotification:item];
-        
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-
-
-
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-    
-    ToDoItem *item = [self.toDoItems objectAtIndex:fromIndexPath.row];
-    [self.toDoItems removeObjectAtIndex:fromIndexPath.row];
-    [self.toDoItems insertObject:item atIndex:toIndexPath.row];
-    
-}
-
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-
-
-#pragma mark - Navigation
-
-- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
-    
-    /*
-    if ([identifier isEqualToString:@"EditToDoItem"]) {
-        
-        //Put your validation code here and return YES or NO as needed
-        if (self.editing) {
-            NSLog(@"Segue not Blocked - Edit mode on");
-            return YES;
-        }
-        
-        NSLog(@"Segue Blocked - Edit mode is not on");
-        return NO;
-    }
-     */
-    
-    return YES;
-}
-
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    
-    /*
-    if ([segue.identifier isEqualToString:@"EditToDoItem"]) {
-        UINavigationController *navController = (UINavigationController*)[segue destinationViewController];
-        EditToDoItemViewController *editToDoItemVIewController = [navController topViewController];
-        editToDoItemVIewController.toDoItem = [self.toDoItems objectAtIndex:self.tableView.indexPathForSelectedRow.row];
-    }
-     */
-    
-    UINavigationController *navController = (UINavigationController*)[segue destinationViewController];
-    AddToDoItemViewController *addToDoItemVIewController;
-    ReminderViewController *reminderViewController;
-    ToDoItem *item;
-
-    if ([segue.identifier isEqualToString:@"EditToDoItem"]) {
-        item = [self.toDoItems objectAtIndex:self.indexPath];
-        addToDoItemVIewController = (AddToDoItemViewController*)[navController topViewController];
-        addToDoItemVIewController.title = @"Edit To-Do item";
-        addToDoItemVIewController.isInEditMode = YES;
-        reminderViewController.isInEditMode = YES;
-        addToDoItemVIewController.toDoItem = item;
-        return;
-    }
-    else if ([segue.identifier isEqualToString:@"ReminderShortcutIdentifier"]){
-        item = [self.toDoItems objectAtIndex:self.indexPath];
-        reminderViewController = (ReminderViewController*)navController;
-        reminderViewController.toDoItem = item;
-        reminderViewController.itemname = item.itemName;
-        reminderViewController.isShortcut = YES;
-        return;
-    }
-    
-    addToDoItemVIewController.isInEditMode = NO;
-    reminderViewController.isInEditMode = NO;
-    reminderViewController.isShortcut = NO;
-}
-
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 80;
-}
-
-
--(IBAction)editButton:(id)sender{
-    self.editing = !self.editing;
-    [self.tableView setEditing:self.editing animated:YES];
-    UIBarButtonItem *barButtonItem;
-    
-    
-    if (self.editing){
-        barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButton:)];
-        
-        self.navigationItem.rightBarButtonItem.enabled = NO;
-        
-        [self doSingleViewAnimation:self.myToolbar animType:kCATransitionFromTop hidden:NO];
-        
-        [self.selectAllButton setTitle:@"Select all"];
-        self.hasSelectedAllInEdit = NO;
-    }
-    else{
-        barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButton:)];
-        
-        self.navigationItem.rightBarButtonItem.enabled = YES;
-        
-        [self doSingleViewAnimation:self.myToolbar animType:kCATransitionFromBottom hidden:YES];
-        
-        [self.selectAllButton setTitle:@"Deselect all"];
-        
-        self.hasSelectedAllInEdit = NO;
-    }
-    
-    self.navigationItem.leftBarButtonItem = barButtonItem;
-    
-}
-
--(IBAction)deleteSelectedItems:(id)sender{
-    NSArray *selectedRows = [self.tableView indexPathsForSelectedRows];
-    BOOL deleteSpecificRows = selectedRows.count > 0;
-    
-    if(deleteSpecificRows){
-        // Build an NSIndexSet of all the objects to delete, so they can all be removed at once.
-        NSMutableIndexSet *indicesOfItemsToDelete = [NSMutableIndexSet new];
-        for (NSIndexPath *selectionIndex in selectedRows)
-        {
-            [indicesOfItemsToDelete addIndex:selectionIndex.row];
-        }
-        NSArray *items = [self.toDoItems objectsAtIndexes:indicesOfItemsToDelete];
-        // Delete the objects from our data model.
-        [self.toDoItems removeObjectsAtIndexes:indicesOfItemsToDelete];
-        
-        
-        // Cancel any notifications and remove from temp array.
-        for (ToDoItem *item in items)
-        {
-            [self cancelLocalNotification:item];
-            [self.tempItems removeObject:item];
-        }
-
-        // Tell the tableView that we deleted the objects
-        [self.tableView deleteRowsAtIndexPaths:selectedRows withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-    
-    // When user has deleted, go out of edit mode.
-    [self editButton:self];
-}
-
--(IBAction)selectAllItems:(id)sender{
-    self.hasSelectedAllInEdit = !self.hasSelectedAllInEdit;
-    
-    NSString *selectText = self.hasSelectedAllInEdit ? @"Deselect all" : @"Select all";
-    [self.selectAllButton setTitle:selectText];
-    
-    if(self.hasSelectedAllInEdit)
-    {
-        for (int i=0; i<self.toDoItems.count; i++) {
-            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
-        }
-    }
-    else
-    {
-        for (int i=0; i<self.toDoItems.count; i++) {
-            [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:YES];
-        }
-    }
-}
-
 -(NSMutableArray*)sortedItemsOnDate:(NSMutableArray*)items{
     NSSortDescriptor *sortDescriptor;
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"actualEndDate"
@@ -1220,11 +1173,6 @@
     [self editButton:self];
 }
 
--(IBAction)mainControlSwitched:(id)sender{
-    self.selectedSegment = [NSNumber numberWithInteger:[sender selectedSegmentIndex]];
 
-    [self segmentControlHandling];
-    
-}
 
 @end

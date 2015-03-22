@@ -252,9 +252,6 @@
                                 <date key="date" timeIntervalSinceReferenceDate="444585017.06091601">
                                     <!--2015-02-02 15:50:17 +0000-->
                                 </date>
-                                <connections>
-                                    <action selector="reminderDateChanged:" destination="qFe-vO-zHE" eventType="valueChanged" id="gfL-NA-x6O"/>
-                                </connections>
                             </datePicker>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" sectionIndexMinimumDisplayRowCount="2" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="JV6-D1-cxf">
                                 <rect key="frame" x="0.0" y="234" width="600" height="366"/>
@@ -646,10 +643,10 @@
             </objects>
             <point key="canvasLocation" x="1054.5" y="135.75"/>
         </scene>
-        <!--Add To Item Navigation Controller-->
+        <!--Navigation Controller-->
         <scene sceneID="NMC-es-Kqu">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Xgx-km-Kc6" customClass="AddToItemNavigationController" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Xgx-km-Kc6" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ack-Pg-hvq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

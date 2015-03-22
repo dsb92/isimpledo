@@ -21,8 +21,10 @@
 @end
 
 @implementation AddToDoItemViewController
-
 @synthesize toDoItem;
+
+
+#pragma mark - IBActions
 
 -(IBAction)cancelFromReminder:(UIStoryboardSegue*) segue{
     [self updateHighlightForReminderButton];
@@ -44,6 +46,7 @@
         self.reminderButton.hidden = YES;
 }
 
+#pragma mark - didLoad
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -81,7 +84,8 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Navigation
+#pragma mark - Private functions
+
 -(void)updateHighlightForReminderButton{
     if(self.isInEditMode && [self.toDoItem.endDate length] != 0)
         [self.reminderButton setHighlighted:YES];
@@ -99,6 +103,8 @@
         }
     }
 }
+
+#pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
