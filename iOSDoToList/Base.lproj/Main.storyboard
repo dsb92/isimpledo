@@ -699,9 +699,6 @@
                                 <date key="date" timeIntervalSinceReferenceDate="444585017.06091601">
                                     <!--2015-02-02 15:50:17 +0000-->
                                 </date>
-                                <connections>
-                                    <action selector="reminderDateChanged:" destination="oly-rT-dUJ" eventType="valueChanged" id="dFe-8j-SGR"/>
-                                </connections>
                             </datePicker>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" sectionIndexMinimumDisplayRowCount="2" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="BpK-Wb-W08">
                                 <rect key="frame" x="0.0" y="234" width="600" height="366"/>
@@ -823,7 +820,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="uIX-si-1wa"/>
-        <segue reference="vOp-nC-O4y"/>
-        <segue reference="jDg-9v-zG5"/>
+        <segue reference="pnY-he-pp8"/>
+        <segue reference="xQ1-Rc-FnF"/>
     </inferredMetricsTieBreakers>
 </document>

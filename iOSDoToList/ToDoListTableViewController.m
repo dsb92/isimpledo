@@ -49,10 +49,14 @@
     [self.tableView addSubview:refreshControl];
     
     self.toDoItems = [[NSMutableArray alloc]init];
-    self.tempItems = self.toDoItems;
+    self.tempItems = [[NSMutableArray alloc]init];
     
     self.selectedSegment = [NSNumber numberWithInt:0];
     [self loadInitialData];
+    
+    for(ToDoItem *item in self.toDoItems)
+        [self.tempItems addObject:item];
+    
     [self setProgressBar];
     
     
@@ -80,12 +84,10 @@
 - (void)applicationDidEnterBackground:(NSNotification *)notification{
     NSString *filePath= [self pathOfFile];
     
-    self.toDoItems = self.tempItems;
-    
     NSMutableArray *mainArray = [[NSMutableArray alloc]init];
-    for (int i = 0; i<[self.toDoItems count]; i++)
+    for (int i = 0; i<[self.tempItems count]; i++)
     {
-        ToDoItem *item = [self.toDoItems objectAtIndex:i];
+        ToDoItem *item = [self.tempItems objectAtIndex:i];
         NSMutableArray *array = [[NSMutableArray alloc]init];
         
         /* Non-nullable values */
@@ -137,7 +139,7 @@
     
     NSDate *currentDate = [DateWrapper convertToDate:[DateWrapper getCurrentDate]];
     
-    for (ToDoItem *item in self.toDoItems) {
+    for (ToDoItem *item in self.tempItems) {
         if(!item.completed && ([item.alertSelection length] != 0 || ![item.alertSelection isEqualToString:@"None"])){
             NSDate *itemDueDate = [DateWrapper convertToDate:item.endDate];
             if(itemDueDate==nil)continue;
@@ -329,8 +331,7 @@
                 
                 [LocalNotifications setLocalNotification:repeatItem isOn:YES];
                 [self.toDoItems addObject:repeatItem];
-                if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
-                    [self.tempItems addObject:repeatItem];
+                [self.tempItems addObject:repeatItem];
             }
             
             [cell hideUtilityButtonsAnimated:NO];
@@ -576,8 +577,7 @@
     if (item != nil){
         [LocalNotifications setLocalNotification:item isOn:isOn];
         [self.toDoItems addObject:item];
-        if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
-            [self.tempItems addObject:item];
+        [self.tempItems addObject:item];
         
         [self.tableView reloadData];
     }
@@ -608,10 +608,7 @@
         item.segmentForItem = segmentItem;
         
         [self.toDoItems addObject:item];
-        if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
-        {
-            [self.tempItems addObject:item];
-        }
+        [self.tempItems addObject:item];
         
         [self.tableView reloadData];
     }
@@ -966,7 +963,10 @@
         }
     }
     
-    self.toDoItems = [self sortedItemsOnDate:self.sortedItems];
+    if(self.sortedItems.count != 0)
+        self.toDoItems = [self sortedItemsOnDate:self.sortedItems];
+    else
+        self.toDoItems = self.sortedItems;
     [self.tableView reloadData];
 }
 
@@ -976,7 +976,10 @@
     // All
     if([self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]]){
         self.tempItems = [self sortedItemsOnDate:self.tempItems];
-        self.toDoItems = self.tempItems;
+        self.toDoItems = [NSMutableArray new];
+        for(ToDoItem *item in self.tempItems)
+            [self.toDoItems addObject:item];
+        
         [self.tableView reloadData];
     }
     
@@ -990,7 +993,7 @@
         [self groupItems:1 segment:@"segment 2"];
     }
     
-    // Future
+    // Upcoming
     else if([self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:3]]){
         [self groupItems:2 segment:@"segment 3"];
     }
