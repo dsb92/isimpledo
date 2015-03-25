@@ -116,6 +116,35 @@
         return 0;
 }
 
++(void) updateSegmentForItem:(ToDoItem*) item segment:(NSNumber*)segment{
+    NSString *segmentStr = [NSString stringWithFormat:@"segment %@", segment];
+    if(item.segmentForItem == nil)
+    {
+        SegmentForToDoItem *segmentItem = [[SegmentForToDoItem alloc]init];
+        segmentItem.thestringid = item.itemid;
+        segmentItem.segment = segmentStr;
+        
+        item.segmentForItem = segmentItem;
+    }
+
+    if(item.endDate == nil && item.actualEndDate == nil)
+    {
+        if([item.segmentForItem.segment isEqualToString:@"segment 1"])
+        {
+            item.actualEndDate = [NSDate date];
+        }
+        
+        else if([item.segmentForItem.segment isEqualToString:@"segment 2"])
+        {
+            NSDateComponents *components = [[NSDateComponents alloc]init];
+            
+            [components setDay:1];
+            
+            NSDate *tomorrow = [[NSCalendar currentCalendar] dateByAddingComponents:components toDate:[NSDate date] options:0];
+            item.actualEndDate = tomorrow;
+        }
+    }
+}
 
 
 

@@ -123,7 +123,7 @@
             [array addObject:item.repeatSelection];
         
         if(item.actualEndDate == nil)
-            [array addObject:[NSDate date]];
+            NSLog(@"%@ has nil actualEndDate!", item.itemName);
         else
             [array addObject:item.actualEndDate];
         
@@ -302,7 +302,7 @@
             if (tappedItem.completed && ([tappedItem.repeatSelection length]==0  || [tappedItem.repeatSelection isEqualToString:@"Never"])) {
                 [LocalNotifications cancelLocalNotification:tappedItem];
                 tappedItem.endDate = nil;
-                tappedItem.actualEndDate = nil;
+                //tappedItem.actualEndDate = nil;
                 tappedItem.alertSelection = nil;
                 tappedItem.repeatSelection = nil;
             }
@@ -327,12 +327,14 @@
                 tappedItem.alertSelection = nil;
                 tappedItem.repeatSelection = nil;
                 tappedItem.endDate = nil;
-                tappedItem.actualEndDate = nil;
+                //tappedItem.actualEndDate = nil;
                 
                 [LocalNotifications setLocalNotification:repeatItem isOn:YES];
                 [self.toDoItems addObject:repeatItem];
                 [self.tempItems addObject:repeatItem];
             }
+
+            [ToDoItem updateSegmentForItem:tappedItem segment:self.selectedSegment];
             
             [cell hideUtilityButtonsAnimated:NO];
             [self.tableView reloadData];
@@ -569,16 +571,22 @@
     if(source.isInEditMode){
         if (source.didCancel == NO){
             [LocalNotifications editLocalNotification:item isOn:isOn];
+            [self printItem:item];
             [self.tableView reloadData];
         }
         return;
     }
     
     if (item != nil){
+        
+        if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
+             [ToDoItem updateSegmentForItem:item segment:self.selectedSegment];
+        
         [LocalNotifications setLocalNotification:item isOn:isOn];
         [self.toDoItems addObject:item];
         [self.tempItems addObject:item];
         
+        [self printItem:item];
         [self.tableView reloadData];
     }
 }
@@ -595,20 +603,19 @@
             [LocalNotifications editLocalNotification:item isOn:YES];
             [self.tableView reloadData];
         }
+        
+        [self printItem:item];
         return;
     }
     
     if (item != nil && item.itemName != nil){
-        NSString *segment = [NSString stringWithFormat:@"segment %@", self.selectedSegment];
-        
-        SegmentForToDoItem *segmentItem = [[SegmentForToDoItem alloc]init];
-        segmentItem.thestringid = item.itemid;
-        segmentItem.segment = segment;
-        
-        item.segmentForItem = segmentItem;
+
+        [ToDoItem updateSegmentForItem:item segment:self.selectedSegment];
         
         [self.toDoItems addObject:item];
         [self.tempItems addObject:item];
+        
+        [self printItem:item];
         
         [self.tableView reloadData];
     }
@@ -620,6 +627,8 @@
     if(source.didCancel == NO){
         [LocalNotifications editLocalNotification:source.toDoItem isOn:isOn];
     }
+    
+    [self printItem:source.toDoItem];
     [self.tableView reloadData];
 }
 
@@ -876,9 +885,15 @@
     [self.progressText setText:progressText];
 }
 
+-(void) printItem:(ToDoItem*)item{
+    // print out item
+    NSLog(@"Itemid: %@\nItemname: %@\nCreation date: %@\nDue date: %@\nActual date: %@\nAlert: %@\nRepeat: %@\nSegment string id: %@\nSegment segment: %@\n", item.itemid, item.itemName, item.creationDate, item.endDate, item.actualEndDate, item.alertSelection, item.repeatSelection, item.segmentForItem.thestringid, item.segmentForItem.segment);
+
+}
+
 - (void) printDoToItems{
     for(ToDoItem *item in self.toDoItems){
-        NSLog(@"Itemid: %@\nItemname: %@\nCreation date: %@\nDue date: %@\nActual date: %@\nAlert: %@\nRepeat: %@\nSegment string id: %@\nSegment segment: %@\n", item.itemid, item.itemName, item.creationDate, item.endDate, item.actualEndDate, item.alertSelection, item.repeatSelection, item.segmentForItem.thestringid, item.segmentForItem.segment);
+        [self printItem:item];
         
         NSLog(@"Completed: %s", item.completed ? "YES" : "NO");
         
@@ -918,14 +933,21 @@
     
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     NSArray *sortedArray = [items sortedArrayUsingDescriptors:sortDescriptors];
+    
     return [NSMutableArray arrayWithArray:sortedArray];
 }
 
 -(void)groupItems:(NSInteger)comDay segment:(NSString*)segment{
     for (ToDoItem *item in self.tempItems) {
         NSDate *itemdate = [DateWrapper convertToDate:item.endDate];
+ 
+        // If item is placed in Today or Tomorrow, update it so it automatically updates its place.
+        if(itemdate==nil && item.actualEndDate != nil){
+            itemdate = item.actualEndDate;
+        }
         
-        if(itemdate==nil)
+        // If item is placed in All or Upcoming, just keep the item there.
+        if(itemdate==nil && item.actualEndDate == nil)
         {
             if([item.itemid isEqualToString:item.segmentForItem.thestringid] && [item.segmentForItem.segment isEqualToString:segment])
                 [self.sortedItems addObject:item];

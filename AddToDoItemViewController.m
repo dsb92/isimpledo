@@ -143,8 +143,6 @@
     if (self.isInEditMode == NO)
         self.toDoItem.creationDate = [DateWrapper getCurrentDate];
 
-    // print out item
-    NSLog(@"Itemid: %@\n, Itemname: %@\n, Creationdate: %@\n, Enddate: %@\n, Alert: %@\n, Repeat: %@\n", self.toDoItem.itemid, self.toDoItem.itemName, self.toDoItem.creationDate, self.toDoItem.endDate, self.toDoItem.alertSelection, self.toDoItem.repeatSelection);
 }
 
 @end

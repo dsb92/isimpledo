@@ -45,4 +45,12 @@
     return [df dateFromString:date];
 }
 
++(NSString*)convertToString:(NSDate*)date{
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setDateStyle:NSDateFormatterShortStyle];
+    [df setTimeStyle:NSDateFormatterShortStyle];
+    
+    return [df stringFromDate:date];
+}
+
 @end

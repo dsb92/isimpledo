@@ -25,4 +25,5 @@
 +(NSDate*) getAlertDate: (ToDoItem*) item;
 +(NSDate*) updateAlertDate:(ToDoItem*)item;
 +(NSCalendarUnit) getRepeat:(ToDoItem*) item;
++(void) updateSegmentForItem:(ToDoItem*) item segment:(NSNumber*)segment;
 @end
