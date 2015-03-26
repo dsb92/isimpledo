@@ -39,7 +39,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     // Setup refresh control for example app
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(toggleCells:) forControlEvents:UIControlEventValueChanged];
@@ -641,7 +641,7 @@
     
     if (self.editing){
         barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButton:)];
-        
+
         self.navigationItem.rightBarButtonItem.enabled = NO;
         
         [self doSingleViewAnimation:self.myToolbar animType:kCATransitionFromTop hidden:NO];

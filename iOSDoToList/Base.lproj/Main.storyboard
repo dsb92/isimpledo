@@ -412,6 +412,7 @@
                         <subviews>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="YyQ-gW-DHA">
                                 <rect key="frame" x="0.0" y="-2" width="150" height="2"/>
+                                <color key="tintColor" red="0.34901961679999999" green="0.69411766529999996" blue="0.30196079609999998" alpha="1" colorSpace="deviceRGB"/>
                             </progressView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="74i-yi-lJ3">
                                 <rect key="frame" x="-61" y="-14" width="123" height="29"/>
@@ -421,6 +422,7 @@
                                     <segment title="Tomorrow"/>
                                     <segment title="Upcoming"/>
                                 </segments>
+                                <color key="tintColor" red="0.34901961679999999" green="0.69411766529999996" blue="0.30196079609999998" alpha="1" colorSpace="deviceRGB"/>
                                 <connections>
                                     <action selector="mainControlSwitched:" destination="jQQ-ge-ChJ" eventType="valueChanged" id="Ek8-wh-Usa"/>
                                 </connections>
@@ -428,6 +430,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelectionDuringEditing="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="52" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="EFz-X1-hj3">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.34901961679999999" green="0.69411766529999996" blue="0.30196079609999998" alpha="1" colorSpace="deviceRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ListPrototypeCell" textLabel="TXG-7K-pmy" detailTextLabel="0kn-og-pt4" rowHeight="52" style="IBUITableViewCellStyleSubtitle" id="dxn-ye-QaT" customClass="SWTableViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -504,6 +507,7 @@
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
+                                        <color key="tintColor" red="0.34901961679999999" green="0.69411766529999996" blue="0.30196079609999998" alpha="1" colorSpace="deviceRGB"/>
                                         <connections>
                                             <segue destination="Xgx-km-Kc6" kind="show" identifier="EditToDoItem" id="uIX-si-1wa"/>
                                         </connections>
@@ -514,7 +518,7 @@
                                     <outlet property="delegate" destination="jQQ-ge-ChJ" id="Aw6-zu-G7q"/>
                                 </connections>
                             </tableView>
-                            <toolbar hidden="YES" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Gu-9F-F86">
+                            <toolbar opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Gu-9F-F86">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <items>
                                     <barButtonItem title="Select all" id="GyF-z8-SAX">
@@ -533,7 +537,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yav-LO-Ewa">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.34901961679999999" green="0.69411766529999996" blue="0.30196079609999998" alpha="1" colorSpace="deviceRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
