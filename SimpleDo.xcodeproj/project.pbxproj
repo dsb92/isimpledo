@@ -33,7 +33,6 @@
 		467A525F1A86461A00BBE0BA /* AlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 467A525E1A86461A00BBE0BA /* AlertViewController.m */; };
 		467A52621A86529100BBE0BA /* RepeatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 467A52611A86529100BBE0BA /* RepeatViewController.m */; };
 		468743C41ABDC56800145F39 /* reminder_clock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 468743C31ABDC56800145F39 /* reminder_clock@2x.png */; };
-		468743CC1ABEDEB600145F39 /* clock_alert@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 468743CB1ABEDEB600145F39 /* clock_alert@2x.png */; };
 		468743CE1ABEE94400145F39 /* repeat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 468743CD1ABEE94400145F39 /* repeat@2x.png */; };
 		469C06B61A69857F00ED9A9B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06B51A69857F00ED9A9B /* main.m */; };
 		469C06B91A69857F00ED9A9B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06B81A69857F00ED9A9B /* AppDelegate.m */; };
@@ -95,7 +94,6 @@
 		467A52601A86529100BBE0BA /* RepeatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepeatViewController.h; sourceTree = "<group>"; };
 		467A52611A86529100BBE0BA /* RepeatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepeatViewController.m; sourceTree = "<group>"; };
 		468743C31ABDC56800145F39 /* reminder_clock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reminder_clock@2x.png"; sourceTree = "<group>"; };
-		468743CB1ABEDEB600145F39 /* clock_alert@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clock_alert@2x.png"; sourceTree = "<group>"; };
 		468743CD1ABEE94400145F39 /* repeat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "repeat@2x.png"; sourceTree = "<group>"; };
 		469C06B01A69857F00ED9A9B /* SimpleDo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleDo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		469C06B41A69857F00ED9A9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -223,7 +221,6 @@
 				4659BA5A1A8BF952002C6A48 /* cross@2x.png */,
 				4659BA5B1A8BF952002C6A48 /* clock@2x.png */,
 				468743CD1ABEE94400145F39 /* repeat@2x.png */,
-				468743CB1ABEDEB600145F39 /* clock_alert@2x.png */,
 				468743C31ABDC56800145F39 /* reminder_clock@2x.png */,
 				4659BA5D1A8BF952002C6A48 /* Default.png */,
 				4659BA5E1A8BF952002C6A48 /* Default@2x.png */,
@@ -345,7 +342,6 @@
 				468743CE1ABEE94400145F39 /* repeat@2x.png in Resources */,
 				468743C41ABDC56800145F39 /* reminder_clock@2x.png in Resources */,
 				4659BA621A8BF952002C6A48 /* cross@2x.png in Resources */,
-				468743CC1ABEDEB600145F39 /* clock_alert@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
