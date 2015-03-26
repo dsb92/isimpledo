@@ -150,13 +150,13 @@
         }
     }
     
+    // clear the badge on the icon
+    //[[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:count];
     
     // The following code renumbers the badges of pending notifications (in case user deletes or changes some local notifications while the app was running). So the following code runs, when the user
     // gets out of the app.
-    
-    // clear the badge on the icon
-    //[[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
     // first get a copy of all pending notifications (unfortunately you cannot 'modify' a pending notification)
     NSArray *pendingNotifications = [[UIApplication sharedApplication] scheduledLocalNotifications];

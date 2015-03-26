@@ -29,8 +29,9 @@
     // Request to reload table view data
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:self];
     
-    // Count down icon badge number.
-    //application.applicationIconBadgeNumber = 0;
+    // Clear app icon badge number.
+    application.applicationIconBadgeNumber=0;
+    NSLog(@"%ld", (long)application.applicationIconBadgeNumber);
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -40,7 +41,7 @@
     UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     if (locationNotification) {
         // Set icon badge number to zero
-        //application.applicationIconBadgeNumber = 0;
+        application.applicationIconBadgeNumber=0;
     }
     
     return YES;
