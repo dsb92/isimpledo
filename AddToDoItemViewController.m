@@ -15,7 +15,7 @@
 @interface AddToDoItemViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
-@property (weak, nonatomic) IBOutlet UILabel *dueDateLabel;
+@property (weak, nonatomic) IBOutlet UITextField *dueDateLabel;
 @property (weak, nonatomic) IBOutlet UIButton *reminderButton;
 
 // Is private and thats why it's not declared in .h file.
@@ -52,6 +52,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.dueDateLabel.clearButtonMode = UITextFieldViewModeAlways;
     
     if(self.textField.text.length > 0 || (self.toDoItem.itemName != nil && self.toDoItem.itemName.length > 0))
         self.reminderButton.hidden = NO;
@@ -95,6 +97,19 @@
 }
 
 
+#pragma mark - UITextfield delegate methods
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    return NO;
+}
+
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+    return YES;
+}
+
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -130,9 +145,15 @@
 
     // User presses save button:
     
+    if (self.dueDateLabel.text.length == 0 && self.isInEditMode){
+        self.toDoItem.endDate = nil;
+        self.toDoItem.alertSelection = nil;
+        self.toDoItem.repeatSelection = nil;
+        [LocalNotifications cancelLocalNotification:self.toDoItem];
+    }
+    
     // get to do item name from textfield
     if (self.textField.text.length > 0) {
-        
         // Cancel any local notifaction attached to the old item name contained in dictionary.
         if(self.isInEditMode && [self.toDoItem.endDate length] != 0)
             [LocalNotifications cancelLocalNotification:self.toDoItem];

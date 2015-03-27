@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ToDoItem.h"
 
-@interface AddToDoItemViewController : UIViewController
+@interface AddToDoItemViewController : UIViewController <UITextFieldDelegate>
 
 @property ToDoItem *toDoItem;
 @property BOOL isInEditMode;
