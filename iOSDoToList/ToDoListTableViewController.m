@@ -223,7 +223,7 @@
     SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     //SWTableViewCell *cell = [[SWTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
     cell.leftUtilityButtons = [self leftButtons:indexPath];
-    //cell.rightUtilityButtons = [self rightButtons];
+    cell.rightUtilityButtons = [self rightButtons];
     cell.delegate = self;
     
     ToDoItem *toDoItem = [self.toDoItems objectAtIndex:indexPath.row];
@@ -365,18 +365,23 @@
     }
 }
 
-/*
  - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
  {
  switch (index) {
  case 0:
  {
- // Delete button was pressed
- NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
- 
- [self.toDoItems removeObjectAtIndex:cellIndexPath.row];
- // Delete the row from the data source
- [self.tableView deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+     // Delete button was pressed
+      NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
+     
+     ToDoItem *item = [self.toDoItems objectAtIndex:cellIndexPath.row];
+
+     [self.toDoItems removeObjectAtIndex:cellIndexPath.row];
+     [self.tempItems removeObject:item];
+     // Delete local notifications if any
+     [LocalNotifications cancelLocalNotification:item];
+     
+     // Delete the row from the data source
+     [self.tableView deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationFade];
  break;
  }
  case 1:
@@ -388,7 +393,7 @@
  break;
  }
  }
- */
+
 
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -459,6 +464,11 @@
     return YES;
 }
 
+// Disable default delete button.
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleNone;
+    
+}
 
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -662,7 +672,6 @@
     }
     
     self.navigationItem.leftBarButtonItem = barButtonItem;
-    
 }
 
 -(IBAction)deleteSelectedItems:(id)sender{
