@@ -21,6 +21,7 @@
 }
 @property (weak, nonatomic) IBOutlet UILabel *progressText;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIToolbar *myToolbar;
 @property (retain, nonatomic) IBOutlet UIBarButtonItem *selectAllButton;
@@ -328,6 +329,7 @@
                 tappedItem.repeatSelection = nil;
                 tappedItem.endDate = nil;
                 //tappedItem.actualEndDate = nil;
+                [self updateSegmentControl:repeatItem];
                 
                 [LocalNotifications setLocalNotification:repeatItem isOn:YES];
                 [self.toDoItems addObject:repeatItem];
@@ -582,6 +584,7 @@
         if (source.didCancel == NO){
             [LocalNotifications editLocalNotification:item isOn:isOn];
             [self printItem:item];
+            [self updateSegmentControl:item];
             [self.tableView reloadData];
         }
         return;
@@ -590,7 +593,11 @@
     if (item != nil){
         
         if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
-             [ToDoItem updateSegmentForItem:item segment:self.selectedSegment];
+        {
+            [self updateSegmentControl:item];
+            [ToDoItem updateSegmentForItem:item segment:self.selectedSegment];
+        }
+        
         
         [LocalNotifications setLocalNotification:item isOn:isOn];
         [self.toDoItems addObject:item];
@@ -635,6 +642,7 @@
     ReminderViewController *source = [segue sourceViewController];
     BOOL isOn = [source.mainSwitch isOn];
     if(source.didCancel == NO){
+        [self updateSegmentControl:source.toDoItem];
         [LocalNotifications editLocalNotification:source.toDoItem isOn:isOn];
     }
     
@@ -782,6 +790,76 @@
 }
 
 #pragma mark - Private functions
+
+-(void)updateSegmentControl:(ToDoItem*)item{
+    BOOL isToday = false, isTomorrow = false;
+    BOOL isUpcoming = false;
+    
+    NSDate *itemdate = [DateWrapper convertToDate:item.endDate];
+    NSInteger segmentValue = [self.selectedSegment integerValue];
+    
+    if (segmentValue == 0) return;
+    
+    NSDateComponents *itemDateComponent = [[NSCalendar currentCalendar] components:NSCalendarUnitMinute | NSCalendarUnitHour
+                                           | NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:itemdate];
+    
+    NSDateComponents *component = [[NSDateComponents alloc]init];
+    
+    for(int i=0; i<2; i++)
+    {
+        [component setDay:i];
+        
+        NSDate *todayDate = [[NSCalendar currentCalendar] dateByAddingComponents:component toDate:[NSDate date] options:0];
+        
+        NSDateComponents *todayComponent = [[NSCalendar currentCalendar] components:NSCalendarUnitMinute | NSCalendarUnitHour
+                                            | NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:todayDate];
+        
+        if([todayComponent day] == [itemDateComponent day] &&
+           [todayComponent month] == [itemDateComponent month] &&
+           [todayComponent year] == [itemDateComponent year]){
+            
+            if([component day]==0)
+                isToday = true;
+            else if([component day]==1)
+                isTomorrow = true;
+        }
+    }
+    
+    if(!isToday && !isTomorrow)
+        isUpcoming = true;
+    
+    switch (segmentValue) {
+        case 1:
+            // If user is on today segment and item date is tomorrow, set selected index to 2(tomorrow)
+            if(isTomorrow)
+                [self.segmentedControl setSelectedSegmentIndex:2];
+            // If user is on today segment and item date is upcoming, set selected index to 3(upcoming)
+            else if(isUpcoming)
+                [self.segmentedControl setSelectedSegmentIndex:3];
+            else
+                // Do nothing. User is on today segment and item date is today.
+            break;
+        case 2:
+            if(isToday)
+                [self.segmentedControl setSelectedSegmentIndex:1];
+            else if(isUpcoming)
+                [self.segmentedControl setSelectedSegmentIndex:3];
+            break;
+        
+        case 3:
+            if(isToday)
+                [self.segmentedControl setSelectedSegmentIndex:1];
+            else if(isTomorrow)
+                [self.segmentedControl setSelectedSegmentIndex:2];
+            break;
+            
+        default:
+            break;
+    }
+    
+    self.selectedSegment = [NSNumber numberWithInteger:[self.segmentedControl selectedSegmentIndex]];
+    [self segmentControlHandling];
+}
 
 -(NSString *)pathOfFile{
     // Returns an array of directories

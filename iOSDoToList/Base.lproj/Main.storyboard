@@ -637,6 +637,7 @@
                         <outlet property="myToolbar" destination="0Gu-9F-F86" id="uHO-rB-XyW"/>
                         <outlet property="progressBar" destination="YyQ-gW-DHA" id="Wa8-Tb-fvo"/>
                         <outlet property="progressText" destination="yav-LO-Ewa" id="lDh-Ba-quy"/>
+                        <outlet property="segmentedControl" destination="74i-yi-lJ3" id="M8I-lK-KwI"/>
                         <outlet property="selectAllButton" destination="GyF-z8-SAX" id="cgb-oF-Jaa"/>
                         <outlet property="tableView" destination="EFz-X1-hj3" id="oGi-fH-FFV"/>
                         <segue destination="oly-rT-dUJ" kind="show" identifier="ReminderShortcutIdentifier" id="SuQ-d4-IEI"/>
