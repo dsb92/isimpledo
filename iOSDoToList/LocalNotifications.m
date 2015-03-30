@@ -22,8 +22,8 @@
     localNotification.alertAction = @"Show me the item";
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     localNotification.timeZone = [NSTimeZone localTimeZone];
-    NSUInteger nextBadgeNumber = [[[UIApplication sharedApplication] scheduledLocalNotifications] count] + 1;
-    localNotification.applicationIconBadgeNumber = nextBadgeNumber;
+    //NSUInteger nextBadgeNumber = [[[UIApplication sharedApplication] scheduledLocalNotifications] count] + 1;
+    //localNotification.applicationIconBadgeNumber = nextBadgeNumber;
     
     if(![item.repeatSelection isEqualToString:@"Never"])
         localNotification.repeatInterval = [ToDoItem getRepeat:item];
@@ -34,11 +34,6 @@
     NSLog(@"Notification userInfo gets item id : %@",[info objectForKey:@"itemid"]);
     
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-    
-    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
-        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound
-                                                                                                              categories:nil]];
-    }
     
     NSLog(@"Notification created");
 }

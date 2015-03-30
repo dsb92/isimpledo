@@ -30,7 +30,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:self];
     
     // Clear app icon badge number.
-    application.applicationIconBadgeNumber=0;
+    //application.applicationIconBadgeNumber=0;
     NSLog(@"%ld", (long)application.applicationIconBadgeNumber);
 }
 
@@ -44,7 +44,7 @@
     UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     if (locationNotification) {
         // Set icon badge number to zero
-        application.applicationIconBadgeNumber=0;
+        //application.applicationIconBadgeNumber=0;
     }
     
     return YES;
@@ -65,6 +65,30 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
+    // Save an "Use a moment to plan your day" notificaiton that fires after 4 days.
+    NSDateComponents *dateComponents = [[NSDateComponents alloc]init];
+    [dateComponents setDay:4];
+    
+    NSDate *alert = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:[NSDate date] options:0];
+    
+    // Schedule the notification
+    UILocalNotification *localNotification = [[UILocalNotification alloc]init];
+    localNotification.fireDate = alert;
+    localNotification.repeatInterval = NSCalendarUnitWeekday;
+    localNotification.alertBody = @"Use a moment to plan your day";
+    localNotification.alertAction = @"Lets go";
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    localNotification.timeZone = [NSTimeZone localTimeZone];
+    
+    // Use a dictionary to keep track on each notification attacted to each local system notification.
+    NSDictionary *info = [NSDictionary dictionaryWithObject:@"Use a moment" forKey:@"systemLocal"];
+    localNotification.userInfo = info;
+    NSLog(@"SYSTEM Notification userInfo gets key: %@",[info objectForKey:@"systemLocal"]);
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    
+    NSLog(@"SYSTEM Notification created");
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -74,9 +98,24 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
-    application.applicationIconBadgeNumber = 0;
+    //application.applicationIconBadgeNumber = 0;
     NSLog(@"%ld", (long)application.applicationIconBadgeNumber);
     NSLog(@"application became active");
+    
+    // Let user decide whether he/she wishes to have local notifications with sound and badge number etc..
+    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound
+                                                                                                              categories:nil]];
+    }
+    
+    // Cancel System notification.
+    for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications]){
+        if([[localN.userInfo objectForKey:@"systemLocal"] isEqualToString:@"Use a moment"]){
+            [[UIApplication sharedApplication] cancelLocalNotification:localN];
+            NSLog(@"SYSTEM Notification canceled");
+            return;
+        }
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
