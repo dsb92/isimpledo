@@ -80,7 +80,9 @@
     localNotification.alertAction = @"Lets go";
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     localNotification.timeZone = [NSTimeZone localTimeZone];
-    
+    //NSUInteger nextBadgeNumber = [[[UIApplication sharedApplication] scheduledLocalNotifications] count] + 1;
+    //localNotification.applicationIconBadgeNumber = nextBadgeNumber;
+
     // Use a dictionary to keep track on each notification attacted to each local system notification.
     NSDictionary *info = [NSDictionary dictionaryWithObject:@"Use a moment" forKey:@"systemLocal"];
     localNotification.userInfo = info;
@@ -99,13 +101,38 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
     //application.applicationIconBadgeNumber = 0;
+    
+    NSArray *pendingNotifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
+    
+    // if there are any pending notifications -> adjust their badge number
+    if (pendingNotifications.count != 0)
+    {
+        // clear all pending notifications
+        [[UIApplication sharedApplication] cancelAllLocalNotifications];
+        
+        // the for loop will 'restore' the pending notifications, but with corrected badge numbers
+        // note : a more advanced method could 'sort' the notifications first !!!
+        NSUInteger badgeNbr = 1;
+        
+        // LIFO order, the last notification created is the first that gets updated.
+        for (UILocalNotification *notification in pendingNotifications)
+        {
+            // modify the badgeNumber
+            NSLog(@"%@", notification);
+            notification.applicationIconBadgeNumber = badgeNbr++;
+            
+            // schedule 'again'
+            [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+        }
+    }
+    
+    
     NSLog(@"%ld", (long)application.applicationIconBadgeNumber);
     NSLog(@"application became active");
     
     // Let user decide whether he/she wishes to have local notifications with sound and badge number etc..
     if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
-        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound
-                                                                                                              categories:nil]];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
     }
     
     // Cancel System notification.

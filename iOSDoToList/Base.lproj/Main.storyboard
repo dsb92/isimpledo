@@ -634,6 +634,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="deleteBarButton" destination="q7N-Np-6Na" id="W72-bd-bV0"/>
                         <outlet property="myToolbar" destination="0Gu-9F-F86" id="uHO-rB-XyW"/>
                         <outlet property="progressBar" destination="YyQ-gW-DHA" id="Wa8-Tb-fvo"/>
                         <outlet property="progressText" destination="yav-LO-Ewa" id="lDh-Ba-quy"/>

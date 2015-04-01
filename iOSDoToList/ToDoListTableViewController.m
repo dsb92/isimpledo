@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteBarButton;
 @property (weak, nonatomic) IBOutlet UIToolbar *myToolbar;
 @property (retain, nonatomic) IBOutlet UIBarButtonItem *selectAllButton;
 @property (nonatomic, weak) UIRefreshControl *refreshControl;
@@ -64,9 +65,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     
-    
     [self printDoToItems];
     
+    [self handleEditButton];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -193,8 +194,8 @@
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification{
     // If user is in editmode, get out.
-    self.editing = YES;
-    [self editButton:self];
+    if(self.editing)
+        [self editButton:self];
     [self.tableView reloadData];
 }
 
@@ -255,6 +256,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(self.editing)
+        self.deleteBarButton.enabled = YES;
+    
     ToDoItem *item = [self.toDoItems objectAtIndex:indexPath.row];
     if(item.completed || self.editing) return;
     
@@ -269,6 +273,15 @@
     
     // Manually performSegue since using SWTableViewCell API does not work with it, when cell tapped.
     [self performSegueWithIdentifier:@"EditToDoItem" sender:self];
+}
+
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSArray *selectedRows = [self.tableView indexPathsForSelectedRows];
+    
+    if(selectedRows.count > 0)
+        self.deleteBarButton.enabled = YES;
+    else
+        self.deleteBarButton.enabled = NO;
 }
 
 
@@ -329,11 +342,12 @@
                 tappedItem.repeatSelection = nil;
                 tappedItem.endDate = nil;
                 //tappedItem.actualEndDate = nil;
-                [self updateSegmentControl:repeatItem];
                 
                 [LocalNotifications setLocalNotification:repeatItem isOn:YES];
                 [self.toDoItems addObject:repeatItem];
                 [self.tempItems addObject:repeatItem];
+                
+                [self updateSegmentControl:repeatItem];
             }
 
             [ToDoItem updateSegmentForItem:tappedItem segment:self.selectedSegment];
@@ -384,6 +398,7 @@
      
      // Delete the row from the data source
      [self.tableView deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+     [self handleEditButton];
  break;
  }
  case 1:
@@ -486,6 +501,7 @@
         
         // Delete the row from the data source
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self handleEditButton];
         
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -603,7 +619,10 @@
         [self.toDoItems addObject:item];
         [self.tempItems addObject:item];
         
+        [self handleEditButton];
+        
         [self printItem:item];
+        
         [self.tableView reloadData];
     }
 }
@@ -631,6 +650,8 @@
         
         [self.toDoItems addObject:item];
         [self.tempItems addObject:item];
+        
+        [self handleEditButton];
         
         [self printItem:item];
         
@@ -664,11 +685,16 @@
         
         [self doSingleViewAnimation:self.myToolbar animType:kCATransitionFromTop hidden:NO];
         
+        self.deleteBarButton.enabled = NO;
+        
         [self.selectAllButton setTitle:@"Select all"];
         self.hasSelectedAllInEdit = NO;
     }
     else{
-        barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButton:)];
+        if(self.toDoItems.count == 0)
+            self.navigationItem.leftBarButtonItem = nil;
+        else
+            barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButton:)];
         
         self.navigationItem.rightBarButtonItem.enabled = YES;
         
@@ -711,6 +737,7 @@
     
     // When user has deleted, go out of edit mode.
     [self editButton:self];
+    [self handleEditButton];
 }
 
 -(IBAction)selectAllItems:(id)sender{
@@ -724,12 +751,16 @@
         for (int i=0; i<self.toDoItems.count; i++) {
             [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
         }
+        
+        self.deleteBarButton.enabled = YES;
     }
     else
     {
         for (int i=0; i<self.toDoItems.count; i++) {
             [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:YES];
         }
+        
+        self.deleteBarButton.enabled = NO;
     }
 }
 
@@ -943,6 +974,16 @@
     }
 }
 
+-(void)handleEditButton{
+    if(self.toDoItems.count == 0)
+        self.navigationItem.leftBarButtonItem = nil;
+    else
+    {
+        UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButton:)];
+        self.navigationItem.leftBarButtonItem = barButtonItem;
+    }
+}
+
 - (void) setProgressBar{
     float tasks = [self.toDoItems count];
     float completed = 0.0;
@@ -1054,12 +1095,12 @@
             
             if(comDay == 2)
             {
-                if([today day] <= [otherDay day] ||
-                   [today month] < [otherDay month] ||
-                   [today year] < [otherDay year]){
-                    //do stuff
-                    [self.sortedItems addObject:item];
+                if([today day] <= [otherDay day]){
+                    if([today month] <= [otherDay month])
+                        if([today year] <= [otherDay year])
+                            [self.sortedItems addObject:item];
                 }
+                
             }else{
                 if([today day] == [otherDay day] &&
                    [today month] == [otherDay month] &&
@@ -1108,7 +1149,9 @@
     }
     
     // If user is in editmode, get out.
-    self.editing = YES;
-    [self editButton:self];
+    if(self.editing)
+        [self editButton:self];
+    else
+        [self handleEditButton];
 }
 @end
