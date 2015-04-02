@@ -1099,12 +1099,12 @@
             
             if(comDay == 2)
             {
-                if([today day] <= [otherDay day]){
-                    if([today month] <= [otherDay month])
-                        if([today year] <= [otherDay year])
-                            [self.sortedItems addObject:item];
-                }
-                
+                if([today day] <= [otherDay day])
+                        [self.sortedItems addObject:item];
+                else if([today month] < [otherDay month])
+                        [self.sortedItems addObject:item];
+                else if ([today year] < [otherDay year])
+                        [self.sortedItems addObject:item];
             }else{
                 if([today day] == [otherDay day] &&
                    [today month] == [otherDay month] &&
