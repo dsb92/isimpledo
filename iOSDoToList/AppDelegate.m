@@ -102,31 +102,6 @@
     
     //application.applicationIconBadgeNumber = 0;
     
-    NSArray *pendingNotifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
-    
-    // if there are any pending notifications -> adjust their badge number
-    if (pendingNotifications.count != 0)
-    {
-        // clear all pending notifications
-        [[UIApplication sharedApplication] cancelAllLocalNotifications];
-        
-        // the for loop will 'restore' the pending notifications, but with corrected badge numbers
-        // note : a more advanced method could 'sort' the notifications first !!!
-        NSUInteger badgeNbr = 1;
-        
-        // LIFO order, the last notification created is the first that gets updated.
-        for (UILocalNotification *notification in pendingNotifications)
-        {
-            // modify the badgeNumber
-            NSLog(@"%@", notification);
-            notification.applicationIconBadgeNumber = badgeNbr++;
-            
-            // schedule 'again'
-            [[UIApplication sharedApplication] scheduleLocalNotification:notification];
-        }
-    }
-    
-    
     NSLog(@"%ld", (long)application.applicationIconBadgeNumber);
     NSLog(@"application became active");
     

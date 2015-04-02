@@ -178,6 +178,10 @@
         {
             // modify the badgeNumber
             NSLog(@"%@", notification);
+            
+            // Dont schedule again for "old" fire dates (with repeatIntervals set)
+            if([[NSDate date] compare:notification.fireDate] == NSOrderedDescending || [[NSDate date] compare:notification.fireDate] == NSOrderedSame) continue;
+            
             notification.applicationIconBadgeNumber = badgeNbr+count;
             badgeNbr++;
             
