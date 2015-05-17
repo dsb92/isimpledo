@@ -27,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *myToolbar;
 @property (retain, nonatomic) IBOutlet UIBarButtonItem *selectAllButton;
 @property (nonatomic, weak) UIRefreshControl *refreshControl;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *addUIBarButtonItem;
 
 // Is private and thats why it's not declared in .h file
 @property NSInteger indexPath;
@@ -695,8 +696,9 @@
         self.hasSelectedAllInEdit = NO;
     }
     else{
-        if(self.toDoItems.count == 0)
-            self.navigationItem.leftBarButtonItem = nil;
+        if(self.toDoItems.count == 0){
+            //self.navigationItem.leftBarButtonItem = nil;
+        }
         else
             barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButton:)];
         
@@ -709,7 +711,8 @@
         self.hasSelectedAllInEdit = NO;
     }
     
-    self.navigationItem.leftBarButtonItem = barButtonItem;
+    NSArray *buttonArray = [NSArray arrayWithObjects:self.addUIBarButtonItem, barButtonItem, nil];
+    self.navigationItem.rightBarButtonItems = buttonArray;
 }
 
 -(IBAction)deleteSelectedItems:(id)sender{
@@ -979,12 +982,16 @@
 }
 
 -(void)handleEditButton{
-    if(self.toDoItems.count == 0)
-        self.navigationItem.leftBarButtonItem = nil;
+    if(self.toDoItems.count == 0){
+        NSArray *buttonArray = [NSArray arrayWithObjects:self.addUIBarButtonItem, nil];
+        self.navigationItem.rightBarButtonItems = buttonArray;
+    }
     else
     {
-        UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButton:)];
-        self.navigationItem.leftBarButtonItem = barButtonItem;
+        UIBarButtonItem *editBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButton:)];
+        
+        NSArray *buttonArray = [NSArray arrayWithObjects:self.addUIBarButtonItem, editBarButtonItem, nil];
+        self.navigationItem.rightBarButtonItems = buttonArray;
     }
 }
 
