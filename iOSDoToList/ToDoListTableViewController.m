@@ -43,6 +43,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    NSLog(@"ToDoListTableViewController View did load");
     // Setup refresh control for example app
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(toggleCells:) forControlEvents:UIControlEventValueChanged];
@@ -51,8 +52,11 @@
     
     [self.tableView addSubview:refreshControl];
     
-    self.toDoItems = [[NSMutableArray alloc]init];
-    self.tempItems = [[NSMutableArray alloc]init];
+    if (self.toDoItems == nil)
+        self.toDoItems = [[NSMutableArray alloc]init];
+    
+    if (self.tempItems == nil)
+        self.tempItems = [[NSMutableArray alloc]init];
     
     self.selectedSegment = [NSNumber numberWithInt:0];
     [self loadInitialData];

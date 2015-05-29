@@ -7,9 +7,11 @@
 //
 
 #import "ListsViewController.h"
+#import "ToDoListTableViewController.h"
 
 @interface ListsViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property NSInteger selectedListIndex;
 
 @end
 
@@ -18,10 +20,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSLog(@"ListsViewController: View did load");
     self.filterArray = [[NSMutableArray alloc] initWithObjects:@"Today", @"Tomorrow", @"Upcoming", @"No due dates", @"Everything", nil];
     
     // Load custom lists
-    self.customListArray = [[NSMutableArray alloc]init];
+    self.customListDictionary = [[NSMutableDictionary alloc]init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,7 +41,7 @@
         return self.filterArray.count;
     }
     else if (section == 1){
-        return self.customListArray.count;
+        return self.customListDictionary.count;
     }
     else{
         return 1;
@@ -53,7 +56,9 @@
         cell.textLabel.text = [self.filterArray objectAtIndex:indexPath.row];
     }
     else if (indexPath.section == 1){
-        cell.textLabel.text = [self.customListArray objectAtIndex:indexPath.row];
+        NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+        NSLog(@"Dictionary: %@\n\n Keys: %@", self.customListDictionary, sortedKeys);
+        cell.textLabel.text = [sortedKeys objectAtIndex:indexPath.row];
     }
     else {
         
@@ -73,6 +78,7 @@
     }
     
     else if (indexPath.section == 1){
+        self.selectedListIndex = indexPath.row;
         [self performSegueWithIdentifier:@"EverythingSegue" sender:self];
     }
     
@@ -105,7 +111,8 @@
     }
     else{
         NSLog(@"Add");
-        [self.customListArray addObject:inputTitle];
+        NSMutableArray *newList = [[NSMutableArray alloc]init];
+        [self.customListDictionary setValue:newList forKey:inputTitle];
         [self.tableView reloadData];
     }
     NSLog(@"Entered: %@",inputTitle);
@@ -118,8 +125,14 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    ToDoListTableViewController *toDoListViewController = [segue destinationViewController];
     
-    
+    if(self.customListDictionary.count > 0){
+        NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+        toDoListViewController.title = [sortedKeys objectAtIndex:self.selectedListIndex];
+        toDoListViewController.toDoItems = [self.customListDictionary valueForKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
+        NSLog(@"%@", toDoListViewController.toDoItems);
+    }
 }
 
 @end
