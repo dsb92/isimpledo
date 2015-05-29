@@ -9,6 +9,7 @@
 #import "ListsViewController.h"
 
 @interface ListsViewController ()
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -18,6 +19,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.filterArray = [[NSMutableArray alloc] initWithObjects:@"Today", @"Tomorrow", @"Upcoming", @"No due dates", @"Everything", nil];
+    
+    // Load custom lists
+    self.customListArray = [[NSMutableArray alloc]init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,7 +38,7 @@
         return self.filterArray.count;
     }
     else if (section == 1){
-        return 2;
+        return self.customListArray.count;
     }
     else{
         return 1;
@@ -49,7 +53,7 @@
         cell.textLabel.text = [self.filterArray objectAtIndex:indexPath.row];
     }
     else if (indexPath.section == 1){
-        
+        cell.textLabel.text = [self.customListArray objectAtIndex:indexPath.row];
     }
     else {
         
@@ -68,6 +72,10 @@
         }
     }
     
+    else if (indexPath.section == 1){
+        [self performSegueWithIdentifier:@"EverythingSegue" sender:self];
+    }
+    
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
@@ -82,16 +90,36 @@
         return @"";
     }
 }
+- (IBAction)NewListTapped:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Add new list" message:@"Please name your custom list:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Add", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField *alertTextField = [alert textFieldAtIndex:0];
+    alertTextField.placeholder = @"Enter name of list";
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    NSString *inputTitle = [[alertView textFieldAtIndex:0] text];
+    if (buttonIndex == 0){
+        NSLog(@"Cancel");
+    }
+    else{
+        NSLog(@"Add");
+        [self.customListArray addObject:inputTitle];
+        [self.tableView reloadData];
+    }
+    NSLog(@"Entered: %@",inputTitle);
+}
 
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    
 }
-*/
 
 @end

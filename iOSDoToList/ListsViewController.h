@@ -11,5 +11,6 @@
 @interface ListsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property NSMutableArray *filterArray;
+@property NSMutableArray *customListArray;
 
 @end

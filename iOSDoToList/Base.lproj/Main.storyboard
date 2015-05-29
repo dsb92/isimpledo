@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="att-LU-cA6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="att-LU-cA6">
     <dependencies>
         <deployment version="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -400,13 +400,13 @@
         <!--Lists-->
         <scene sceneID="4jK-Pm-7tP">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XBm-2B-eqZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="n2q-6F-g9N" customClass="ListsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Q0b-2U-b4P"/>
                         <viewControllerLayoutGuide type="bottom" id="iIF-3W-Khz"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="KGE-mF-ff6">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="vm8-9n-33z">
@@ -449,12 +449,18 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Lists" id="jB9-nc-Z4m">
-                        <barButtonItem key="rightBarButtonItem" title="New list" id="8cd-gw-4ww"/>
+                        <barButtonItem key="rightBarButtonItem" title="New list" id="8cd-gw-4ww">
+                            <connections>
+                                <action selector="NewListTapped:" destination="n2q-6F-g9N" id="ncG-9P-YMu"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="tableView" destination="vm8-9n-33z" id="NZY-p5-8VZ"/>
                         <segue destination="jQQ-ge-ChJ" kind="show" identifier="EverythingSegue" id="E51-kW-uCt"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XBm-2B-eqZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1182" y="135.75"/>
         </scene>
@@ -473,9 +479,6 @@
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="YyQ-gW-DHA">
                                 <rect key="frame" x="0.0" y="-2" width="150" height="2"/>
                                 <color key="tintColor" red="0.34901961679999999" green="0.69411766529999996" blue="0.30196079609999998" alpha="1" colorSpace="deviceRGB"/>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="0.0" y="64" width="400" height="2"/>
-                                </variation>
                             </progressView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="74i-yi-lJ3">
                                 <rect key="frame" x="-61" y="-14" width="123" height="29"/>
@@ -486,9 +489,6 @@
                                     <segment title="Upcoming"/>
                                 </segments>
                                 <color key="tintColor" red="0.34901961679999999" green="0.69411766529999996" blue="0.30196079609999998" alpha="1" colorSpace="deviceRGB"/>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="16" y="74" width="368" height="29"/>
-                                </variation>
                                 <connections>
                                     <action selector="mainControlSwitched:" destination="jQQ-ge-ChJ" eventType="valueChanged" id="Ek8-wh-Usa"/>
                                 </connections>
@@ -534,7 +534,8 @@
                                                             <exclude reference="hDF-LN-9MR"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="256" y="11" width="27" height="26"/>
                                                         <mask key="constraints">
                                                             <include reference="hDF-LN-9MR"/>
                                                         </mask>
@@ -887,8 +888,8 @@
         <image name="repeat" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="3cj-Dv-FxV"/>
-        <segue reference="vOp-nC-O4y"/>
+        <segue reference="uIX-si-1wa"/>
         <segue reference="jDg-9v-zG5"/>
+        <segue reference="vOp-nC-O4y"/>
     </inferredMetricsTieBreakers>
 </document>
