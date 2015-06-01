@@ -86,6 +86,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+// User presses back button ("lists") from navigationcontroller
+- (void)viewWillDisappear:(BOOL)animated{   
+    [super viewWillDisappear:animated];
+    
+    NSLog(@"gone...");
+}
+
 #pragma mark - applicationDidEnterBackGround
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification{
