@@ -449,7 +449,7 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Lists" id="jB9-nc-Z4m">
-                        <barButtonItem key="rightBarButtonItem" title="New list" id="8cd-gw-4ww">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="8cd-gw-4ww">
                             <connections>
                                 <action selector="NewListTapped:" destination="n2q-6F-g9N" id="ncG-9P-YMu"/>
                             </connections>
@@ -690,6 +690,11 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="To-Do List" id="ufQ-Ej-nnE">
+                        <barButtonItem key="leftBarButtonItem" title="Home" id="HIS-je-FA6">
+                            <connections>
+                                <segue destination="Zbd-QG-Zux" kind="unwind" unwindAction="unWindFromToDoList:" id="mf6-VN-9Ah"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="QVf-bF-bD1">
                             <connections>
                                 <segue destination="Xgx-km-Kc6" kind="presentation" id="3cj-Dv-FxV"/>
@@ -709,8 +714,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Idg-bt-Jtg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Zbd-QG-Zux" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1974" y="135.75"/>
+            <point key="canvasLocation" x="2008.5" y="135.75"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="NMC-es-Kqu">
@@ -888,8 +894,8 @@
         <image name="repeat" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uIX-si-1wa"/>
         <segue reference="jDg-9v-zG5"/>
+        <segue reference="uIX-si-1wa"/>
         <segue reference="vOp-nC-O4y"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -90,7 +90,8 @@
 - (void)viewWillDisappear:(BOOL)animated{   
     [super viewWillDisappear:animated];
     
-    NSLog(@"gone...");
+    NSLog(@"view vill disappear gone...");
+    
 }
 
 #pragma mark - applicationDidEnterBackGround

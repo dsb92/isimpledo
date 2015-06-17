@@ -32,6 +32,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(IBAction)unWindFromToDoList:(UIStoryboardSegue*) segue{
+    ToDoListTableViewController *todoListVC = [segue sourceViewController];
+    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    [self.customListDictionary setValue:todoListVC.tempItems forKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 3;
 }
