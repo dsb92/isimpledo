@@ -12,6 +12,7 @@
 		460E22F21AA1243200D212EE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 460E22F11AA1243200D212EE /* Images.xcassets */; };
 		460E22F81AA33A9D00D212EE /* DateWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 460E22F71AA33A9D00D212EE /* DateWrapper.m */; };
 		460E22FE1AABA26700D212EE /* SegmentForToDoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 460E22FD1AABA26700D212EE /* SegmentForToDoItem.m */; };
+		462593DE1B318883003141DC /* SingletonDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 462593DD1B318883003141DC /* SingletonDictionary.m */; };
 		464B10E11ABF1282008627DC /* LocalNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 464B10E01ABF1282008627DC /* LocalNotifications.m */; };
 		4659BA521A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA471A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m */; };
 		4659BA531A8BF912002C6A48 /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA491A8BF912002C6A48 /* SWCellScrollView.m */; };
@@ -65,6 +66,8 @@
 		460E22F71AA33A9D00D212EE /* DateWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateWrapper.m; sourceTree = "<group>"; };
 		460E22FC1AABA26700D212EE /* SegmentForToDoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentForToDoItem.h; sourceTree = "<group>"; };
 		460E22FD1AABA26700D212EE /* SegmentForToDoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentForToDoItem.m; sourceTree = "<group>"; };
+		462593DC1B318883003141DC /* SingletonDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingletonDictionary.h; sourceTree = "<group>"; };
+		462593DD1B318883003141DC /* SingletonDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingletonDictionary.m; sourceTree = "<group>"; };
 		464B10DF1ABF1282008627DC /* LocalNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalNotifications.h; sourceTree = "<group>"; };
 		464B10E01ABF1282008627DC /* LocalNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalNotifications.m; sourceTree = "<group>"; };
 		4659BA461A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+SWUtilityButtons.h"; sourceTree = "<group>"; };
@@ -188,6 +191,8 @@
 				4659BA451A8BF8DF002C6A48 /* PodFiles */,
 				469C06E21A6B0E5200ED9A9B /* ToDoItem.h */,
 				469C06E31A6B0E5200ED9A9B /* ToDoItem.m */,
+				462593DC1B318883003141DC /* SingletonDictionary.h */,
+				462593DD1B318883003141DC /* SingletonDictionary.m */,
 				460E22FC1AABA26700D212EE /* SegmentForToDoItem.h */,
 				460E22FD1AABA26700D212EE /* SegmentForToDoItem.m */,
 				469C06DC1A6B03C900ED9A9B /* AddToDoItemViewController.h */,
@@ -377,6 +382,7 @@
 				460E22FE1AABA26700D212EE /* SegmentForToDoItem.m in Sources */,
 				467A52621A86529100BBE0BA /* RepeatViewController.m in Sources */,
 				469C06E11A6B048500ED9A9B /* ToDoListTableViewController.m in Sources */,
+				462593DE1B318883003141DC /* SingletonDictionary.m in Sources */,
 				4659BA531A8BF912002C6A48 /* SWCellScrollView.m in Sources */,
 				469C06B61A69857F00ED9A9B /* main.m in Sources */,
 				469C06DE1A6B03C900ED9A9B /* AddToDoItemViewController.m in Sources */,

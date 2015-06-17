@@ -59,7 +59,7 @@
         self.tempItems = [[NSMutableArray alloc]init];
     
     self.selectedSegment = [NSNumber numberWithInt:0];
-    [self loadInitialData];
+    //[self loadInitialData];
     
     for(ToDoItem *item in self.toDoItems)
         [self.tempItems addObject:item];
@@ -97,6 +97,7 @@
 #pragma mark - applicationDidEnterBackGround
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification{
+    /*
     NSString *filePath= [self pathOfFile];
     
     NSMutableArray *mainArray = [[NSMutableArray alloc]init];
@@ -105,13 +106,13 @@
         ToDoItem *item = [self.tempItems objectAtIndex:i];
         NSMutableArray *array = [[NSMutableArray alloc]init];
         
-        /* Non-nullable values */
+        // Non-nullable values
         [array addObject:item.itemid];
         [array addObject:item.itemName];
         [array addObject:[NSNumber numberWithBool:item.completed]];
         [array addObject:item.creationDate];
         
-        /* Nullable values */
+        // Nullable values
         if(item.segmentForItem.thestringid == nil)
             [array addObject:@""];
         else
@@ -148,6 +149,7 @@
     [mainArray writeToFile:filePath atomically:YES];
     NSLog(@"%@", filePath);
     NSLog(@"%@", mainArray);
+     */
     
     // How many items have exceeded the current date(if any reminder given)
     NSUInteger count = 0;

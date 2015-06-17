@@ -23,8 +23,193 @@
     NSLog(@"ListsViewController: View did load");
     self.filterArray = [[NSMutableArray alloc] initWithObjects:@"Today", @"Tomorrow", @"Upcoming", @"No due dates", @"Everything", nil];
     
+    
     // Load custom lists
     self.customListDictionary = [[NSMutableDictionary alloc]init];
+    [self loadCustomDictionary];
+    
+    if (self.customListDictionary.count == 0){
+        NSMutableArray *newList = [[NSMutableArray alloc]init];
+        [self.customListDictionary setValue:newList forKey:@"Grocery"];
+        [self.customListDictionary setValue:newList forKey:@"School"];
+        [self.customListDictionary setValue:newList forKey:@"Private"];
+    }
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+}
+
+-(void) loadCustomDictionary{
+    NSString *filePath= [self pathOfFile];
+    
+    NSMutableArray *listArray = [NSMutableArray arrayWithContentsOfFile:filePath];
+    NSMutableArray *newList = [[NSMutableArray alloc]init];
+    NSString *key;
+    
+    for (NSMutableArray *list in listArray) {
+        key = [list objectAtIndex:0];
+        for (int i=1; i<list.count; i++) {
+            
+            ToDoItem *item = [[ToDoItem alloc]init];
+            item.segmentForItem = [[SegmentForToDoItem alloc]init];
+            NSArray *array = [list objectAtIndex:i];
+            
+            @try {
+                
+                // get item id
+                if ([array objectAtIndex:0]!=nil) {
+                    
+                    item.itemid = [array objectAtIndex:0];
+                }
+                
+                // get item name
+                if ([array objectAtIndex:1]!=nil) {
+                    
+                    item.itemName = [array objectAtIndex:1];
+                }
+                
+                // get complete state
+                if ([array objectAtIndex:2]!=nil) {
+                    // To retreive BOOL value from NSNumber object in array, add boolValue
+                    item.completed = [[array objectAtIndex:2]boolValue];
+                }
+                
+                // get creation date
+                if ([array objectAtIndex:3]!=nil) {
+                    item.creationDate = [array objectAtIndex:3];
+                }
+                
+                // get segment string id for to-do item
+                if ([array objectAtIndex:4]!=nil) {
+                    item.segmentForItem.thestringid = [array objectAtIndex:4];
+                }
+                
+                // get segment segment for to-do item
+                if ([array objectAtIndex:5]!=nil) {
+                    item.segmentForItem.segment = [array objectAtIndex:5];
+                }
+                
+                // get end date
+                if ([array objectAtIndex:6]!=nil) {
+                    item.endDate = [array objectAtIndex:6];
+                }
+                
+                // get alert selection
+                if ([array objectAtIndex:7]!=nil) {
+                    item.alertSelection = [array objectAtIndex:7];
+                }
+                
+                // get repeat selection
+                if ([array objectAtIndex:8]!=nil) {
+                    item.repeatSelection = [array objectAtIndex:8];
+                }
+                
+                if ([array objectAtIndex:9]!=nil) {
+                    item.actualEndDate = [array objectAtIndex:9];
+                }
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
+            }
+            
+            [newList addObject:item];
+        }
+        
+        
+        [self.customListDictionary setValue:newList forKey:key];
+        newList = [[NSMutableArray alloc]init];
+    }
+
+}
+
+- (void)applicationDidEnterBackground:(NSNotification *)notification{
+    NSString *filePath= [self pathOfFile];
+    
+    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    NSMutableArray *listArray = [[NSMutableArray alloc]init];
+    
+    for(id key in sortedKeys){
+        NSMutableArray *mainArray = [[NSMutableArray alloc]init];
+        
+        // Add key as first item (Grocery etc..)
+        [mainArray addObject:key];
+        // Return to do list for each key (Grocery, school, private etc.)
+        id list = [self.customListDictionary objectForKey:key];
+        
+        for (ToDoItem *item in list) {
+            NSMutableArray *array = [[NSMutableArray alloc]init];
+            
+            /* Non-nullable values */
+            [array addObject:item.itemid];
+            [array addObject:item.itemName];
+            [array addObject:[NSNumber numberWithBool:item.completed]];
+            [array addObject:item.creationDate];
+            
+            /* Nullable values */
+            if(item.segmentForItem.thestringid == nil)
+                [array addObject:@""];
+            else
+                [array addObject:item.segmentForItem.thestringid];
+            
+            if(item.segmentForItem.segment == nil)
+                [array addObject:@""];
+            else
+                [array addObject:item.segmentForItem.segment];
+            
+            if(item.endDate == nil)
+                [array addObject:@""];
+            else
+                [array addObject:item.endDate];
+            
+            if(item.alertSelection== nil)
+                [array addObject:@""];
+            else
+                [array addObject:item.alertSelection];
+            
+            if(item.repeatSelection == nil)
+                [array addObject:@""];
+            else
+                [array addObject:item.repeatSelection];
+            
+            if(item.actualEndDate == nil)
+                NSLog(@"%@ has nil actualEndDate!", item.itemName);
+            else
+                [array addObject:item.actualEndDate];
+            
+            [mainArray addObject:array];
+        }
+        
+        [listArray addObject:mainArray];
+    }
+    
+    // listarray{
+    //              mainArray {
+    //                          grocery {
+    //                                      itemid
+    //                                      itemname
+    //                                      ...
+    //                                  }
+    //                          school  {
+    //                                      itemid
+    //                                      itemname
+    //                                      ...
+    //                                  }
+    //                          }
+    //          }
+    
+    [listArray writeToFile:filePath atomically:YES];
+    NSLog(@"%@", filePath);
+    NSLog(@"%@", listArray);
+}
+
+-(NSString *)pathOfFile{
+    // Returns an array of directories
+    // App's document is the first element in this array
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path =[[NSString alloc] initWithString:[documentsDirectory stringByAppendingPathComponent:@"todolist.plist"]];
+    
+    return path;
 }
 
 - (void)didReceiveMemoryWarning {
