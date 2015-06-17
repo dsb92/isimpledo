@@ -262,12 +262,13 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [[UITableViewCell alloc] init];
+    
     NSUInteger listCount;
+    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
     
     if (indexPath.section == 0){
         cell.textLabel.text = [self.filterArray objectAtIndex:indexPath.row];
         
-        NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
         NSMutableArray *allLists = [[NSMutableArray alloc]init];
         // Foreach key in dictionary
         for(id key in sortedKeys) {
@@ -276,19 +277,64 @@
         }
         
         listCount = allLists.count;
+        
+        UILabel *label = [[UILabel alloc] init];
+        label.text = [NSString stringWithFormat:@"%lu", (unsigned long)listCount];
+        label.textColor = [UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0];
+        [label setFrame:cell.frame];
+        label.numberOfLines = 0;
+        [label setTextAlignment:NSTextAlignmentRight];
+        
+        [cell.contentView addSubview:label];
     }
     else if (indexPath.section == 1){
-        NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
         NSLog(@"Dictionary: %@\n\n Keys: %@", self.customListDictionary, sortedKeys);
         cell.textLabel.text = [sortedKeys objectAtIndex:indexPath.row];
         
+        NSMutableArray *list = [self.customListDictionary valueForKey:sortedKeys[indexPath.row]];
+        
         listCount = [[self.customListDictionary valueForKey:[sortedKeys objectAtIndex:indexPath.row]] count];
+        
+        bool hasAnyOutDated = [self hasAnyOutdated:list];
+        
+        if (hasAnyOutDated){
+            UILabel *label = [[UILabel alloc] init];
+            label.text = [NSString stringWithFormat:@"%lu !", (unsigned long)listCount];
+            
+            NSMutableAttributedString *text =
+            [[NSMutableAttributedString alloc]
+             initWithAttributedString: label.attributedText];
+            
+            [text addAttribute:NSForegroundColorAttributeName
+                         value:[UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0]
+                         range:NSMakeRange(0, 1)];
+            
+            [text addAttribute:NSForegroundColorAttributeName
+                         value:[UIColor redColor]
+                         range:NSMakeRange(2, 1)];
+            [label setAttributedText: text];
+            
+            [label setFrame:cell.frame];
+            label.numberOfLines = 0;
+            [label setTextAlignment:NSTextAlignmentRight];
+            [cell.contentView addSubview:label];
+        }
+        else{
+            UILabel *label = [[UILabel alloc] init];
+            label.text = [NSString stringWithFormat:@"%lu", (unsigned long)listCount];
+            label.textColor = [UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0];
+            [label setFrame:cell.frame];
+            label.numberOfLines = 0;
+            [label setTextAlignment:NSTextAlignmentRight];
+            
+            [cell.contentView addSubview:label];
+        }
         
     }
     else {
         
     }
-    
+    /*
     UILabel *label = [[UILabel alloc] init];
     label.text = [NSString stringWithFormat:@"%lu", (unsigned long)listCount];
     label.textColor = [UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0];
@@ -297,10 +343,35 @@
     [label setTextAlignment:NSTextAlignmentRight];
 
     [cell.contentView addSubview:label];
-    
+    */
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
+}
+
+-(bool) hasAnyOutdated:(NSMutableArray*)list{
+    bool hasAnyOutDated = false;
+    
+    for(ToDoItem* item in list){
+        NSDate *currentDate = [DateWrapper convertToDate:[DateWrapper getCurrentDate]];
+        NSDate *itemDueDate = [DateWrapper convertToDate:item.endDate];
+        
+        if(itemDueDate==nil){
+            continue;
+        }
+        // If current date is greater than item's due date
+        if([currentDate compare:itemDueDate] == NSOrderedDescending || [currentDate compare:itemDueDate] == NSOrderedSame)
+        {
+            hasAnyOutDated = true;
+            return hasAnyOutDated;
+        }
+        else{
+            hasAnyOutDated = false;
+            return hasAnyOutDated;
+        }
+    }
+    
+    return hasAnyOutDated;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
