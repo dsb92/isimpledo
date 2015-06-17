@@ -62,6 +62,9 @@
     
     self.selectedSegment = [NSNumber numberWithInt:0];
     
+    self.toDoItems = [self sortedItemsOnDate:self.toDoItems];
+    [self.tableView reloadData];
+    
     for(ToDoItem *item in self.toDoItems)
         [self.tempItems addObject:item];
     
@@ -98,6 +101,8 @@
 #pragma mark - applicationDidEnterBackGround
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification{
+    if (!self.canAddItem) return;
+    
     NSString *filePath= [self pathOfFile];
     
     NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
@@ -282,9 +287,13 @@
     //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     //SWTableViewCell *cell = [[SWTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
-    cell.leftUtilityButtons = [self leftButtons:indexPath];
-    cell.rightUtilityButtons = [self rightButtons];
-    cell.delegate = self;
+    
+    if(self.canAddItem){
+        cell.leftUtilityButtons = [self leftButtons:indexPath];
+        cell.rightUtilityButtons = [self rightButtons];
+        cell.delegate = self;
+    }
+    
     
     ToDoItem *toDoItem = [self.toDoItems objectAtIndex:indexPath.row];
     
@@ -299,10 +308,11 @@
     else
         cell.detailTextLabel.text = @"";
     
-    if(toDoItem.completed)
+    if(toDoItem.completed || !self.canAddItem)
         cell.accessoryType = UITableViewCellAccessoryNone;
-    else
+    else{
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
     
     UIImageView *repeatImage = (UIImageView*)[cell viewWithTag:100];
     if([toDoItem.repeatSelection length] !=0 && ![toDoItem.repeatSelection isEqualToString:@"Never"])
@@ -318,7 +328,7 @@
         self.deleteBarButton.enabled = YES;
     
     ToDoItem *item = [self.toDoItems objectAtIndex:indexPath.row];
-    if(item.completed || self.editing) return;
+    if(item.completed || self.editing || !self.canAddItem) return;
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     

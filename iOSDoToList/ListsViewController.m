@@ -238,12 +238,13 @@
         
         NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
         [self.customListDictionary setValue:todoListVC.tempItems forKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
+        [self.tableView reloadData];
     }
     
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 2;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -261,18 +262,43 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [[UITableViewCell alloc] init];
+    NSUInteger listCount;
     
     if (indexPath.section == 0){
         cell.textLabel.text = [self.filterArray objectAtIndex:indexPath.row];
+        
+        NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+        NSMutableArray *allLists = [[NSMutableArray alloc]init];
+        // Foreach key in dictionary
+        for(id key in sortedKeys) {
+            NSMutableArray *list = [self.customListDictionary objectForKey:key];
+            [allLists addObjectsFromArray:list];
+        }
+        
+        listCount = allLists.count;
     }
     else if (indexPath.section == 1){
         NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
         NSLog(@"Dictionary: %@\n\n Keys: %@", self.customListDictionary, sortedKeys);
         cell.textLabel.text = [sortedKeys objectAtIndex:indexPath.row];
+        
+        listCount = [[self.customListDictionary valueForKey:[sortedKeys objectAtIndex:indexPath.row]] count];
+        
     }
     else {
         
     }
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.text = [NSString stringWithFormat:@"%lu", (unsigned long)listCount];
+    label.textColor = [UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0];
+    [label setFrame:cell.frame];
+    label.numberOfLines = 0;
+    [label setTextAlignment:NSTextAlignmentRight];
+
+    [cell.contentView addSubview:label];
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
 }
@@ -296,6 +322,7 @@
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    
     if (section == 0){
         return @"Filters";
     }
@@ -306,14 +333,62 @@
         return @"";
     }
 }
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    // Set the text color of our header/footer text.
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    [header.textLabel setTextColor:[UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0]];
+    
+    // Set the background color of our header/footer.
+    //header.contentView.backgroundColor = [UIColor blackColor];
+    
+    // You can also do this to set the background color of our header/footer,
+    //    but the gradients/other effects will be retained.
+    // view.tintColor = [UIColor blackColor];
+}
+
 - (IBAction)NewListTapped:(id)sender {
+    /*
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Add new list" message:@"Please name your custom list:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Add", nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     UITextField *alertTextField = [alert textFieldAtIndex:0];
     alertTextField.placeholder = @"Enter name of list";
     [alert show];
+     */
+    
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:@"Add new list"
+                                  message:@"Please name your custom list:"
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction * action) {
+                                                   //Do Some action here
+                                                   NSLog(@"Add");
+                                                   NSString *inputTitle = ((UITextField *)[alert.textFields objectAtIndex:0]).text;
+                                                   
+                                                   NSMutableArray *newList = [[NSMutableArray alloc]init];
+                                                   [self.customListDictionary setValue:newList forKey:inputTitle];
+                                                   [self.tableView reloadData];
+                                                   
+                                               }];
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action) {
+                                                       NSLog(@"Cancel");
+                                                       [alert dismissViewControllerAnimated:YES completion:nil];
+                                                   }];
+    
+    [alert addAction:ok];
+    [alert addAction:cancel];
+    
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"Enter name of list";
+    }];
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
-
+/*
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     NSString *inputTitle = [[alertView textFieldAtIndex:0] text];
     if (buttonIndex == 0){
@@ -327,7 +402,7 @@
     }
     NSLog(@"Entered: %@",inputTitle);
 }
-
+*/
 
 #pragma mark - Navigation
 
