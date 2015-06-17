@@ -20,11 +20,27 @@
     UIApplicationState state = [application applicationState];
     // If the user is currently using this app.
     if (state == UIApplicationStateActive) {
+        /*
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reminder"
                                                         message:notification.alertBody
                                                        delegate:self cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show];
+        */
+        
+        UIAlertController * alert=   [UIAlertController
+                                      alertControllerWithTitle:@"Reminder"
+                                      message:notification.alertBody
+                                      preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action) {
+                                                   }];
+        
+        [alert addAction:ok];
+        #define ROOTVIEW [[[UIApplication sharedApplication] keyWindow] rootViewController]
+        [ROOTVIEW presentViewController:alert animated:YES completion:^{}];
+
     }
     // Request to reload table view data
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:self];
