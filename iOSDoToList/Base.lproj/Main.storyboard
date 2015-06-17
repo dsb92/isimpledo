@@ -458,6 +458,9 @@
                     <connections>
                         <outlet property="tableView" destination="vm8-9n-33z" id="NZY-p5-8VZ"/>
                         <segue destination="jQQ-ge-ChJ" kind="show" identifier="EverythingSegue" id="E51-kW-uCt"/>
+                        <segue destination="jQQ-ge-ChJ" kind="show" identifier="CustomListSegue" id="8Hb-Gw-VHF"/>
+                        <segue destination="jQQ-ge-ChJ" kind="show" identifier="NoDueDatesSegue" id="xRn-5R-UlK"/>
+                        <segue destination="jQQ-ge-ChJ" kind="show" identifier="UpcomingSegue" id="Pxc-SH-3P3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XBm-2B-eqZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -896,6 +899,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="jDg-9v-zG5"/>
         <segue reference="uIX-si-1wa"/>
+        <segue reference="Pxc-SH-3P3"/>
         <segue reference="vOp-nC-O4y"/>
     </inferredMetricsTieBreakers>
 </document>

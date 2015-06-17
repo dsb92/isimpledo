@@ -44,7 +44,9 @@
     [super viewDidLoad];
 
     NSLog(@"ToDoListTableViewController View did load");
+    
     // Setup refresh control for example app
+    
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(toggleCells:) forControlEvents:UIControlEventValueChanged];
     
@@ -961,6 +963,11 @@
 }
 
 -(void)handleEditButton{
+    if (!self.canAddItem){
+        self.navigationItem.rightBarButtonItems = nil;
+        return;
+    }
+    
     if(self.toDoItems.count == 0){
         NSArray *buttonArray = [NSArray arrayWithObjects:self.addUIBarButtonItem, nil];
         self.navigationItem.rightBarButtonItems = buttonArray;

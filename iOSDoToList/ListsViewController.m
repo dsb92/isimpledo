@@ -8,6 +8,7 @@
 
 #import "ListsViewController.h"
 #import "ToDoListTableViewController.h"
+#import "DateWrapper.h"
 
 @interface ListsViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -21,7 +22,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     NSLog(@"ListsViewController: View did load");
-    self.filterArray = [[NSMutableArray alloc] initWithObjects:@"Today", @"Tomorrow", @"Upcoming", @"No due dates", @"Everything", nil];
+    self.filterArray = [[NSMutableArray alloc] initWithObjects:@"Everything", nil];
     
     
     // Load custom lists
@@ -231,8 +232,14 @@
 
 -(IBAction)unWindFromToDoList:(UIStoryboardSegue*) segue{
     ToDoListTableViewController *todoListVC = [segue sourceViewController];
-    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-    [self.customListDictionary setValue:todoListVC.tempItems forKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
+    
+    // If user did not tapped one of the filters
+    if (todoListVC.canAddItem == true){
+        
+        NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+        [self.customListDictionary setValue:todoListVC.tempItems forKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
+    }
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -282,7 +289,7 @@
     
     else if (indexPath.section == 1){
         self.selectedListIndex = indexPath.row;
-        [self performSegueWithIdentifier:@"EverythingSegue" sender:self];
+        [self performSegueWithIdentifier:@"CustomListSegue" sender:self];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -330,14 +337,89 @@
     // Pass the selected object to the new view controller.
     ToDoListTableViewController *toDoListViewController = [segue destinationViewController];
     
-    if(self.customListDictionary.count > 0){
-        NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-        toDoListViewController.title = [sortedKeys objectAtIndex:self.selectedListIndex];
-        toDoListViewController.toDoItems = [self.customListDictionary valueForKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
-        toDoListViewController.customListDictionary = self.customListDictionary;
-        toDoListViewController.selectedListIndex = self.selectedListIndex;
-        NSLog(@"%@", toDoListViewController.toDoItems);
+    if ([segue.identifier isEqualToString:@"CustomListSegue"]){
+        if(self.customListDictionary.count > 0){
+            NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+            toDoListViewController.title = [sortedKeys objectAtIndex:self.selectedListIndex];
+            toDoListViewController.toDoItems = [self.customListDictionary valueForKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
+            toDoListViewController.customListDictionary = self.customListDictionary;
+            toDoListViewController.selectedListIndex = self.selectedListIndex;
+            toDoListViewController.canAddItem = true;
+            NSLog(@"%@", toDoListViewController.toDoItems);
+        }
+    }
+    else if ([segue.identifier isEqualToString:@"EverythingSegue"]){
+        if(self.customListDictionary.count > 0){
+            NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+            NSMutableArray *allLists = [[NSMutableArray alloc]init];
+            // Foreach key in dictionary
+            for(id key in sortedKeys) {
+                NSMutableArray *list = [self.customListDictionary objectForKey:key];
+                [allLists addObjectsFromArray:list];
+            }
+            
+            toDoListViewController.title = @"Everything";
+            toDoListViewController.toDoItems = allLists;
+            toDoListViewController.canAddItem = false;
+        }
     }
 }
+
+/*
+-(ToDoItem*) groupItems:(ToDoItem*) item comDay:(NSInteger)comDay segment:(NSString*)segment{
+    ToDoItem *temp;
+    NSDate *itemdate = [DateWrapper convertToDate:item.endDate];
+    
+    // If item is placed in Today or Tomorrow, update it so it automatically updates its place.
+    if(itemdate==nil && item.actualEndDate != nil){
+        itemdate = item.actualEndDate;
+    }
+    
+    // If item is placed in All or Upcoming, just keep the item there.
+    if(itemdate==nil && item.actualEndDate == nil)
+    {
+        if([item.itemid isEqualToString:item.segmentForItem.thestringid] && [item.segmentForItem.segment isEqualToString:segment]){
+            temp = [[ToDoItem alloc]init];
+        }
+        
+    }
+    else{
+        NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSCalendarUnitMinute | NSCalendarUnitHour
+                                      | NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:itemdate];
+        
+        NSDateComponents *components = [[NSDateComponents alloc]init];
+        
+        [components setDay:comDay];
+        
+        NSDate *tomorrow = [[NSCalendar currentCalendar] dateByAddingComponents:components toDate:[NSDate date] options:0];
+        
+        NSDateComponents *today = [[NSCalendar currentCalendar] components:NSCalendarUnitMinute | NSCalendarUnitHour
+                                   | NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:tomorrow];
+        
+        if(comDay == 2)
+        {
+            if([today day] <= [otherDay day]){
+                temp = [[ToDoItem alloc]init];
+            }
+            
+            else if([today month] < [otherDay month]){
+                temp = [[ToDoItem alloc]init];
+            }
+            else if ([today year] < [otherDay year]){
+                temp = [[ToDoItem alloc]init];
+            }
+        }else{
+            if([today day] == [otherDay day] &&
+               [today month] == [otherDay month] &&
+               [today year] == [otherDay year]){
+                //do stuff
+                temp = [[ToDoItem alloc]init];
+            }
+        }
+    }
+    
+    return temp;
+}
+ */
 
 @end

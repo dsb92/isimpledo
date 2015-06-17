@@ -18,6 +18,7 @@
 @property NSMutableArray *tempItems;
 @property NSDictionary *customListDictionary;
 @property NSInteger selectedListIndex;
+@property BOOL canAddItem;
 @property ToDoItem *toDoItem;
 
 -(IBAction)unWindFromAdd:(UIStoryboardSegue*) segue;
