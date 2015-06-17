@@ -195,60 +195,6 @@
     NSLog(@"%@", filePath);
     NSLog(@"%@", listArray);
 
-    // How many items have exceeded the current date(if any reminder given)
-    NSUInteger count = 0;
-    
-    NSDate *currentDate = [DateWrapper convertToDate:[DateWrapper getCurrentDate]];
-    
-    for (ToDoItem *item in self.tempItems) {
-        if(!item.completed && ([item.alertSelection length] != 0 || ![item.alertSelection isEqualToString:@"None"])){
-            NSDate *itemDueDate = [DateWrapper convertToDate:item.endDate];
-            if(itemDueDate==nil)continue;
-            
-            if([currentDate compare:itemDueDate] == NSOrderedDescending || [currentDate compare:itemDueDate] == NSOrderedSame){
-                count++;
-            }
-        }
-    }
-    
-    // clear the badge on the icon
-    //[[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-    
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:count];
-    
-    // The following code renumbers the badges of pending notifications (in case user deletes or changes some local notifications while the app was running). So the following code runs, when the user
-    // gets out of the app.
-    
-    // first get a copy of all pending notifications (unfortunately you cannot 'modify' a pending notification)
-    NSArray *pendingNotifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
-    
-    // if there are any pending notifications -> adjust their badge number
-    if (pendingNotifications.count != 0)
-    {
-        // clear all pending notifications
-        [[UIApplication sharedApplication] cancelAllLocalNotifications];
-        
-        // the for loop will 'restore' the pending notifications, but with corrected badge numbers
-        // note : a more advanced method could 'sort' the notifications first !!!
-        NSUInteger badgeNbr = 1;
-        
-        // LIFO order, the last notification created is the first that gets updated.
-        for (UILocalNotification *notification in pendingNotifications)
-        {
-            // modify the badgeNumber
-            NSLog(@"%@", notification);
-            
-            // Dont schedule again for "old" fire dates (with repeatIntervals set)
-            if([[NSDate date] compare:notification.fireDate] == NSOrderedDescending || [[NSDate date] compare:notification.fireDate] == NSOrderedSame) continue;
-            
-            notification.applicationIconBadgeNumber = badgeNbr+count;
-            badgeNbr++;
-            
-            // schedule 'again'
-            [[UIApplication sharedApplication] scheduleLocalNotification:notification];
-        }
-    }
-    
     if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
         [self segmentControlHandling];
 }
