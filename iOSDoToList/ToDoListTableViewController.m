@@ -59,7 +59,6 @@
         self.tempItems = [[NSMutableArray alloc]init];
     
     self.selectedSegment = [NSNumber numberWithInt:0];
-    //[self loadInitialData];
     
     for(ToDoItem *item in self.toDoItems)
         [self.tempItems addObject:item];
@@ -97,60 +96,98 @@
 #pragma mark - applicationDidEnterBackGround
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification{
-    /*
     NSString *filePath= [self pathOfFile];
     
-    NSMutableArray *mainArray = [[NSMutableArray alloc]init];
-    for (int i = 0; i<[self.tempItems count]; i++)
-    {
-        ToDoItem *item = [self.tempItems objectAtIndex:i];
-        NSMutableArray *array = [[NSMutableArray alloc]init];
+    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    [self.customListDictionary setValue:self.tempItems forKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
+    
+    NSMutableArray *listArray = [[NSMutableArray alloc]init];
+    
+    for(id key in sortedKeys){
+        NSMutableArray *mainArray = [[NSMutableArray alloc]init];
         
-        // Non-nullable values
-        [array addObject:item.itemid];
-        [array addObject:item.itemName];
-        [array addObject:[NSNumber numberWithBool:item.completed]];
-        [array addObject:item.creationDate];
+        // Add key as first item (Grocery etc..)
+        [mainArray addObject:key];
+        // Return to do list for each key (Grocery, school, private etc.)
+        id list = [self.customListDictionary objectForKey:key];
         
-        // Nullable values
-        if(item.segmentForItem.thestringid == nil)
-            [array addObject:@""];
-        else
-            [array addObject:item.segmentForItem.thestringid];
+        for (ToDoItem *item in list) {
+            NSMutableArray *array = [[NSMutableArray alloc]init];
+            
+            /* Non-nullable values */
+            [array addObject:item.itemid];
+            [array addObject:item.itemName];
+            [array addObject:[NSNumber numberWithBool:item.completed]];
+            [array addObject:item.creationDate];
+            
+            /* Nullable values */
+            if(item.segmentForItem.thestringid == nil)
+                [array addObject:@""];
+            else
+                [array addObject:item.segmentForItem.thestringid];
+            
+            if(item.segmentForItem.segment == nil)
+                [array addObject:@""];
+            else
+                [array addObject:item.segmentForItem.segment];
+            
+            if(item.endDate == nil)
+                [array addObject:@""];
+            else
+                [array addObject:item.endDate];
+            
+            if(item.alertSelection== nil)
+                [array addObject:@""];
+            else
+                [array addObject:item.alertSelection];
+            
+            if(item.repeatSelection == nil)
+                [array addObject:@""];
+            else
+                [array addObject:item.repeatSelection];
+            
+            if(item.actualEndDate == nil)
+                NSLog(@"%@ has nil actualEndDate!", item.itemName);
+            else
+                [array addObject:item.actualEndDate];
+            
+            [mainArray addObject:array];
+        }
         
-        if(item.segmentForItem.segment == nil)
-            [array addObject:@""];
-        else
-            [array addObject:item.segmentForItem.segment];
-        
-        if(item.endDate == nil)
-            [array addObject:@""];
-        else
-            [array addObject:item.endDate];
-        
-        if(item.alertSelection== nil)
-            [array addObject:@""];
-        else
-            [array addObject:item.alertSelection];
-        
-        if(item.repeatSelection == nil)
-            [array addObject:@""];
-        else
-            [array addObject:item.repeatSelection];
-        
-        if(item.actualEndDate == nil)
-            NSLog(@"%@ has nil actualEndDate!", item.itemName);
-        else
-            [array addObject:item.actualEndDate];
-        
-        [mainArray addObject:array];
+        [listArray addObject:mainArray];
     }
     
-    [mainArray writeToFile:filePath atomically:YES];
-    NSLog(@"%@", filePath);
-    NSLog(@"%@", mainArray);
-     */
+    // listarray{
+    //              mainArray(grocery) {
+    //                                  buy milk {
+    //                                              itemid
+    //                                              itemname
+    //                                              ...
+    //                                          }
+    //                                  buy m  {
+    //                                              itemid
+    //                                              itemname
+    //                                              ...
+    //                                          }
+    //                                  }
+    //              mainArray(school)   {
+    //                                   math {
+    //                                              itemid
+    //                                              itemname
+    //                                              ...
+    //                                          }
+    //                                  english  {
+    //                                              itemid
+    //                                              itemname
+    //                                              ...
+    //                                          }
+    //                                  }
+    //          }
     
+    [listArray writeToFile:filePath atomically:YES];
+    NSLog(@"%@", filePath);
+    NSLog(@"%@", listArray);
+
     // How many items have exceeded the current date(if any reminder given)
     NSUInteger count = 0;
     
@@ -921,78 +958,6 @@
     NSString *path =[[NSString alloc] initWithString:[documentsDirectory stringByAppendingPathComponent:@"todolist.plist"]];
     
     return path;
-}
-
--(void)loadInitialData{
-    NSString *filePath= [self pathOfFile];
-
-    NSMutableArray *mainArray = [NSMutableArray arrayWithContentsOfFile:filePath];
-    
-    for (int i=0; i<[mainArray count]; i++) {
-        ToDoItem *item = [[ToDoItem alloc]init];
-        item.segmentForItem = [[SegmentForToDoItem alloc]init];
-        NSArray *array = [mainArray objectAtIndex:i];
-        
-        @try {
-            
-            // get item id
-            if ([array objectAtIndex:0]!=nil) {
-                
-                item.itemid = [array objectAtIndex:0];
-            }
-            
-            // get item name
-            if ([array objectAtIndex:1]!=nil) {
-                
-                item.itemName = [array objectAtIndex:1];
-            }
-            
-            // get complete state
-            if ([array objectAtIndex:2]!=nil) {
-                // To retreive BOOL value from NSNumber object in array, add boolValue
-                item.completed = [[array objectAtIndex:2]boolValue];
-            }
-            
-            // get creation date
-            if ([array objectAtIndex:3]!=nil) {
-                item.creationDate = [array objectAtIndex:3];
-            }
-            
-            // get segment string id for to-do item
-            if ([array objectAtIndex:4]!=nil) {
-                item.segmentForItem.thestringid = [array objectAtIndex:4];
-            }
-            
-            // get segment segment for to-do item
-            if ([array objectAtIndex:5]!=nil) {
-                item.segmentForItem.segment = [array objectAtIndex:5];
-            }
-            
-            // get end date
-            if ([array objectAtIndex:6]!=nil) {
-                item.endDate = [array objectAtIndex:6];
-            }
-            
-            // get alert selection
-            if ([array objectAtIndex:7]!=nil) {
-                item.alertSelection = [array objectAtIndex:7];
-            }
-            
-            // get repeat selection
-            if ([array objectAtIndex:8]!=nil) {
-                item.repeatSelection = [array objectAtIndex:8];
-            }
-            
-            if ([array objectAtIndex:9]!=nil) {
-                item.actualEndDate = [array objectAtIndex:9];
-            }
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@", exception);
-        }
-
-        [self.toDoItems addObject:item];
-    }
 }
 
 -(void)handleEditButton{

@@ -183,18 +183,30 @@
     }
     
     // listarray{
-    //              mainArray {
-    //                          grocery {
-    //                                      itemid
-    //                                      itemname
-    //                                      ...
+    //              mainArray(grocery) {
+    //                                  buy milk {
+    //                                              itemid
+    //                                              itemname
+    //                                              ...
+    //                                          }
+    //                                  buy m  {
+    //                                              itemid
+    //                                              itemname
+    //                                              ...
+    //                                          }
     //                                  }
-    //                          school  {
-    //                                      itemid
-    //                                      itemname
-    //                                      ...
+    //              mainArray(school)   {
+    //                                   math {
+    //                                              itemid
+    //                                              itemname
+    //                                              ...
+    //                                          }
+    //                                  english  {
+    //                                              itemid
+    //                                              itemname
+    //                                              ...
+    //                                          }
     //                                  }
-    //                          }
     //          }
     
     [listArray writeToFile:filePath atomically:YES];
@@ -322,6 +334,8 @@
         NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
         toDoListViewController.title = [sortedKeys objectAtIndex:self.selectedListIndex];
         toDoListViewController.toDoItems = [self.customListDictionary valueForKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
+        toDoListViewController.customListDictionary = self.customListDictionary;
+        toDoListViewController.selectedListIndex = self.selectedListIndex;
         NSLog(@"%@", toDoListViewController.toDoItems);
     }
 }
