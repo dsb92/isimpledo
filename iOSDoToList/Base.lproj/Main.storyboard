@@ -412,14 +412,6 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="vm8-9n-33z">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="LUa-rK-VSd">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LUa-rK-VSd" id="HsF-MJ-Pzx">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="n2q-6F-g9N" id="PQD-fC-Huh"/>
                                     <outlet property="delegate" destination="n2q-6F-g9N" id="4c8-op-xLa"/>
@@ -543,8 +535,7 @@
                                                             <exclude reference="hDF-LN-9MR"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="256" y="11" width="27" height="26"/>
+                                                    <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="constraints">
                                                             <include reference="hDF-LN-9MR"/>
                                                         </mask>
@@ -559,7 +550,7 @@
                                                     <variation key="heightClass=regular-widthClass=compact" constant="3"/>
                                                 </constraint>
                                                 <constraint firstAttribute="trailingMargin" secondItem="81P-7o-fHx" secondAttribute="trailing" constant="8" id="rHn-f6-vS9">
-                                                    <variation key="heightClass=regular-widthClass=compact" constant="-4"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" constant="-2"/>
                                                 </constraint>
                                             </constraints>
                                             <variation key="default">
