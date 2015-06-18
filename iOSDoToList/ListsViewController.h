@@ -11,6 +11,6 @@
 @interface ListsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property NSMutableArray *filterArray;
-@property NSDictionary *customListDictionary;
+@property NSMutableDictionary *customListDictionary;
 
 @end

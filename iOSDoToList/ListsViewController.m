@@ -9,6 +9,7 @@
 #import "ListsViewController.h"
 #import "ToDoListTableViewController.h"
 #import "DateWrapper.h"
+#import "LocalNotifications.h"
 
 @interface ListsViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -38,6 +39,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+    [self handleEditButton];
 }
 
 
@@ -467,6 +470,39 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
+// Override to support conditional editing of the table view.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the specified item to be editable.
+    if (indexPath.section == 0) return NO;
+    
+    return YES;
+}
+
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    NSMutableArray *list = [self.customListDictionary valueForKey:[sortedKeys objectAtIndex:indexPath.row]];
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete local notifications if any
+        
+        for(ToDoItem *item in list)
+            [LocalNotifications cancelLocalNotification:item];
+        
+        [self.customListDictionary removeObjectForKey:[sortedKeys objectAtIndex:indexPath.row]];
+        
+        // Delete the row from the data source
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self handleEditButton];
+        [self.tableView reloadData];
+        
+    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }
+}
+
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     
     if (section == 0){
@@ -516,6 +552,7 @@
                                                    
                                                    NSMutableArray *newList = [[NSMutableArray alloc]init];
                                                    [self.customListDictionary setValue:newList forKey:inputTitle];
+                                                   [self handleEditButton];
                                                    [self.tableView reloadData];
                                                    
                                                }];
@@ -533,6 +570,42 @@
     }];
     
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+-(void)handleEditButton{
+    if(self.customListDictionary.count == 0){
+        self.navigationItem.leftBarButtonItem = nil;
+    }
+    else
+    {
+        UIBarButtonItem *editBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editTapped:)];
+        
+        self.navigationItem.leftBarButtonItem = editBarButtonItem;
+    }
+}
+
+- (IBAction)editTapped:(id)sender {
+    self.editing = !self.editing;
+    [self.tableView setEditing:self.editing animated:YES];
+    UIBarButtonItem *barButtonItem;
+    
+    
+    if (self.editing){
+        barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editTapped:)];
+        
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+    }
+    else{
+        if(self.customListDictionary.count == 0){
+            //self.navigationItem.leftBarButtonItem = nil;
+        }
+        else
+            barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editTapped:)];
+        
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    }
+    
+    self.navigationItem.leftBarButtonItem = barButtonItem;
 }
 /*
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -557,10 +630,10 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     ToDoListTableViewController *toDoListViewController = [segue destinationViewController];
+    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
     
     if ([segue.identifier isEqualToString:@"CustomListSegue"]){
         if(self.customListDictionary.count > 0){
-            NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
             toDoListViewController.title = [sortedKeys objectAtIndex:self.selectedListIndex];
             toDoListViewController.toDoItems = [self.customListDictionary valueForKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
             toDoListViewController.customListDictionary = self.customListDictionary;
@@ -571,7 +644,6 @@
     }
     else if ([segue.identifier isEqualToString:@"EverythingSegue"]){
         if(self.customListDictionary.count > 0){
-            NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
             NSMutableArray *allLists = [[NSMutableArray alloc]init];
             // Foreach key in dictionary
             for(id key in sortedKeys) {
