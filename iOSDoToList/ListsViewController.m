@@ -41,6 +41,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     
     [self handleEditButton];
+    
+    // User can select list during editing but only to change the titel of the list.
+    self.tableView.allowsSelectionDuringEditing = true;
 }
 
 
@@ -453,21 +456,73 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0){
-        NSString *filter = [self.filterArray objectAtIndex:indexPath.row];
+    
+    // If not editing
+    if (!self.editing){
+        if (indexPath.section == 0){
+            NSString *filter = [self.filterArray objectAtIndex:indexPath.row];
+            
+            if ([filter isEqualToString:[self.filterArray lastObject]]){
+                // User tapped 'Everything'
+                [self performSegueWithIdentifier:@"EverythingSegue" sender:self];
+            }
+        }
         
-        if ([filter isEqualToString:[self.filterArray lastObject]]){
-            // User tapped 'Everything'
-            [self performSegueWithIdentifier:@"EverythingSegue" sender:self];
+        else if (indexPath.section == 1){
+            self.selectedListIndex = indexPath.row;
+            [self performSegueWithIdentifier:@"CustomListSegue" sender:self];
+        }
+        
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    }
+    // If editing
+    else {
+        if (indexPath.section == 0) return;
+        
+        else if (indexPath.section == 1){
+            NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+            NSString *oldKey = [sortedKeys objectAtIndex:indexPath.row];
+            
+            UIAlertController * alert=   [UIAlertController
+                                          alertControllerWithTitle:@"Edit list"
+                                          message:@"Rename your custom list:"
+                                          preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action) {
+                                                           //Do Some action here
+                                                           
+                                                           NSString *inputTitle = ((UITextField *)[alert.textFields objectAtIndex:0]).text;
+                                                           // Set current object for old key with new key (which is not empty or equal to old key)
+                                                           if (![inputTitle isEqualToString:@""] && ![inputTitle isEqualToString:oldKey])
+                                                           {
+                                                               [self.customListDictionary setObject:[self.customListDictionary objectForKey:oldKey] forKey:inputTitle];
+                                                               // Delete object for old key.
+                                                               [self.customListDictionary removeObjectForKey:oldKey];
+                                                               NSLog(@"Changed list titel");
+                                                               [self.tableView reloadData];
+                                                           }
+                                                           
+                                                           
+                                                       }];
+            UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * action) {
+                                                               NSLog(@"Cancel");
+                                                               [alert dismissViewControllerAnimated:YES completion:nil];
+                                                           }];
+            
+            [alert addAction:ok];
+            [alert addAction:cancel];
+            
+            [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = @"Rename list";
+                textField.text = oldKey;
+            }];
+            
+            [self presentViewController:alert animated:YES completion:nil];
         }
     }
     
-    else if (indexPath.section == 1){
-        self.selectedListIndex = indexPath.row;
-        [self performSegueWithIdentifier:@"CustomListSegue" sender:self];
-    }
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 // Override to support conditional editing of the table view.
