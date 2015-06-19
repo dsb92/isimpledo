@@ -969,7 +969,7 @@
                             </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="aev-gi-CGV">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="61" id="duD-4s-fyP">
                                         <variation key="heightClass=regular-widthClass=compact" constant="121"/>
@@ -1030,12 +1030,10 @@
                             <constraint firstItem="S2b-RW-H43" firstAttribute="top" secondItem="q1l-nL-33z" secondAttribute="bottom" constant="94" id="YYa-0n-CKz"/>
                             <constraint firstItem="kpa-7J-okq" firstAttribute="leading" secondItem="S2b-RW-H43" secondAttribute="trailing" constant="8" symbolic="YES" id="gNP-Ms-Ur3"/>
                             <constraint firstItem="S2b-RW-H43" firstAttribute="leading" secondItem="OgE-4n-Ho5" secondAttribute="leadingMargin" id="hfD-31-7ap"/>
-                            <constraint firstItem="S2C-dQ-OLC" firstAttribute="top" secondItem="aev-gi-CGV" secondAttribute="bottom" constant="264" id="iHc-MJ-sEw">
-                                <variation key="heightClass=regular-widthClass=compact" constant="268"/>
-                            </constraint>
                             <constraint firstItem="9TF-ld-E0E" firstAttribute="leading" secondItem="S2b-RW-H43" secondAttribute="leading" id="iR1-7x-PLL"/>
                             <constraint firstItem="9TF-ld-E0E" firstAttribute="top" secondItem="S2b-RW-H43" secondAttribute="bottom" constant="26" id="t5b-KD-xRF"/>
                             <constraint firstItem="kpa-7J-okq" firstAttribute="top" secondItem="S2b-RW-H43" secondAttribute="top" id="uRg-l1-mOz"/>
+                            <constraint firstItem="aev-gi-CGV" firstAttribute="top" secondItem="9TF-ld-E0E" secondAttribute="bottom" constant="50" id="uSo-41-iOZ"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
@@ -1043,17 +1041,17 @@
                                 <exclude reference="aev-gi-CGV"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="YYa-0n-CKz"/>
+                                <exclude reference="hfD-31-7ap"/>
                                 <exclude reference="GfB-E4-5kv"/>
                                 <exclude reference="iR1-7x-PLL"/>
                                 <exclude reference="t5b-KD-xRF"/>
-                                <exclude reference="YYa-0n-CKz"/>
-                                <exclude reference="hfD-31-7ap"/>
-                                <exclude reference="2Z6-vY-JCH"/>
-                                <exclude reference="XuI-2z-T2a"/>
                                 <exclude reference="XM0-TN-nim"/>
                                 <exclude reference="gNP-Ms-Ur3"/>
                                 <exclude reference="uRg-l1-mOz"/>
-                                <exclude reference="iHc-MJ-sEw"/>
+                                <exclude reference="2Z6-vY-JCH"/>
+                                <exclude reference="XuI-2z-T2a"/>
+                                <exclude reference="uSo-41-iOZ"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -1062,17 +1060,17 @@
                                 <include reference="aev-gi-CGV"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="YYa-0n-CKz"/>
+                                <include reference="hfD-31-7ap"/>
                                 <include reference="GfB-E4-5kv"/>
                                 <include reference="iR1-7x-PLL"/>
                                 <include reference="t5b-KD-xRF"/>
-                                <include reference="YYa-0n-CKz"/>
-                                <include reference="hfD-31-7ap"/>
-                                <include reference="2Z6-vY-JCH"/>
-                                <include reference="XuI-2z-T2a"/>
                                 <include reference="XM0-TN-nim"/>
                                 <include reference="gNP-Ms-Ur3"/>
                                 <include reference="uRg-l1-mOz"/>
-                                <include reference="iHc-MJ-sEw"/>
+                                <include reference="2Z6-vY-JCH"/>
+                                <include reference="XuI-2z-T2a"/>
+                                <include reference="uSo-41-iOZ"/>
                             </mask>
                         </variation>
                         <connections>
