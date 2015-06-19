@@ -59,8 +59,11 @@
     //half of the width
     int buttonSize = 60;
     button.layer.cornerRadius = buttonSize/2.0f;
+    
+    //border
     //button.layer.borderColor=[UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0].CGColor;
     //button.layer.borderWidth=1.0f;
+    
     button.backgroundColor = [UIColor whiteColor];
     button.layer.shadowColor = [UIColor blackColor].CGColor;
     button.layer.shadowOpacity = 0.5;

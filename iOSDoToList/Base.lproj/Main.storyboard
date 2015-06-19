@@ -1041,17 +1041,17 @@
                                 <exclude reference="aev-gi-CGV"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="YYa-0n-CKz"/>
-                                <exclude reference="hfD-31-7ap"/>
                                 <exclude reference="GfB-E4-5kv"/>
                                 <exclude reference="iR1-7x-PLL"/>
                                 <exclude reference="t5b-KD-xRF"/>
-                                <exclude reference="XM0-TN-nim"/>
-                                <exclude reference="gNP-Ms-Ur3"/>
-                                <exclude reference="uRg-l1-mOz"/>
+                                <exclude reference="YYa-0n-CKz"/>
+                                <exclude reference="hfD-31-7ap"/>
                                 <exclude reference="2Z6-vY-JCH"/>
                                 <exclude reference="XuI-2z-T2a"/>
                                 <exclude reference="uSo-41-iOZ"/>
+                                <exclude reference="XM0-TN-nim"/>
+                                <exclude reference="gNP-Ms-Ur3"/>
+                                <exclude reference="uRg-l1-mOz"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -1060,17 +1060,17 @@
                                 <include reference="aev-gi-CGV"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="YYa-0n-CKz"/>
-                                <include reference="hfD-31-7ap"/>
                                 <include reference="GfB-E4-5kv"/>
                                 <include reference="iR1-7x-PLL"/>
                                 <include reference="t5b-KD-xRF"/>
-                                <include reference="XM0-TN-nim"/>
-                                <include reference="gNP-Ms-Ur3"/>
-                                <include reference="uRg-l1-mOz"/>
+                                <include reference="YYa-0n-CKz"/>
+                                <include reference="hfD-31-7ap"/>
                                 <include reference="2Z6-vY-JCH"/>
                                 <include reference="XuI-2z-T2a"/>
                                 <include reference="uSo-41-iOZ"/>
+                                <include reference="XM0-TN-nim"/>
+                                <include reference="gNP-Ms-Ur3"/>
+                                <include reference="uRg-l1-mOz"/>
                             </mask>
                         </variation>
                         <connections>
