@@ -8,6 +8,7 @@
 
 #import "ListsViewController.h"
 #import "ToDoListTableViewController.h"
+#import "GlobalAddToDoItemViewController.h"
 #import "DateWrapper.h"
 #import "LocalNotifications.h"
 
@@ -44,6 +45,33 @@
     
     // User can select list during editing but only to change the titel of the list.
     self.tableView.allowsSelectionDuringEditing = true;
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    UIImage *plusImage = [UIImage imageNamed:@"Big-Plus-Button.png"];
+    [button setImage:plusImage forState:UIControlStateNormal];
+    
+    [button addTarget:self action:@selector(goToAddController) forControlEvents:UIControlEventTouchUpInside];
+    
+    //Clip/Clear the other pieces whichever outside the rounded corner
+    button.clipsToBounds = YES;
+    
+    //half of the width
+    button.layer.cornerRadius = 50/2.0f;
+    button.layer.borderColor=[UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0].CGColor;
+    button.layer.borderWidth=1.0f;
+    
+    //width and height should be same value
+    button.frame = CGRectMake(self.tableView.frame.size.width-65,self.tableView.frame.size.height-125, 50,50);
+    
+    // Bottom right corner
+    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin| UIViewAutoresizingFlexibleTopMargin;
+
+    [self.tableView addSubview:button];
+}
+
+-(void)goToAddController{
+    [self performSegueWithIdentifier:@"GlobalAddSegue" sender:self];
 }
 
 
@@ -322,6 +350,39 @@
         [self.tableView reloadData];
     }
     
+}
+
+-(IBAction)unWindFromGlobalAdd:(UIStoryboardSegue*) segue{
+    GlobalAddToDoItemViewController *globalAddViewController = [segue sourceViewController];
+    
+    if(globalAddViewController.didCancel) return;
+    
+    NSMutableArray *list = [self.customListDictionary valueForKey:globalAddViewController.selectedKey];
+    ToDoItem *newItemToAdd = globalAddViewController.toDoItem;
+    bool isNotifyOn = globalAddViewController.isNotifyOn;
+
+    if(globalAddViewController.isInEditMode){
+        if (globalAddViewController.didCancel == NO){
+            [LocalNotifications editLocalNotification:newItemToAdd isOn:YES];
+            [self.tableView reloadData];
+        }
+        return;
+    }
+    
+    if (newItemToAdd != nil && newItemToAdd.itemName != nil){
+        
+        if (newItemToAdd.endDate != nil)
+            [LocalNotifications setLocalNotification:newItemToAdd isOn:isNotifyOn];
+        
+        [list addObject:newItemToAdd];
+        
+        NSLog(@"Added item: %@ to list: %@", newItemToAdd, globalAddViewController.selectedKey);
+        
+        [self.customListDictionary setValue:list forKey:globalAddViewController.selectedKey];
+        
+        [self handleEditButton];
+        [self.tableView reloadData];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -685,6 +746,7 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     ToDoListTableViewController *toDoListViewController = [segue destinationViewController];
+    
     NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
     
     if ([segue.identifier isEqualToString:@"CustomListSegue"]){
@@ -710,6 +772,13 @@
             toDoListViewController.toDoItems = allLists;
             toDoListViewController.canAddItem = false;
         }
+    }
+    
+    else if ([segue.identifier isEqualToString:@"GlobalAddSegue"]){
+        UINavigationController *navController = (UINavigationController*)[segue destinationViewController];
+        GlobalAddToDoItemViewController *globalAddViewController = (GlobalAddToDoItemViewController*)[navController topViewController];
+        globalAddViewController.customListDictionary = self.customListDictionary;
+        globalAddViewController.selectedKey = [sortedKeys objectAtIndex:0];
     }
 }
 
