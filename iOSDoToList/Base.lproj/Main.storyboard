@@ -460,6 +460,7 @@
                         <segue destination="jQQ-ge-ChJ" kind="show" identifier="EverythingSegue" id="E51-kW-uCt"/>
                         <segue destination="jQQ-ge-ChJ" kind="show" identifier="CustomListSegue" id="8Hb-Gw-VHF"/>
                         <segue destination="B3O-wj-xew" kind="presentation" identifier="GlobalAddSegue" id="2dE-Nb-lCv"/>
+                        <segue destination="jQQ-ge-ChJ" kind="show" identifier="CompletedSegue" id="EV9-Xy-bcl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XBm-2B-eqZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1352,9 +1353,9 @@
         <image name="repeat" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="t6K-96-pVC"/>
-        <segue reference="8Hb-Gw-VHF"/>
         <segue reference="uIX-si-1wa"/>
+        <segue reference="EV9-Xy-bcl"/>
+        <segue reference="t6K-96-pVC"/>
         <segue reference="vlw-mg-Op2"/>
     </inferredMetricsTieBreakers>
 </document>

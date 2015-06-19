@@ -396,7 +396,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 3;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -484,7 +484,31 @@
         
     }
     else {
+        cell.textLabel.text = @"Completed tasks";
         
+        NSMutableArray *allLists = [[NSMutableArray alloc]init];
+        // Foreach key in dictionary
+        for(id key in sortedKeys) {
+            NSMutableArray *list = [self.customListDictionary objectForKey:key];
+            [allLists addObjectsFromArray:list];
+        }
+        
+        int completed = 0;
+        for(ToDoItem *item in allLists){
+            if (item.completed)
+                completed++;
+        }
+        
+        listCount = completed;
+
+        UILabel *label = [[UILabel alloc] init];
+        label.text = [NSString stringWithFormat:@"%lu", (unsigned long)listCount];
+        label.textColor = [UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0];
+        [label setFrame:cell.frame];
+        label.numberOfLines = 0;
+        [label setTextAlignment:NSTextAlignmentRight];
+        
+        [cell.contentView addSubview:label];
     }
     /*
     UILabel *label = [[UILabel alloc] init];
@@ -542,6 +566,9 @@
         else if (indexPath.section == 1){
             self.selectedListIndex = indexPath.row;
             [self performSegueWithIdentifier:@"CustomListSegue" sender:self];
+        }
+        else{
+            [self performSegueWithIdentifier:@"CompletedSegue" sender:self];
         }
         
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -781,6 +808,29 @@
             toDoListViewController.title = @"Everything";
             toDoListViewController.toDoItems = allLists;
             toDoListViewController.canAddItem = false;
+        }
+    }
+    
+    else if ([segue.identifier isEqualToString:@"CompletedSegue"]){
+        if(self.customListDictionary.count > 0){
+            NSMutableArray *allLists = [[NSMutableArray alloc]init];
+            NSMutableArray *completedList = [[NSMutableArray alloc]init];
+            // Foreach key in dictionary
+            for(id key in sortedKeys) {
+                NSMutableArray *list = [self.customListDictionary objectForKey:key];
+                [allLists addObjectsFromArray:list];
+            }
+            
+            for(ToDoItem *item in allLists){
+                if (item.completed)
+                    [completedList addObject:item];
+            }
+            
+            toDoListViewController.title = @"Completed tasks";
+            toDoListViewController.toDoItems = completedList;
+            toDoListViewController.canAddItem = false;
+            
+            NSLog(@"Completed tasks list: %@", completedList);
         }
     }
     
