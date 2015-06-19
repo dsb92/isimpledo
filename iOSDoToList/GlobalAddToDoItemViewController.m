@@ -196,6 +196,14 @@
         UINavigationController *navController = (UINavigationController*)[segue destinationViewController];
         ReminderViewController *reminderVIewController = (ReminderViewController*)[navController topViewController];
 
+        if (self.dueDateLabel.text.length == 0)
+        {
+            self.toDoItem.endDate = nil;
+            self.toDoItem.alertSelection = nil;
+            self.toDoItem.repeatSelection = nil;
+            
+        }
+        
         if(self.isInEditMode)
             reminderVIewController.isInEditMode = YES;
         

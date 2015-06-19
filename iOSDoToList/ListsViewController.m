@@ -57,13 +57,20 @@
     button.clipsToBounds = YES;
     
     //half of the width
-    button.layer.cornerRadius = 50/2.0f;
-    button.layer.borderColor=[UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0].CGColor;
-    button.layer.borderWidth=1.0f;
-    
+    int buttonSize = 60;
+    button.layer.cornerRadius = buttonSize/2.0f;
+    //button.layer.borderColor=[UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0].CGColor;
+    //button.layer.borderWidth=1.0f;
+    button.backgroundColor = [UIColor whiteColor];
+    button.layer.shadowColor = [UIColor blackColor].CGColor;
+    button.layer.shadowOpacity = 0.5;
+    button.layer.shadowRadius = 1;
+    button.layer.shadowOffset = CGSizeMake(3.0f,3.0f);
     //width and height should be same value
-    button.frame = CGRectMake(self.tableView.frame.size.width-65,self.tableView.frame.size.height-125, 50,50);
-    
+    button.frame = CGRectMake(self.tableView.frame.size.width-80,self.tableView.frame.size.height-140, buttonSize,buttonSize);
+    button.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
+    button.showsTouchWhenHighlighted = YES;
+    button.layer.masksToBounds = NO;
     // Bottom right corner
     button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin| UIViewAutoresizingFlexibleTopMargin;
 
