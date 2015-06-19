@@ -49,6 +49,7 @@
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     
     UIImage *plusImage = [UIImage imageNamed:@"Big-Plus-Button.png"];
+
     [button setImage:plusImage forState:UIControlStateNormal];
     
     [button addTarget:self action:@selector(goToAddController) forControlEvents:UIControlEventTouchUpInside];
@@ -72,7 +73,9 @@
     //width and height should be same value
     button.frame = CGRectMake(self.tableView.frame.size.width-80,self.tableView.frame.size.height-140, buttonSize,buttonSize);
     button.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
+    
     button.showsTouchWhenHighlighted = YES;
+    
     button.layer.masksToBounds = NO;
     // Bottom right corner
     button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin| UIViewAutoresizingFlexibleTopMargin;
@@ -436,7 +439,8 @@
         [label setFrame:cell.frame];
         label.numberOfLines = 0;
         [label setTextAlignment:NSTextAlignmentRight];
-        
+        // Bottom right corner
+        label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin| UIViewAutoresizingFlexibleTopMargin;
         [cell.contentView addSubview:label];
     }
     else if (indexPath.section == 1){
@@ -469,6 +473,7 @@
             [label setFrame:cell.frame];
             label.numberOfLines = 0;
             [label setTextAlignment:NSTextAlignmentRight];
+            label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin| UIViewAutoresizingFlexibleTopMargin;
             [cell.contentView addSubview:label];
         }
         else{
@@ -478,7 +483,7 @@
             [label setFrame:cell.frame];
             label.numberOfLines = 0;
             [label setTextAlignment:NSTextAlignmentRight];
-            
+            label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin| UIViewAutoresizingFlexibleTopMargin;
             [cell.contentView addSubview:label];
         }
         
@@ -507,7 +512,7 @@
         [label setFrame:cell.frame];
         label.numberOfLines = 0;
         [label setTextAlignment:NSTextAlignmentRight];
-        
+        label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin| UIViewAutoresizingFlexibleTopMargin;
         [cell.contentView addSubview:label];
     }
     /*
