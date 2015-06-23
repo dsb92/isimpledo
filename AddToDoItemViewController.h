@@ -14,7 +14,7 @@
 @property ToDoItem *toDoItem;
 @property BOOL isInEditMode;
 @property BOOL didCancel;
-
+@property NSString *selectedKey;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *saveButton;
 
 -(IBAction)cancelFromReminder:(UIStoryboardSegue*) segue;

@@ -30,7 +30,7 @@
     // Load custom lists
     self.customListDictionary = [[NSMutableDictionary alloc]init];
     [self loadCustomDictionary];
-    
+ 
     if (self.customListDictionary.count == 0){
         NSMutableArray *newList = [[NSMutableArray alloc]init];
         [self.customListDictionary setValue:newList forKey:@"Grocery"];
@@ -128,33 +128,38 @@
                     item.creationDate = [array objectAtIndex:3];
                 }
                 
-                // get segment string id for to-do item
+                // get list key
                 if ([array objectAtIndex:4]!=nil) {
-                    item.segmentForItem.thestringid = [array objectAtIndex:4];
+                    item.listKey = [array objectAtIndex:4];
+                }
+                
+                // get segment string id for to-do item
+                if ([array objectAtIndex:5]!=nil) {
+                    item.segmentForItem.thestringid = [array objectAtIndex:5];
                 }
                 
                 // get segment segment for to-do item
-                if ([array objectAtIndex:5]!=nil) {
-                    item.segmentForItem.segment = [array objectAtIndex:5];
+                if ([array objectAtIndex:6]!=nil) {
+                    item.segmentForItem.segment = [array objectAtIndex:6];
                 }
                 
                 // get end date
-                if ([array objectAtIndex:6]!=nil) {
-                    item.endDate = [array objectAtIndex:6];
+                if ([array objectAtIndex:7]!=nil) {
+                    item.endDate = [array objectAtIndex:7];
                 }
                 
                 // get alert selection
-                if ([array objectAtIndex:7]!=nil) {
-                    item.alertSelection = [array objectAtIndex:7];
+                if ([array objectAtIndex:8]!=nil) {
+                    item.alertSelection = [array objectAtIndex:8];
                 }
                 
                 // get repeat selection
-                if ([array objectAtIndex:8]!=nil) {
-                    item.repeatSelection = [array objectAtIndex:8];
+                if ([array objectAtIndex:9]!=nil) {
+                    item.repeatSelection = [array objectAtIndex:9];
                 }
                 
-                if ([array objectAtIndex:9]!=nil) {
-                    item.actualEndDate = [array objectAtIndex:9];
+                if ([array objectAtIndex:10]!=nil) {
+                    item.actualEndDate = [array objectAtIndex:10];
                 }
             }
             @catch (NSException *exception) {
@@ -205,6 +210,7 @@
             [array addObject:item.itemName];
             [array addObject:[NSNumber numberWithBool:item.completed]];
             [array addObject:item.creationDate];
+            [array addObject:item.listKey];
             
             /* Nullable values */
             if(item.segmentForItem.thestringid == nil)
@@ -355,14 +361,15 @@
 -(IBAction)unWindFromToDoList:(UIStoryboardSegue*) segue{
     ToDoListTableViewController *todoListVC = [segue sourceViewController];
     
-    // If user did not tapped one of the filters
-    if (todoListVC.canAddItem == true){
-        
+    if (todoListVC.isEverythingFilter || todoListVC.isCompletedFilter){
+        self.customListDictionary = todoListVC.customListDictionary;
+    }
+    else{
         NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
         [self.customListDictionary setValue:todoListVC.tempItems forKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
-        [self.tableView reloadData];
     }
     
+    [self.tableView reloadData];
 }
 
 -(IBAction)unWindFromGlobalAdd:(UIStoryboardSegue*) segue{
@@ -387,6 +394,7 @@
         if (newItemToAdd.endDate != nil)
             [LocalNotifications setLocalNotification:newItemToAdd isOn:isNotifyOn];
         
+        newItemToAdd.listKey = globalAddViewController.selectedKey;
         [list addObject:newItemToAdd];
         
         NSLog(@"Added item: %@ to list: %@", newItemToAdd, globalAddViewController.selectedKey);
@@ -797,7 +805,9 @@
             toDoListViewController.toDoItems = [self.customListDictionary valueForKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
             toDoListViewController.customListDictionary = self.customListDictionary;
             toDoListViewController.selectedListIndex = self.selectedListIndex;
-            toDoListViewController.canAddItem = true;
+            toDoListViewController.listKey = [sortedKeys objectAtIndex:self.selectedListIndex];
+            toDoListViewController.isEverythingFilter = false;
+            toDoListViewController.isCompletedFilter = false;
             NSLog(@"%@", toDoListViewController.toDoItems);
         }
     }
@@ -812,7 +822,9 @@
             
             toDoListViewController.title = @"Everything";
             toDoListViewController.toDoItems = allLists;
-            toDoListViewController.canAddItem = false;
+            toDoListViewController.customListDictionary = self.customListDictionary;
+            toDoListViewController.isEverythingFilter = true;
+            toDoListViewController.isCompletedFilter = false;
         }
     }
     
@@ -833,7 +845,9 @@
             
             toDoListViewController.title = @"Completed tasks";
             toDoListViewController.toDoItems = completedList;
-            toDoListViewController.canAddItem = false;
+            toDoListViewController.customListDictionary = self.customListDictionary;
+            toDoListViewController.isEverythingFilter = false;
+            toDoListViewController.isCompletedFilter = true;
             
             NSLog(@"Completed tasks list: %@", completedList);
         }

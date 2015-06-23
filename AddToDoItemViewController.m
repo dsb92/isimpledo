@@ -76,7 +76,8 @@
     else{
         self.toDoItem = [[ToDoItem alloc] init];
 
-        toDoItem.itemid = [Utility generateUniqID];
+        self.toDoItem.itemid = [Utility generateUniqID];
+        self.toDoItem.listKey = self.selectedKey;
         
         [self.textField becomeFirstResponder];
     }

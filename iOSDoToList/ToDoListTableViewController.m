@@ -63,6 +63,7 @@
     self.selectedSegment = [NSNumber numberWithInt:0];
     
     self.toDoItems = [self sortedItemsOnDate:self.toDoItems];
+    
     [self.tableView reloadData];
     
     for(ToDoItem *item in self.toDoItems)
@@ -101,12 +102,12 @@
 #pragma mark - applicationDidEnterBackGround
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification{
-    if (!self.canAddItem) return;
-    
     NSString *filePath= [self pathOfFile];
     
     NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-    [self.customListDictionary setValue:self.tempItems forKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
+    
+    if (!self.isEverythingFilter && !self.isCompletedFilter)
+        [self.customListDictionary setValue:self.tempItems forKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
     
     NSMutableArray *listArray = [[NSMutableArray alloc]init];
     
@@ -126,6 +127,7 @@
             [array addObject:item.itemName];
             [array addObject:[NSNumber numberWithBool:item.completed]];
             [array addObject:item.creationDate];
+            [array addObject:item.listKey];
             
             /* Nullable values */
             if(item.segmentForItem.thestringid == nil)
@@ -157,7 +159,7 @@
                 NSLog(@"%@ has nil actualEndDate!", item.itemName);
             else
                 [array addObject:item.actualEndDate];
-            
+ 
             [mainArray addObject:array];
         }
         
@@ -234,12 +236,9 @@
     SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     //SWTableViewCell *cell = [[SWTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
     
-    if(self.canAddItem){
-        cell.leftUtilityButtons = [self leftButtons:indexPath];
-        cell.rightUtilityButtons = [self rightButtons];
-        cell.delegate = self;
-    }
-    
+    cell.leftUtilityButtons = [self leftButtons:indexPath];
+    cell.rightUtilityButtons = [self rightButtons];
+    cell.delegate = self;
     
     ToDoItem *toDoItem = [self.toDoItems objectAtIndex:indexPath.row];
     
@@ -254,7 +253,7 @@
     else
         cell.detailTextLabel.text = @"";
     
-    if(toDoItem.completed || !self.canAddItem)
+    if(toDoItem.completed)
         cell.accessoryType = UITableViewCellAccessoryNone;
     else{
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -274,7 +273,7 @@
         self.deleteBarButton.enabled = YES;
     
     ToDoItem *item = [self.toDoItems objectAtIndex:indexPath.row];
-    if(item.completed || self.editing || !self.canAddItem) return;
+    if(item.completed || self.editing) return;
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
@@ -322,18 +321,23 @@
 {
     NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
     switch (index) {
+        // Complete button
         case 0:{
             NSLog(@"left button 0 was pressed");
             NSLog(@"Index path: %ld", (long)cellIndexPath.row);
             ToDoItem *tappedItem = [self.toDoItems objectAtIndex:cellIndexPath.row];
             tappedItem.completed = !tappedItem.completed;
+            // If repeat selection is not chosen
             if (tappedItem.completed && ([tappedItem.repeatSelection length]==0  || [tappedItem.repeatSelection isEqualToString:@"Never"])) {
                 [LocalNotifications cancelLocalNotification:tappedItem];
                 tappedItem.endDate = nil;
                 //tappedItem.actualEndDate = nil;
                 tappedItem.alertSelection = nil;
                 tappedItem.repeatSelection = nil;
+                
+                [self updateCustomDictionary:tappedItem operation:@"edit"];
             }
+            // If repeat selection is chosen update item with new notification.
             else if(tappedItem.completed && ([tappedItem.repeatSelection length]!=0 || ![tappedItem.repeatSelection isEqualToString:@"Never"])){
                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                 [dateFormatter setDateStyle:NSDateFormatterShortStyle];
@@ -351,6 +355,7 @@
                 repeatItem.endDate = [dateFormatter stringFromDate:date];
                 repeatItem.actualEndDate = date;
                 repeatItem.completed = NO;
+                repeatItem.listKey = tappedItem.listKey;
                 
                 tappedItem.alertSelection = nil;
                 tappedItem.repeatSelection = nil;
@@ -362,6 +367,10 @@
                 [self.tempItems addObject:repeatItem];
                 
                 [self updateSegmentControl:repeatItem];
+                
+                // If Everything filter is chosen, update respektive item.
+                [self updateCustomDictionary:tappedItem operation:@"edit"];
+                [self updateCustomDictionary:repeatItem operation:@"add"];
             }
 
             [ToDoItem updateSegmentForItem:tappedItem segment:self.selectedSegment];
@@ -370,6 +379,7 @@
             [self.tableView reloadData];
         }
             break;
+        // Shortcut reminder button
         case 1:{
             NSLog(@"Code to open ReminderViewController passed with to do item object.");
             // Code for Reminder functionalicty.
@@ -398,6 +408,7 @@
  - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
  {
  switch (index) {
+ // Delete button
  case 0:
  {
      // Delete button was pressed
@@ -409,6 +420,8 @@
      [self.tempItems removeObject:item];
      // Delete local notifications if any
      [LocalNotifications cancelLocalNotification:item];
+     
+     [self updateCustomDictionary:item operation:@"remove"];
      
      // Delete the row from the data source
      [self.tableView deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -739,12 +752,12 @@
         // Delete the objects from our data model.
         [self.toDoItems removeObjectsAtIndexes:indicesOfItemsToDelete];
         
-        
         // Cancel any notifications and remove from temp array.
         for (ToDoItem *item in items)
         {
             [LocalNotifications cancelLocalNotification:item];
             [self.tempItems removeObject:item];
+            [self updateCustomDictionary:item operation:@"remove"];
         }
         
         // Tell the tableView that we deleted the objects
@@ -815,10 +828,16 @@
         reminderViewController.isShortcut = YES;
         return;
     }
-    
-    addToDoItemVIewController.isInEditMode = NO;
-    reminderViewController.isInEditMode = NO;
-    reminderViewController.isShortcut = NO;
+    else if([segue.identifier isEqualToString:@"AddSegue"]){
+        addToDoItemVIewController = (AddToDoItemViewController*)[navController topViewController];
+        
+        NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+        
+        addToDoItemVIewController.isInEditMode = NO;
+        addToDoItemVIewController.selectedKey = [sortedKeys objectAtIndex:self.selectedListIndex];
+        reminderViewController.isInEditMode = NO;
+        reminderViewController.isShortcut = NO;
+    }
 }
 
 
@@ -918,12 +937,26 @@
     return path;
 }
 
--(void)handleEditButton{
-    if (!self.canAddItem){
-        self.navigationItem.rightBarButtonItems = nil;
-        return;
+-(void)updateCustomDictionary:(ToDoItem*)item operation:(NSString*)operation{
+    if (self.isEverythingFilter || self.isCompletedFilter){
+        NSMutableArray *list = [self.customListDictionary valueForKey:item.listKey];
+        NSUInteger index = [list indexOfObject:item];
+        
+        if ([operation isEqualToString:@"remove"]) {
+            [list removeObject:item];
+        }
+        else if ([operation isEqualToString:@"add"]){
+            [list addObject:item];
+        }
+        else if ([operation isEqualToString:@"edit"]){
+            [list replaceObjectAtIndex:index withObject:item];
+        }
+        
+        [self.customListDictionary setObject:list forKey:item.listKey];
     }
-    
+}
+
+-(void)handleEditButton{
     if(self.toDoItems.count == 0){
         NSArray *buttonArray = [NSArray arrayWithObjects:self.addUIBarButtonItem, nil];
         self.navigationItem.rightBarButtonItems = buttonArray;

@@ -16,9 +16,11 @@
 @property NSMutableArray *toDoItems;
 @property NSMutableArray *sortedItems;
 @property NSMutableArray *tempItems;
-@property NSDictionary *customListDictionary;
+@property NSMutableDictionary *customListDictionary;
 @property NSInteger selectedListIndex;
-@property BOOL canAddItem;
+@property NSString *listKey;
+@property BOOL isEverythingFilter;
+@property BOOL isCompletedFilter;
 @property ToDoItem *toDoItem;
 
 -(IBAction)unWindFromAdd:(UIStoryboardSegue*) segue;

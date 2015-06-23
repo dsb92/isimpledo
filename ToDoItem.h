@@ -19,6 +19,7 @@
 @property NSDate *actualEndDate;
 @property NSString *alertSelection;
 @property NSString *repeatSelection;
+@property NSString *listKey;
 
 @property SegmentForToDoItem* segmentForItem;
 
