@@ -31,8 +31,7 @@
 		4659BA7B1A8BFC5E002C6A48 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4659BA7A1A8BFC5E002C6A48 /* Foundation.framework */; };
 		4659BA7D1A8BFC65002C6A48 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4659BA7C1A8BFC65002C6A48 /* CoreGraphics.framework */; };
 		465E90A81B333F2F00768AEE /* Big-Plus-Button.png in Resources */ = {isa = PBXBuildFile; fileRef = 465E90A71B333F2F00768AEE /* Big-Plus-Button.png */; };
-		465E90AB1B335BFC00768AEE /* GlobalAddToDoItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 465E90AA1B335BFC00768AEE /* GlobalAddToDoItemViewController.m */; };
-		465E90AE1B336C9900768AEE /* GlobalListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 465E90AD1B336C9900768AEE /* GlobalListsViewController.m */; };
+		465E90AE1B336C9900768AEE /* SelectionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 465E90AD1B336C9900768AEE /* SelectionListViewController.m */; };
 		467A525F1A86461A00BBE0BA /* AlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 467A525E1A86461A00BBE0BA /* AlertViewController.m */; };
 		467A52621A86529100BBE0BA /* RepeatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 467A52611A86529100BBE0BA /* RepeatViewController.m */; };
 		468743C41ABDC56800145F39 /* reminder_clock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 468743C31ABDC56800145F39 /* reminder_clock@2x.png */; };
@@ -94,10 +93,8 @@
 		4659BA7A1A8BFC5E002C6A48 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4659BA7C1A8BFC65002C6A48 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		465E90A71B333F2F00768AEE /* Big-Plus-Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Big-Plus-Button.png"; sourceTree = "<group>"; };
-		465E90A91B335BFC00768AEE /* GlobalAddToDoItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalAddToDoItemViewController.h; sourceTree = "<group>"; };
-		465E90AA1B335BFC00768AEE /* GlobalAddToDoItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalAddToDoItemViewController.m; sourceTree = "<group>"; };
-		465E90AC1B336C9900768AEE /* GlobalListsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalListsViewController.h; sourceTree = "<group>"; };
-		465E90AD1B336C9900768AEE /* GlobalListsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalListsViewController.m; sourceTree = "<group>"; };
+		465E90AC1B336C9900768AEE /* SelectionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectionListViewController.h; sourceTree = "<group>"; };
+		465E90AD1B336C9900768AEE /* SelectionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectionListViewController.m; sourceTree = "<group>"; };
 		467A525D1A86461A00BBE0BA /* AlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertViewController.h; sourceTree = "<group>"; };
 		467A525E1A86461A00BBE0BA /* AlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertViewController.m; sourceTree = "<group>"; };
 		467A52601A86529100BBE0BA /* RepeatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepeatViewController.h; sourceTree = "<group>"; };
@@ -198,10 +195,8 @@
 				469C06E31A6B0E5200ED9A9B /* ToDoItem.m */,
 				460E22FC1AABA26700D212EE /* SegmentForToDoItem.h */,
 				460E22FD1AABA26700D212EE /* SegmentForToDoItem.m */,
-				465E90A91B335BFC00768AEE /* GlobalAddToDoItemViewController.h */,
-				465E90AA1B335BFC00768AEE /* GlobalAddToDoItemViewController.m */,
-				465E90AC1B336C9900768AEE /* GlobalListsViewController.h */,
-				465E90AD1B336C9900768AEE /* GlobalListsViewController.m */,
+				465E90AC1B336C9900768AEE /* SelectionListViewController.h */,
+				465E90AD1B336C9900768AEE /* SelectionListViewController.m */,
 				469C06DC1A6B03C900ED9A9B /* AddToDoItemViewController.h */,
 				469C06DD1A6B03C900ED9A9B /* AddToDoItemViewController.m */,
 				467A525D1A86461A00BBE0BA /* AlertViewController.h */,
@@ -378,10 +373,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				465E90AE1B336C9900768AEE /* GlobalListsViewController.m in Sources */,
+				465E90AE1B336C9900768AEE /* SelectionListViewController.m in Sources */,
 				464B10E11ABF1282008627DC /* LocalNotifications.m in Sources */,
 				469C06B91A69857F00ED9A9B /* AppDelegate.m in Sources */,
-				465E90AB1B335BFC00768AEE /* GlobalAddToDoItemViewController.m in Sources */,
 				4659BA541A8BF912002C6A48 /* SWLongPressGestureRecognizer.m in Sources */,
 				467A525F1A86461A00BBE0BA /* AlertViewController.m in Sources */,
 				4659BA571A8BF912002C6A48 /* SWUtilityButtonView.m in Sources */,

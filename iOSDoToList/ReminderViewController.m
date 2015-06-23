@@ -9,9 +9,9 @@
 #import "ReminderViewController.h"
 #import "AlertViewController.h"
 #import "RepeatViewController.h"
+#import "ToDoListTableViewController.h"
 
 @interface ReminderViewController () 
-@property (weak, nonatomic) IBOutlet UIDatePicker *reminderPicker;
 @property (strong, nonatomic) IBOutlet UITableView *reminderTableView;
 
 @end
@@ -23,7 +23,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    
+    if(self.isShortcut){
+        [self.setButton setTarget:[self.navigationController.viewControllers objectAtIndex:(1)]];
+        [self.setButton setAction:@selector(unWindFromShortCut:)];
+    }
+    else{
+        [self.setButton setTarget:self.addToDoViewController];
+        [self.setButton setAction:@selector(unWindFromReminder:)];
+    }
+    
     self.reminderTableViewArray = [[NSArray alloc]initWithObjects:@"Alert", @"Repeat", @"Remind", nil];
     
     [self.reminderPicker setMinimumDate:[NSDate date]];
@@ -79,6 +88,9 @@
     RepeatViewController *source = [segue sourceViewController];
     self.repeatDetail = source.repeatSelection;
     [self.reminderTableView reloadData];
+}
+- (IBAction)setButtonTapped:(id)sender {
+    [self performSegueWithIdentifier:@"ReminderShortcutIdentifier" sender:self];
 }
 
 
@@ -205,6 +217,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+
     if ([segue.identifier isEqualToString:@"AlertSegue"]) {
         AlertViewController *alertViewControllers = segue.destinationViewController;
         alertViewControllers.alertSelection = self.alertDetail;
@@ -214,29 +227,6 @@
         RepeatViewController *repeatViewControllers = segue.destinationViewController;
         repeatViewControllers.repeatSelection = self.repeatDetail;
     }
-    
-    if (sender != self.setButton)
-    {
-        self.didCancel = YES;
-        return;
-    }
-    
-    self.didCancel = NO;
-    
-    self.toDoItem.itemName = self.itemname;
-    self.toDoItem.alertSelection = self.alertDetail;
-    self.toDoItem.repeatSelection = self.repeatDetail;
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    
-    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    
-    // get datepicker end value
-    NSDate *choice = [self.reminderPicker date];
-    NSString *endDate = [dateFormatter stringFromDate:choice];
-    self.toDoItem.endDate = endDate;
-    self.toDoItem.actualEndDate = choice;
 }
 
 

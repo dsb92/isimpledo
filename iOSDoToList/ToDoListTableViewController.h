@@ -24,7 +24,6 @@
 @property ToDoItem *toDoItem;
 
 -(IBAction)unWindFromAdd:(UIStoryboardSegue*) segue;
--(IBAction)unWindFromReminder:(UIStoryboardSegue*) segue;
 -(IBAction)unWindFromShortCut:(UIStoryboardSegue*) segue;
 -(IBAction)mainControlSwitched:(id)sender;
 -(IBAction)editButton:(id)sender;

@@ -236,9 +236,11 @@
     SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     //SWTableViewCell *cell = [[SWTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
     
-    cell.leftUtilityButtons = [self leftButtons:indexPath];
-    cell.rightUtilityButtons = [self rightButtons];
-    cell.delegate = self;
+    if (!self.isCompletedFilter){
+        cell.leftUtilityButtons = [self leftButtons:indexPath];
+        cell.rightUtilityButtons = [self rightButtons];
+        cell.delegate = self;
+    }
     
     ToDoItem *toDoItem = [self.toDoItems objectAtIndex:indexPath.row];
     
@@ -273,7 +275,7 @@
         self.deleteBarButton.enabled = YES;
     
     ToDoItem *item = [self.toDoItems objectAtIndex:indexPath.row];
-    if(item.completed || self.editing) return;
+    if(item.completed || self.editing || self.isCompletedFilter) return;
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
@@ -618,41 +620,6 @@
     
 }
 
--(IBAction)unWindFromReminder:(UIStoryboardSegue*) segue{
-    ReminderViewController *source = [segue sourceViewController];
-    ToDoItem *item = source.toDoItem;
-    BOOL isOn = [source.mainSwitch isOn];
-    
-    if(source.isInEditMode){
-        if (source.didCancel == NO){
-            [LocalNotifications editLocalNotification:item isOn:isOn];
-            [self printItem:item];
-            [self updateSegmentControl:item];
-            [self.tableView reloadData];
-        }
-        return;
-    }
-    
-    if (item != nil){
-        
-        if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
-        {
-            [self updateSegmentControl:item];
-            [ToDoItem updateSegmentForItem:item segment:self.selectedSegment];
-        }
-        
-        
-        [LocalNotifications setLocalNotification:item isOn:isOn];
-        [self.toDoItems addObject:item];
-        [self.tempItems addObject:item];
-        
-        [self handleEditButton];
-        
-        [self printItem:item];
-        
-        [self.tableView reloadData];
-    }
-}
 
 -(IBAction)unWindFromAdd:(UIStoryboardSegue*) segue{
     //Retreive the source view controller (AddToDoItemViewController) and get the data from it
@@ -661,20 +628,52 @@
     
     if(source.didCancel) return;
     
-    if(source.isInEditMode){
+    if(source.isInEditMode || self.isEverythingFilter){
         if (source.didCancel == NO){
             [LocalNotifications editLocalNotification:item isOn:YES];
+            [self printItem:item];
+            [self updateSegmentControl:item];
+            
+            if (self.isEverythingFilter){
+                // Get old and new key
+                NSString *oldkey = item.listKey;
+                NSString *newkey = source.selectedKey;
+                
+                // Get lists for old key and new key
+                NSMutableArray *oldlist = [self.customListDictionary valueForKey:oldkey];
+                NSMutableArray *newlist = [self.customListDictionary valueForKey:newkey];
+                
+                // Remove object from old list
+                [oldlist removeObject:item];
+                
+                // Add object to new list
+                [newlist addObject:item];
+                
+                // Update dictionary
+                [self.customListDictionary setObject:oldlist forKey:oldkey];
+                [self.customListDictionary setObject:newlist forKey:newkey];
+                
+                // Update item with new key
+                item.listKey = newkey;
+            }
+
             [self.tableView reloadData];
         }
         
         [self printItem:item];
-        return;
+        
+        if (source.isInEditMode) return;
     }
     
     if (item != nil && item.itemName != nil){
 
-        [ToDoItem updateSegmentForItem:item segment:self.selectedSegment];
+        if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
+        {
+            [self updateSegmentControl:item];
+            [ToDoItem updateSegmentForItem:item segment:self.selectedSegment];
+        }
         
+        [LocalNotifications setLocalNotification:item isOn:source.isNotifyOn];
         [self.toDoItems addObject:item];
         [self.tempItems addObject:item];
         
@@ -687,14 +686,31 @@
 }
 
 -(IBAction)unWindFromShortCut:(UIStoryboardSegue*) segue{
-    ReminderViewController *source = [segue sourceViewController];
-    BOOL isOn = [source.mainSwitch isOn];
-    if(source.didCancel == NO){
-        [self updateSegmentControl:source.toDoItem];
-        [LocalNotifications editLocalNotification:source.toDoItem isOn:isOn];
-    }
+    ReminderViewController *reminderViewController = [self.navigationController.viewControllers objectAtIndex:(2)];
     
-    [self printItem:source.toDoItem];
+    self.toDoItem = reminderViewController.toDoItem;
+    self.toDoItem.itemName = reminderViewController.itemname;
+    self.toDoItem.alertSelection = reminderViewController.alertDetail;
+    self.toDoItem.repeatSelection = reminderViewController.repeatDetail;
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    
+    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    
+    // get datepicker end value
+    NSDate *choice = [reminderViewController.reminderPicker date];
+    NSString *endDate = [dateFormatter stringFromDate:choice];
+    self.toDoItem.endDate = endDate;
+    self.toDoItem.actualEndDate = choice;
+    
+    BOOL isOn = reminderViewController.mainSwitch.isOn;
+    
+    [self updateSegmentControl:self.toDoItem];
+    [LocalNotifications editLocalNotification:self.toDoItem isOn:isOn];
+    [self printItem:self.toDoItem];
+    
+    [self.navigationController popToViewController:self animated:YES];
     [self.tableView reloadData];
 }
 
@@ -810,15 +826,18 @@
     AddToDoItemViewController *addToDoItemVIewController;
     ReminderViewController *reminderViewController;
     ToDoItem *item;
+ 
+    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
     
     if ([segue.identifier isEqualToString:@"EditToDoItem"]) {
         item = [self.toDoItems objectAtIndex:self.indexPath];
         addToDoItemVIewController = (AddToDoItemViewController*)[navController topViewController];
         addToDoItemVIewController.title = @"Edit To-Do item";
         addToDoItemVIewController.isInEditMode = YES;
-        reminderViewController.isInEditMode = YES;
+        addToDoItemVIewController.isFilter = self.isEverythingFilter;
         addToDoItemVIewController.toDoItem = item;
-        return;
+        addToDoItemVIewController.selectedKey = item.listKey;
+        addToDoItemVIewController.customListDictionary = self.customListDictionary;
     }
     else if ([segue.identifier isEqualToString:@"ReminderShortcutIdentifier"]){
         item = [self.toDoItems objectAtIndex:self.indexPath];
@@ -826,17 +845,14 @@
         reminderViewController.toDoItem = item;
         reminderViewController.itemname = item.itemName;
         reminderViewController.isShortcut = YES;
-        return;
     }
     else if([segue.identifier isEqualToString:@"AddSegue"]){
         addToDoItemVIewController = (AddToDoItemViewController*)[navController topViewController];
         
-        NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-        
         addToDoItemVIewController.isInEditMode = NO;
+        addToDoItemVIewController.isFilter = self.isEverythingFilter;
+        addToDoItemVIewController.customListDictionary = self.customListDictionary;
         addToDoItemVIewController.selectedKey = [sortedKeys objectAtIndex:self.selectedListIndex];
-        reminderViewController.isInEditMode = NO;
-        reminderViewController.isShortcut = NO;
     }
 }
 
@@ -951,7 +967,7 @@
         else if ([operation isEqualToString:@"edit"]){
             [list replaceObjectAtIndex:index withObject:item];
         }
-        
+
         [self.customListDictionary setObject:list forKey:item.listKey];
     }
 }
@@ -960,6 +976,9 @@
     if(self.toDoItems.count == 0){
         NSArray *buttonArray = [NSArray arrayWithObjects:self.addUIBarButtonItem, nil];
         self.navigationItem.rightBarButtonItems = buttonArray;
+    }
+    else if (self.isCompletedFilter){
+        self.navigationItem.rightBarButtonItems = nil;
     }
     else
     {

@@ -6,14 +6,14 @@
 //  Copyright (c) 2015 David Buhauer. All rights reserved.
 //
 
-#import "GlobalListsViewController.h"
+#import "SelectionListViewController.h"
 
-@interface GlobalListsViewController ()
+@interface SelectionListViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
-@implementation GlobalListsViewController
+@implementation SelectionListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

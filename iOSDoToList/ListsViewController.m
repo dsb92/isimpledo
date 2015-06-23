@@ -8,7 +8,6 @@
 
 #import "ListsViewController.h"
 #import "ToDoListTableViewController.h"
-#import "GlobalAddToDoItemViewController.h"
 #import "DateWrapper.h"
 #import "LocalNotifications.h"
 
@@ -372,6 +371,7 @@
     [self.tableView reloadData];
 }
 
+/*
 -(IBAction)unWindFromGlobalAdd:(UIStoryboardSegue*) segue{
     GlobalAddToDoItemViewController *globalAddViewController = [segue sourceViewController];
     
@@ -405,6 +405,7 @@
         [self.tableView reloadData];
     }
 }
+ */
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 3;
@@ -852,13 +853,14 @@
             NSLog(@"Completed tasks list: %@", completedList);
         }
     }
-    
+    /*
     else if ([segue.identifier isEqualToString:@"GlobalAddSegue"]){
         UINavigationController *navController = (UINavigationController*)[segue destinationViewController];
         GlobalAddToDoItemViewController *globalAddViewController = (GlobalAddToDoItemViewController*)[navController topViewController];
         globalAddViewController.customListDictionary = self.customListDictionary;
         globalAddViewController.selectedKey = [sortedKeys objectAtIndex:0];
     }
+     */
 }
 
 /*

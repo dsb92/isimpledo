@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GlobalListsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface SelectionListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 @property NSMutableDictionary *customListDictionary;
 @property NSString *selectedKey;
 @end
