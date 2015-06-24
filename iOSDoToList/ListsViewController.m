@@ -424,7 +424,7 @@
     ToDoItem *newItemToAdd = globalAddViewController.toDoItem;
     bool isNotifyOn = globalAddViewController.isNotifyOn;
 
-    // 
+    // Add item and set notifications if set and update dictionary for selected key.
     if (newItemToAdd != nil && newItemToAdd.itemName != nil){
         
         if (newItemToAdd.endDate != nil)
@@ -436,6 +436,9 @@
         NSLog(@"Added item: %@ to list: %@", newItemToAdd, globalAddViewController.selectedKey);
         
         [self.customListDictionary setValue:list forKey:globalAddViewController.selectedKey];
+        
+        // Remember selected key choice
+        self.selectedKey = newItemToAdd.listKey;
         
         [self handleEditButton];
         [self.tableView reloadData];
@@ -894,7 +897,11 @@
         UINavigationController *navController = (UINavigationController*)[segue destinationViewController];
         AddToDoItemViewController *globalAddViewController = (AddToDoItemViewController*)[navController topViewController];
         globalAddViewController.customListDictionary = self.customListDictionary;
-        globalAddViewController.selectedKey = [sortedKeys objectAtIndex:0];
+        
+        if (self.selectedKey == nil || [self.selectedKey isEqualToString:@""])
+            globalAddViewController.selectedKey = [sortedKeys objectAtIndex:0];
+        else
+            globalAddViewController.selectedKey = self.selectedKey;
         globalAddViewController.isGlobal = YES;
         globalAddViewController.viewController = self;
         
