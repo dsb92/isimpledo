@@ -52,7 +52,9 @@
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:infobtn];
     
-    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    // Conflicts with uitableview cells on swipe.
+    //[self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    
     
     // User can select list during editing but only to change the titel of the list.
     self.tableView.allowsSelectionDuringEditing = true;
@@ -106,13 +108,8 @@
     NSLog(@"Local notifications:\n");
     
     for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications])
-    {
-        /*
-         //!!!OBS OBS REMEBER TO COMMENT THIS WHEN NOT TESTING!!!
-         [[UIApplication sharedApplication]cancelAllLocalNotifications];
-         */
         NSLog(@"%@", localN);
-    }
+    
     NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
     NSLog(@"Dictionary: %@\n\n Keys: %@", self.customListDictionary, sortedKeys);
 }
@@ -689,11 +686,15 @@
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
-    if (indexPath.section == 0) return NO;
-    else if (indexPath.section == 2) return NO;
-    return YES;
+    if (indexPath.section == 0)
+        return NO;
+    else if (indexPath.section == 1)
+        return YES;
+    else if (indexPath.section == 2)
+        return NO;
+    else
+        return YES;
 }
-
 
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {

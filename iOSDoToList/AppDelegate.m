@@ -63,6 +63,23 @@
         //application.applicationIconBadgeNumber=0;
     }
     
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"])
+    {
+        // app already launched
+        NSLog(@"App already launched!");
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        // This is the first launch ever
+        NSLog(@"First time launch!");
+        
+        // Cancel any notifications.
+        [[UIApplication sharedApplication]cancelAllLocalNotifications];
+        NSLog(@"Canceled any existing notifications to this app");
+    }
+    
     return YES;
 }
 
