@@ -17,7 +17,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property NSInteger selectedListIndex;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addListBarbuttonItem;
-
+@property UIButton *bigPlusButton;
 @end
 
 @implementation ListsViewController
@@ -96,6 +96,7 @@
 
     [self.tableView addSubview:button];
     
+    self.bigPlusButton = button;
     // Print notifications and dictionary
     [self print];
 }
@@ -428,6 +429,11 @@
     globalAddViewController.toDoItem.creationDate = [DateWrapper getCurrentDate];
     
     NSMutableArray *list = [self.customListDictionary valueForKey:globalAddViewController.selectedKey];
+    
+    if (list.count == 0)
+        list = [[NSMutableArray alloc]init];
+    
+    
     ToDoItem *newItemToAdd = globalAddViewController.toDoItem;
     bool isNotifyOn = globalAddViewController.isNotifyOn;
 
@@ -442,7 +448,7 @@
         
         NSLog(@"Added item: %@ to list: %@", newItemToAdd, globalAddViewController.selectedKey);
         
-        [self.customListDictionary setValue:list forKey:globalAddViewController.selectedKey];
+        [self.customListDictionary setObject:list forKey:globalAddViewController.selectedKey];
         
         // Remember selected key choice
         self.selectedKey = newItemToAdd.listKey;
@@ -657,6 +663,10 @@
                                                                [self.customListDictionary setObject:[self.customListDictionary objectForKey:oldKey] forKey:inputTitle];
                                                                // Delete object for old key.
                                                                [self.customListDictionary removeObjectForKey:oldKey];
+                                                               
+                                                               for (ToDoItem *item in [self.customListDictionary valueForKey:inputTitle]){
+                                                                   item.listKey = inputTitle;
+                                                               }
                                                                NSLog(@"Changed list titel");
                                                                [self.tableView reloadData];
                                                            }
@@ -816,6 +826,8 @@
         barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editTapped:)];
         
         self.navigationItem.rightBarButtonItem.enabled = NO;
+        self.bigPlusButton.enabled = false;
+        
     }
     else{
         if(self.customListDictionary.count == 0){
@@ -825,6 +837,7 @@
             barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editTapped:)];
         
         self.navigationItem.rightBarButtonItem.enabled = YES;
+        self.bigPlusButton.enabled = true;
     }
     
     NSArray *buttonArray = [NSArray arrayWithObjects:self.addListBarbuttonItem, barButtonItem, nil];
@@ -917,8 +930,24 @@
         
         if (self.selectedKey == nil || [self.selectedKey isEqualToString:@""])
             globalAddViewController.selectedKey = [sortedKeys objectAtIndex:0];
-        else
-            globalAddViewController.selectedKey = self.selectedKey;
+        else{
+            NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+            
+            BOOL isKeyValid = false;
+            for(id key in sortedKeys)
+            {
+                if([key isEqualToString:self.selectedKey])
+                    isKeyValid = true;
+            }
+            
+            if (isKeyValid) {
+                globalAddViewController.selectedKey = self.selectedKey;
+            }
+            else{
+                globalAddViewController.selectedKey = [sortedKeys objectAtIndex:0];
+            }
+        }
+        
         globalAddViewController.isGlobal = YES;
         globalAddViewController.viewController = self;
         
