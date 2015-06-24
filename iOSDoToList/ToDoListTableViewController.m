@@ -680,6 +680,8 @@
             [oldlist removeObject:item];
             
             // Add object to new list
+            if (newlist.count==0)
+                newlist = [[NSMutableArray alloc]init];
             [newlist addObject:item];
             
             // Update dictionary
