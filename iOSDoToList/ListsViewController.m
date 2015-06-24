@@ -37,7 +37,7 @@
     if (self.customListDictionary.count == 0){
         NSMutableArray *newList = [[NSMutableArray alloc]init];
         [self.customListDictionary setValue:newList forKey:@"Grocery"];
-        [self.customListDictionary setValue:newList forKey:@"School"];
+        [self.customListDictionary setValue:newList forKey:@"Job"];
         [self.customListDictionary setValue:newList forKey:@"Private"];
     }
     

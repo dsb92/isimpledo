@@ -634,12 +634,6 @@
         return;
     }
     
-    if (source.dueDateLabel.text.length == 0){
-        self.toDoItem.endDate = nil;
-        self.toDoItem.alertSelection = nil;
-        self.toDoItem.repeatSelection = nil;
-    }
-    
     // get to do item name from textfield
     if (source.textField.text.length > 0) {
         // Cancel any local notifaction attached to the old item name contained in dictionary.
@@ -649,8 +643,19 @@
         self.toDoItem.completed = false;
     }
     else{
+        if (source.isInEditMode) {
+            [self.navigationController popToViewController:self animated:YES];
+            return;
+        }
         [self dismissViewControllerAnimated:YES completion:nil];
         return;
+    }
+    
+    // Textfield is over 0 length, do stuff then.
+    if (source.dueDateLabel.text.length == 0){
+        self.toDoItem.endDate = nil;
+        self.toDoItem.alertSelection = nil;
+        self.toDoItem.repeatSelection = nil;
     }
     
     if (source.isInEditMode == NO)
@@ -684,13 +689,9 @@
             // Update item with new key
             item.listKey = newkey;
         }
-        
-        [self.tableView reloadData];
-        
-        [self printItem:item];
-        
         if (source.isInEditMode) {
             [self.navigationController popToViewController:self animated:YES];
+            [self.tableView reloadData];
             return;
         }
     }
@@ -710,13 +711,10 @@
         [self.tempItems addObject:item];
         
         [self handleEditButton];
-        
-        [self printItem:item];
-        
-        [self.tableView reloadData];
-        
     }
     
+    [self printItem:item];
+    [self.tableView reloadData];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
