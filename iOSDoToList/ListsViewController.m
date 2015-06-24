@@ -9,6 +9,7 @@
 #import "ListsViewController.h"
 #import "ToDoListTableViewController.h"
 #import "AddToDoItemViewController.h"
+#import "SWRevealViewController.h"
 #import "DateWrapper.h"
 #import "LocalNotifications.h"
 
@@ -44,6 +45,14 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     
     [self handleEditButton];
+    
+    // Info button which navigates to slider menu
+    UIButton *infobtn = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    [infobtn addTarget:self.viewController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:infobtn];
+    
+    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     
     // User can select list during editing but only to change the titel of the list.
     self.tableView.allowsSelectionDuringEditing = true;

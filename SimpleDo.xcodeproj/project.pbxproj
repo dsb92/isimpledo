@@ -12,6 +12,8 @@
 		460E22F21AA1243200D212EE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 460E22F11AA1243200D212EE /* Images.xcassets */; };
 		460E22F81AA33A9D00D212EE /* DateWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 460E22F71AA33A9D00D212EE /* DateWrapper.m */; };
 		460E22FE1AABA26700D212EE /* SegmentForToDoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 460E22FD1AABA26700D212EE /* SegmentForToDoItem.m */; };
+		4626BFA91B3AE8A100150780 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4626BFA81B3AE8A100150780 /* SWRevealViewController.m */; };
+		4626BFAC1B3AE90700150780 /* SliderNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4626BFAB1B3AE90700150780 /* SliderNavigationViewController.m */; };
 		464B10E11ABF1282008627DC /* LocalNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 464B10E01ABF1282008627DC /* LocalNotifications.m */; };
 		4659BA521A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA471A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m */; };
 		4659BA531A8BF912002C6A48 /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA491A8BF912002C6A48 /* SWCellScrollView.m */; };
@@ -67,6 +69,10 @@
 		460E22F71AA33A9D00D212EE /* DateWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateWrapper.m; sourceTree = "<group>"; };
 		460E22FC1AABA26700D212EE /* SegmentForToDoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentForToDoItem.h; sourceTree = "<group>"; };
 		460E22FD1AABA26700D212EE /* SegmentForToDoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentForToDoItem.m; sourceTree = "<group>"; };
+		4626BFA71B3AE8A100150780 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		4626BFA81B3AE8A100150780 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
+		4626BFAA1B3AE90700150780 /* SliderNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderNavigationViewController.h; sourceTree = "<group>"; };
+		4626BFAB1B3AE90700150780 /* SliderNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SliderNavigationViewController.m; sourceTree = "<group>"; };
 		464B10DF1ABF1282008627DC /* LocalNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalNotifications.h; sourceTree = "<group>"; };
 		464B10E01ABF1282008627DC /* LocalNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalNotifications.m; sourceTree = "<group>"; };
 		4659BA461A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+SWUtilityButtons.h"; sourceTree = "<group>"; };
@@ -195,6 +201,8 @@
 				469C06E31A6B0E5200ED9A9B /* ToDoItem.m */,
 				460E22FC1AABA26700D212EE /* SegmentForToDoItem.h */,
 				460E22FD1AABA26700D212EE /* SegmentForToDoItem.m */,
+				4626BFAA1B3AE90700150780 /* SliderNavigationViewController.h */,
+				4626BFAB1B3AE90700150780 /* SliderNavigationViewController.m */,
 				465E90AC1B336C9900768AEE /* SelectionListViewController.h */,
 				465E90AD1B336C9900768AEE /* SelectionListViewController.m */,
 				469C06DC1A6B03C900ED9A9B /* AddToDoItemViewController.h */,
@@ -222,6 +230,8 @@
 		469C06B31A69857F00ED9A9B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4626BFA71B3AE8A100150780 /* SWRevealViewController.h */,
+				4626BFA81B3AE8A100150780 /* SWRevealViewController.m */,
 				465E90A71B333F2F00768AEE /* Big-Plus-Button.png */,
 				46E6B2E61A9FAACE004AC3F2 /* Utility.h */,
 				46E6B2E71A9FAACE004AC3F2 /* Utility.m */,
@@ -383,10 +393,12 @@
 				4659BA521A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				469C06E41A6B0E5200ED9A9B /* ToDoItem.m in Sources */,
 				4659BA561A8BF912002C6A48 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
+				4626BFAC1B3AE90700150780 /* SliderNavigationViewController.m in Sources */,
 				46E6B2E81A9FAACE004AC3F2 /* Utility.m in Sources */,
 				460E22FE1AABA26700D212EE /* SegmentForToDoItem.m in Sources */,
 				467A52621A86529100BBE0BA /* RepeatViewController.m in Sources */,
 				469C06E11A6B048500ED9A9B /* ToDoListTableViewController.m in Sources */,
+				4626BFA91B3AE8A100150780 /* SWRevealViewController.m in Sources */,
 				4659BA531A8BF912002C6A48 /* SWCellScrollView.m in Sources */,
 				469C06B61A69857F00ED9A9B /* main.m in Sources */,
 				469C06DE1A6B03C900ED9A9B /* AddToDoItemViewController.m in Sources */,
