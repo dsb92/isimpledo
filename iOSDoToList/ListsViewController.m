@@ -875,7 +875,7 @@
             toDoListViewController.toDoItems = [self.customListDictionary valueForKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
             toDoListViewController.customListDictionary = self.customListDictionary;
             toDoListViewController.selectedListIndex = self.selectedListIndex;
-            toDoListViewController.listKey = [sortedKeys objectAtIndex:self.selectedListIndex];
+            toDoListViewController.selectedKey = [sortedKeys objectAtIndex:self.selectedListIndex];
             toDoListViewController.isEverythingFilter = false;
             toDoListViewController.isCompletedFilter = false;
             NSLog(@"%@", toDoListViewController.toDoItems);

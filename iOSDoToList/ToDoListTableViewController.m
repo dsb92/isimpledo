@@ -624,7 +624,8 @@
     AddToDoItemViewController *source = (AddToDoItemViewController*)self.viewController;
     ToDoItem *item = source.toDoItem;
     self.toDoItem = item;
-   
+    self.selectedKey = source.selectedKey;
+    
     if([[(UIBarButtonItem*)segue title]isEqualToString:@"Cancel"]){
         if (source.isInEditMode)
             [self.navigationController popToViewController:self animated:YES];
@@ -894,7 +895,11 @@
         addToDoItemVIewController.isInEditMode = NO;
         addToDoItemVIewController.isFilter = self.isEverythingFilter;
         addToDoItemVIewController.customListDictionary = self.customListDictionary;
-        addToDoItemVIewController.selectedKey = [sortedKeys objectAtIndex:self.selectedListIndex];
+        if (self.selectedKey == nil)
+            addToDoItemVIewController.selectedKey = [sortedKeys objectAtIndex:self.selectedListIndex];
+        else
+            addToDoItemVIewController.selectedKey = self.selectedKey;
+        
         addToDoItemVIewController.viewController = self;
         self.viewController = addToDoItemVIewController;
     }
