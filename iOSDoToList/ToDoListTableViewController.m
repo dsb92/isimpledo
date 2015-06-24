@@ -194,8 +194,6 @@
     //          }
     
     [listArray writeToFile:filePath atomically:YES];
-    NSLog(@"%@", filePath);
-    NSLog(@"%@", listArray);
 
     if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
         [self segmentControlHandling];
@@ -623,46 +621,77 @@
 
 -(IBAction)unWindFromAdd:(UIStoryboardSegue*) segue{
     //Retreive the source view controller (AddToDoItemViewController) and get the data from it
-    AddToDoItemViewController *source = [segue sourceViewController];
+    AddToDoItemViewController *source = (AddToDoItemViewController*)self.viewController;
     ToDoItem *item = source.toDoItem;
+    self.toDoItem = item;
+   
+    if([[(UIBarButtonItem*)segue title]isEqualToString:@"Cancel"]){
+        if (source.isInEditMode)
+            [self.navigationController popToViewController:self animated:YES];
+        else
+            [self dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
     
-    if(source.didCancel) return;
+    if (source.dueDateLabel.text.length == 0){
+        self.toDoItem.endDate = nil;
+        self.toDoItem.alertSelection = nil;
+        self.toDoItem.repeatSelection = nil;
+    }
+    
+    // get to do item name from textfield
+    if (source.textField.text.length > 0) {
+        // Cancel any local notifaction attached to the old item name contained in dictionary.
+        if(source.isInEditMode && [self.toDoItem.endDate length] != 0)
+            [LocalNotifications cancelLocalNotification:self.toDoItem];
+        self.toDoItem.itemName = source.textField.text;
+        self.toDoItem.completed = false;
+    }
+    else{
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
+    
+    if (source.isInEditMode == NO)
+        self.toDoItem.creationDate = [DateWrapper getCurrentDate];
+
     
     if(source.isInEditMode || self.isEverythingFilter){
-        if (source.didCancel == NO){
-            [LocalNotifications editLocalNotification:item isOn:YES];
-            [self printItem:item];
-            [self updateSegmentControl:item];
+        [LocalNotifications editLocalNotification:item isOn:YES];
+        [self printItem:item];
+        [self updateSegmentControl:item];
+        
+        if (self.isEverythingFilter){
+            // Get old and new key
+            NSString *oldkey = item.listKey;
+            NSString *newkey = source.selectedKey;
             
-            if (self.isEverythingFilter){
-                // Get old and new key
-                NSString *oldkey = item.listKey;
-                NSString *newkey = source.selectedKey;
-                
-                // Get lists for old key and new key
-                NSMutableArray *oldlist = [self.customListDictionary valueForKey:oldkey];
-                NSMutableArray *newlist = [self.customListDictionary valueForKey:newkey];
-                
-                // Remove object from old list
-                [oldlist removeObject:item];
-                
-                // Add object to new list
-                [newlist addObject:item];
-                
-                // Update dictionary
-                [self.customListDictionary setObject:oldlist forKey:oldkey];
-                [self.customListDictionary setObject:newlist forKey:newkey];
-                
-                // Update item with new key
-                item.listKey = newkey;
-            }
-
-            [self.tableView reloadData];
+            // Get lists for old key and new key
+            NSMutableArray *oldlist = [self.customListDictionary valueForKey:oldkey];
+            NSMutableArray *newlist = [self.customListDictionary valueForKey:newkey];
+            
+            // Remove object from old list
+            [oldlist removeObject:item];
+            
+            // Add object to new list
+            [newlist addObject:item];
+            
+            // Update dictionary
+            [self.customListDictionary setObject:oldlist forKey:oldkey];
+            [self.customListDictionary setObject:newlist forKey:newkey];
+            
+            // Update item with new key
+            item.listKey = newkey;
         }
+        
+        [self.tableView reloadData];
         
         [self printItem:item];
         
-        if (source.isInEditMode) return;
+        if (source.isInEditMode) {
+            [self.navigationController popToViewController:self animated:YES];
+            return;
+        }
     }
     
     if (item != nil && item.itemName != nil){
@@ -673,7 +702,9 @@
             [ToDoItem updateSegmentForItem:item segment:self.selectedSegment];
         }
         
-        [LocalNotifications setLocalNotification:item isOn:source.isNotifyOn];
+        if (self.toDoItem.endDate != nil)
+            [LocalNotifications setLocalNotification:item isOn:source.isNotifyOn];
+        
         [self.toDoItems addObject:item];
         [self.tempItems addObject:item];
         
@@ -682,11 +713,20 @@
         [self printItem:item];
         
         [self.tableView reloadData];
+        
     }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(IBAction)unWindFromShortCut:(UIStoryboardSegue*) segue{
     ReminderViewController *reminderViewController = [self.navigationController.viewControllers objectAtIndex:(2)];
+    
+    if ([[(UIBarButtonItem*)segue title]isEqualToString:@"Cancel"]) {
+        [self.navigationController popToViewController:self animated:YES];
+        [self.tableView reloadData];
+        return;
+    }
     
     self.toDoItem = reminderViewController.toDoItem;
     self.toDoItem.itemName = reminderViewController.itemname;
@@ -838,6 +878,8 @@
         addToDoItemVIewController.toDoItem = item;
         addToDoItemVIewController.selectedKey = item.listKey;
         addToDoItemVIewController.customListDictionary = self.customListDictionary;
+        addToDoItemVIewController.viewController = self;
+        self.viewController = addToDoItemVIewController;
     }
     else if ([segue.identifier isEqualToString:@"ReminderShortcutIdentifier"]){
         item = [self.toDoItems objectAtIndex:self.indexPath];
@@ -845,14 +887,16 @@
         reminderViewController.toDoItem = item;
         reminderViewController.itemname = item.itemName;
         reminderViewController.isShortcut = YES;
+        reminderViewController.viewController = self;
     }
     else if([segue.identifier isEqualToString:@"AddSegue"]){
         addToDoItemVIewController = (AddToDoItemViewController*)[navController topViewController];
-        
         addToDoItemVIewController.isInEditMode = NO;
         addToDoItemVIewController.isFilter = self.isEverythingFilter;
         addToDoItemVIewController.customListDictionary = self.customListDictionary;
         addToDoItemVIewController.selectedKey = [sortedKeys objectAtIndex:self.selectedListIndex];
+        addToDoItemVIewController.viewController = self;
+        self.viewController = addToDoItemVIewController;
     }
 }
 
@@ -973,12 +1017,12 @@
 }
 
 -(void)handleEditButton{
-    if(self.toDoItems.count == 0){
+    if (self.isCompletedFilter)
+        self.navigationItem.rightBarButtonItems = nil;
+    
+    else if(self.toDoItems.count == 0){
         NSArray *buttonArray = [NSArray arrayWithObjects:self.addUIBarButtonItem, nil];
         self.navigationItem.rightBarButtonItems = buttonArray;
-    }
-    else if (self.isCompletedFilter){
-        self.navigationItem.rightBarButtonItems = nil;
     }
     else
     {
@@ -1032,18 +1076,6 @@
         
         NSLog(@"\n");
     }
-    
-    NSLog(@"Local notifications:\n");
-    
-    for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications])
-    {
-        /*
-        //!!!OBS OBS REMEBER TO COMMENT THIS WHEN NOT TESTING!!!
-         [[UIApplication sharedApplication]cancelAllLocalNotifications];
-        */
-        NSLog(@"%@", localN);
-    }
-    
 }
 
 -(void)doSingleViewAnimation:(UIView*)incomingView animType:(NSString*)animType hidden:(BOOL)show

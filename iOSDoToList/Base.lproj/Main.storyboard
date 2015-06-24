@@ -164,28 +164,20 @@
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Add To-Do item" id="h69-Pj-SfQ">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="BTS-Kq-bEt">
-                            <connections>
-                                <segue destination="Qd0-bO-bFl" kind="unwind" unwindAction="unWindFromAdd:" id="T37-CO-3Us"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="7gW-LQ-fCp">
-                            <connections>
-                                <segue destination="Qd0-bO-bFl" kind="unwind" unwindAction="unWindFromAdd:" id="MuL-F1-Ii1"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="BTS-Kq-bEt"/>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="7gW-LQ-fCp"/>
                     </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
+                        <outlet property="cancelButton" destination="BTS-Kq-bEt" id="0lF-Bf-ein"/>
                         <outlet property="dueDateLabel" destination="a6z-Zo-t5F" id="3Fe-C0-h7M"/>
                         <outlet property="reminderButton" destination="hjG-tL-BtT" id="tbu-sx-Pgg"/>
-                        <outlet property="saveButton" destination="7gW-LQ-fCp" id="dnn-ey-uqh"/>
+                        <outlet property="saveButton" destination="7gW-LQ-fCp" id="ZjU-ix-hTG"/>
                         <outlet property="tableView" destination="Gul-Tq-smF" id="XvO-qg-MsV"/>
                         <outlet property="textField" destination="6ks-hz-jbQ" id="ovV-rA-wkj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
-                <exit id="Qd0-bO-bFl" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3600" y="135.75"/>
         </scene>
@@ -358,9 +350,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Reminder" id="TvL-jW-Gta">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="sxC-bS-Nfp">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="sxC-bS-Nfp">
                             <connections>
-                                <segue destination="Cfj-ba-u0b" kind="unwind" unwindAction="cancelFromReminder:" id="x6F-9d-RFf"/>
+                                <segue destination="Cfj-ba-u0b" kind="unwind" unwindAction="cancelFromReminder:" id="cmI-1l-UPb"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Set" id="WFr-DE-4fW"/>
@@ -490,6 +482,7 @@
                         <segue destination="jQQ-ge-ChJ" kind="show" identifier="EverythingSegue" id="E51-kW-uCt"/>
                         <segue destination="jQQ-ge-ChJ" kind="show" identifier="CustomListSegue" id="8Hb-Gw-VHF"/>
                         <segue destination="jQQ-ge-ChJ" kind="show" identifier="CompletedSegue" id="EV9-Xy-bcl"/>
+                        <segue destination="Xgx-km-Kc6" kind="presentation" identifier="GlobalAddSegue" id="wfg-6a-amJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XBm-2B-eqZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -902,7 +895,7 @@
         <image name="repeat" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uIX-si-1wa"/>
+        <segue reference="wfg-6a-amJ"/>
         <segue reference="EV9-Xy-bcl"/>
         <segue reference="n0q-0d-tEh"/>
         <segue reference="EZj-t8-JSg"/>

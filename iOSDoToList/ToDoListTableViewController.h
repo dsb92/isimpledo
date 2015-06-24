@@ -22,6 +22,7 @@
 @property BOOL isEverythingFilter;
 @property BOOL isCompletedFilter;
 @property ToDoItem *toDoItem;
+@property UIViewController *viewController;
 
 -(IBAction)unWindFromAdd:(UIStoryboardSegue*) segue;
 -(IBAction)unWindFromShortCut:(UIStoryboardSegue*) segue;

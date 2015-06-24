@@ -25,12 +25,16 @@
     // Do any additional setup after loading the view.
     
     if(self.isShortcut){
-        [self.setButton setTarget:[self.navigationController.viewControllers objectAtIndex:(1)]];
+        [self.setButton setTarget:self.viewController];
         [self.setButton setAction:@selector(unWindFromShortCut:)];
+        [self.cancelButton setTarget:self.viewController];
+        [self.cancelButton setAction:@selector(unWindFromShortCut:)];
     }
     else{
-        [self.setButton setTarget:self.addToDoViewController];
+        [self.setButton setTarget:self.viewController];
         [self.setButton setAction:@selector(unWindFromReminder:)];
+        [self.cancelButton setTarget:self.viewController];
+        [self.cancelButton setAction:@selector(cancelFromReminder:)];
     }
     
     self.reminderTableViewArray = [[NSArray alloc]initWithObjects:@"Alert", @"Repeat", @"Remind", nil];

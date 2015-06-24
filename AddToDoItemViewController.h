@@ -11,18 +11,23 @@
 
 @interface AddToDoItemViewController : UIViewController <UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *saveButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
 @property ToDoItem *toDoItem;
 @property BOOL isInEditMode;
-@property BOOL didCancel;
 @property NSString *selectedKey;
+@property (weak, nonatomic) IBOutlet UITextField *textField;
+@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (weak, nonatomic) IBOutlet UITextField *dueDateLabel;
+@property (weak, nonatomic) IBOutlet UIButton *reminderButton;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property NSMutableArray *listArray;
 @property NSMutableDictionary *customListDictionary;
-@property UIViewController *reminderViewController;
+@property UIViewController *viewController;
 @property BOOL isNotifyOn;
 @property BOOL isFilter;
-
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *saveButton;
+@property BOOL isGlobal;
 
 -(IBAction)cancelFromReminder:(UIStoryboardSegue*) segue;
 -(IBAction)unWindFromReminder:(UIStoryboardSegue*) segue;

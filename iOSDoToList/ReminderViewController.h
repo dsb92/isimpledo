@@ -19,7 +19,7 @@
 @property NSString *repeatDetail;
 @property NSString *itemname;
 @property NSArray *reminderTableViewArray;
-@property UIViewController *addToDoViewController;
+@property UIViewController *viewController;
 @property BOOL isInEditMode;
 @property BOOL isShortcut;
 @property BOOL hasNotification;

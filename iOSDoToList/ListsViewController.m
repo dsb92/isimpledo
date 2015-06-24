@@ -1,4 +1,4 @@
-//
+    //
 //  ListsViewController.m
 //  SimpleDo
 //
@@ -8,6 +8,7 @@
 
 #import "ListsViewController.h"
 #import "ToDoListTableViewController.h"
+#import "AddToDoItemViewController.h"
 #import "DateWrapper.h"
 #import "LocalNotifications.h"
 
@@ -30,6 +31,7 @@
     self.customListDictionary = [[NSMutableDictionary alloc]init];
     [self loadCustomDictionary];
  
+    // Initial lists
     if (self.customListDictionary.count == 0){
         NSMutableArray *newList = [[NSMutableArray alloc]init];
         [self.customListDictionary setValue:newList forKey:@"Grocery"];
@@ -45,6 +47,7 @@
     // User can select list during editing but only to change the titel of the list.
     self.tableView.allowsSelectionDuringEditing = true;
     
+    // Big plus button
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     
     UIImage *plusImage = [UIImage imageNamed:@"Big-Plus-Button.png"];
@@ -80,10 +83,28 @@
     button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin| UIViewAutoresizingFlexibleTopMargin;
 
     [self.tableView addSubview:button];
+    
+    // Print notifications and dictionary
+    [self print];
 }
 
 -(void)goToAddController{
     [self performSegueWithIdentifier:@"GlobalAddSegue" sender:self];
+}
+
+-(void)print{
+    NSLog(@"Local notifications:\n");
+    
+    for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications])
+    {
+        /*
+         //!!!OBS OBS REMEBER TO COMMENT THIS WHEN NOT TESTING!!!
+         [[UIApplication sharedApplication]cancelAllLocalNotifications];
+         */
+        NSLog(@"%@", localN);
+    }
+    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    NSLog(@"Dictionary: %@\n\n Keys: %@", self.customListDictionary, sortedKeys);
 }
 
 
@@ -324,12 +345,10 @@
             // LIFO order, the last notification created is the first that gets updated.
             for (UILocalNotification *notification in pendingNotifications)
             {
-                // modify the badgeNumber
-                NSLog(@"%@", notification);
-                
                 // Dont schedule again for "old" fire dates (with repeatIntervals set)
                 if([[NSDate date] compare:notification.fireDate] == NSOrderedDescending || [[NSDate date] compare:notification.fireDate] == NSOrderedSame) continue;
                 
+                // modify the badgeNumber
                 notification.applicationIconBadgeNumber = badgeNbr+count;
                 badgeNbr++;
                 
@@ -371,24 +390,41 @@
     [self.tableView reloadData];
 }
 
-/*
+
 -(IBAction)unWindFromGlobalAdd:(UIStoryboardSegue*) segue{
-    GlobalAddToDoItemViewController *globalAddViewController = [segue sourceViewController];
+    if([[(UIBarButtonItem*)segue title]isEqualToString:@"Cancel"]){
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
+    AddToDoItemViewController *globalAddViewController = (AddToDoItemViewController*)self.viewController;
     
-    if(globalAddViewController.didCancel) return;
+    if (globalAddViewController.dueDateLabel.text.length == 0){
+        globalAddViewController.toDoItem.endDate = nil;
+        globalAddViewController.toDoItem.alertSelection = nil;
+        globalAddViewController.toDoItem.repeatSelection = nil;
+    }
+    
+    // get to do item name from textfield
+    if (globalAddViewController.textField.text.length > 0) {
+        // Cancel any local notifaction attached to the old item name contained in dictionary.
+        if(globalAddViewController.isInEditMode && [globalAddViewController.toDoItem.endDate length] != 0)
+            [LocalNotifications cancelLocalNotification:globalAddViewController.toDoItem];
+        globalAddViewController.toDoItem.itemName = globalAddViewController.textField.text;
+        globalAddViewController.toDoItem.completed = false;
+    }
+    else{
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
+    
+    // Create the item and store in the dictionary with the selected key
+    globalAddViewController.toDoItem.creationDate = [DateWrapper getCurrentDate];
     
     NSMutableArray *list = [self.customListDictionary valueForKey:globalAddViewController.selectedKey];
     ToDoItem *newItemToAdd = globalAddViewController.toDoItem;
     bool isNotifyOn = globalAddViewController.isNotifyOn;
 
-    if(globalAddViewController.isInEditMode){
-        if (globalAddViewController.didCancel == NO){
-            [LocalNotifications editLocalNotification:newItemToAdd isOn:YES];
-            [self.tableView reloadData];
-        }
-        return;
-    }
-    
+    // 
     if (newItemToAdd != nil && newItemToAdd.itemName != nil){
         
         if (newItemToAdd.endDate != nil)
@@ -403,9 +439,10 @@
         
         [self handleEditButton];
         [self.tableView reloadData];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
- */
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 3;
@@ -453,7 +490,6 @@
         [cell.contentView addSubview:label];
     }
     else if (indexPath.section == 1){
-        NSLog(@"Dictionary: %@\n\n Keys: %@", self.customListDictionary, sortedKeys);
         cell.textLabel.text = [sortedKeys objectAtIndex:indexPath.row];
         
         NSMutableArray *list = [self.customListDictionary valueForKey:sortedKeys[indexPath.row]];
@@ -853,14 +889,18 @@
             NSLog(@"Completed tasks list: %@", completedList);
         }
     }
-    /*
+    
     else if ([segue.identifier isEqualToString:@"GlobalAddSegue"]){
         UINavigationController *navController = (UINavigationController*)[segue destinationViewController];
-        GlobalAddToDoItemViewController *globalAddViewController = (GlobalAddToDoItemViewController*)[navController topViewController];
+        AddToDoItemViewController *globalAddViewController = (AddToDoItemViewController*)[navController topViewController];
         globalAddViewController.customListDictionary = self.customListDictionary;
         globalAddViewController.selectedKey = [sortedKeys objectAtIndex:0];
+        globalAddViewController.isGlobal = YES;
+        globalAddViewController.viewController = self;
+        
+        self.viewController = globalAddViewController;
     }
-     */
+    
 }
 
 /*

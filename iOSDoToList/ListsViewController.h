@@ -12,5 +12,7 @@
 
 @property NSMutableArray *filterArray;
 @property NSMutableDictionary *customListDictionary;
+@property UIViewController *viewController;
+@property NSString *selectedKey;
 
 @end

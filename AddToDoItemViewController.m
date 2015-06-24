@@ -14,11 +14,7 @@
 #import "LocalNotifications.h"
 
 @interface AddToDoItemViewController ()
-@property (weak, nonatomic) IBOutlet UITextField *textField;
-@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
-@property (weak, nonatomic) IBOutlet UITextField *dueDateLabel;
-@property (weak, nonatomic) IBOutlet UIButton *reminderButton;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 
 // Is private and thats why it's not declared in .h file.
 @end
@@ -31,10 +27,11 @@
 
 -(IBAction)cancelFromReminder:(UIStoryboardSegue*) segue{
     [self updateHighlightForReminderButton];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(IBAction)unWindFromReminder:(UIStoryboardSegue*) segue{
-    ReminderViewController *reminderViewController = (ReminderViewController*)  self.reminderViewController;
+    ReminderViewController *reminderViewController = (ReminderViewController*)  self.viewController;
     
     self.toDoItem = reminderViewController.toDoItem;
     
@@ -93,7 +90,22 @@
     
     self.listArray = [[NSMutableArray alloc]initWithObjects:@"Lists", nil];
     
-    if (self.isFilter){
+    if(self.isGlobal){
+        // Unwind to ListViewController
+        [self.saveButton setTarget:self.viewController];
+        [self.saveButton setAction:@selector(unWindFromGlobalAdd:)];
+        [self.cancelButton setTarget:self.viewController];
+        [self.cancelButton setAction:@selector(unWindFromGlobalAdd:)];
+    }
+    else{
+        // Unwind to ToDoListviewcontroller
+        [self.saveButton setTarget:self.viewController];
+        [self.saveButton setAction:@selector(unWindFromAdd:)];
+        [self.cancelButton setTarget:self.viewController];
+        [self.cancelButton setAction:@selector(unWindFromAdd:)];
+    }
+    
+    if (self.isFilter || self.isGlobal){
         self.tableView.hidden = NO;
     }
     else
@@ -201,23 +213,21 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
 
+    // If user presses kryds on duedatelabel, reset enddate, alert and repeat.
     if (self.dueDateLabel.text.length == 0){
         self.toDoItem.endDate = nil;
         self.toDoItem.alertSelection = nil;
         self.toDoItem.repeatSelection = nil;
-        [LocalNotifications cancelLocalNotification:self.toDoItem];
     }
     
     // If user presses reminder button
-    if (sender == self.reminderButton)
+    if ([segue.identifier isEqualToString:@"ReminderIdentifier"])
     {
         UINavigationController *navController = [segue destinationViewController];
         ReminderViewController *reminderVIewController = (ReminderViewController*)[navController topViewController];
-        self.reminderViewController = reminderVIewController;
-        reminderVIewController.addToDoViewController = self;
+        self.viewController = reminderVIewController;
+        reminderVIewController.viewController = self;
         self.toDoItem.completed = false;
         if(self.isInEditMode)
             reminderVIewController.isInEditMode = YES;
@@ -233,31 +243,9 @@
     else if ([segue.identifier isEqualToString:@"SelectionListSegue"]){
         SelectionListViewController *selectionViewController = [segue destinationViewController];
         selectionViewController.customListDictionary = self.customListDictionary;
+        selectionViewController.selectedKey = self.selectedKey;
     }
     
-    // If user did not press save button, return.
-    if (sender != self.saveButton)
-    {
-        self.didCancel = YES;
-        return;
-    }
-    
-    self.didCancel = NO;
-
-    // User presses save button:
-    
-    // get to do item name from textfield
-    if (self.textField.text.length > 0) {
-        // Cancel any local notifaction attached to the old item name contained in dictionary.
-        if(self.isInEditMode && [self.toDoItem.endDate length] != 0)
-            [LocalNotifications cancelLocalNotification:self.toDoItem];
-        self.toDoItem.itemName = self.textField.text;
-        self.toDoItem.completed = false;
-    }
-    
-    if (self.isInEditMode == NO)
-        self.toDoItem.creationDate = [DateWrapper getCurrentDate];
-
 }
 
 @end

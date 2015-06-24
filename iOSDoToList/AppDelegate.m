@@ -118,8 +118,8 @@
     
     //application.applicationIconBadgeNumber = 0;
     
-    NSLog(@"%ld", (long)application.applicationIconBadgeNumber);
-    NSLog(@"application became active");
+    NSLog(@"Badge number: %ld", (long)application.applicationIconBadgeNumber);
+    NSLog(@"Application became active");
     
     // Let user decide whether he/she wishes to have local notifications with sound and badge number etc..
     if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
