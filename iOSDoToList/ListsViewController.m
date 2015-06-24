@@ -715,8 +715,11 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete local notifications if any
         
-        for(ToDoItem *item in list)
+        for(ToDoItem *item in list){
             [LocalNotifications cancelLocalNotification:item];
+        }
+        
+        [list removeAllObjects];
         
         [self.customListDictionary removeObjectForKey:[sortedKeys objectAtIndex:indexPath.row]];
         
