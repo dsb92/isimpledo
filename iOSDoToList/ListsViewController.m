@@ -15,6 +15,7 @@
 @interface ListsViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property NSInteger selectedListIndex;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *addListBarbuttonItem;
 
 @end
 
@@ -680,7 +681,7 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     if (indexPath.section == 0) return NO;
-    
+    else if (indexPath.section == 2) return NO;
     return YES;
 }
 
@@ -701,7 +702,10 @@
         
         // Delete the row from the data source
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        if (self.editing)
+            [self editTapped:self];
         [self handleEditButton];
+        
         [self.tableView reloadData];
         
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
@@ -780,13 +784,15 @@
 
 -(void)handleEditButton{
     if(self.customListDictionary.count == 0){
-        self.navigationItem.leftBarButtonItem = nil;
+        NSArray *buttonArray = [NSArray arrayWithObjects:self.addListBarbuttonItem, nil];
+        self.navigationItem.rightBarButtonItems = buttonArray;
     }
     else
     {
         UIBarButtonItem *editBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editTapped:)];
         
-        self.navigationItem.leftBarButtonItem = editBarButtonItem;
+        NSArray *buttonArray = [NSArray arrayWithObjects:self.addListBarbuttonItem, editBarButtonItem, nil];
+        self.navigationItem.rightBarButtonItems = buttonArray;
     }
 }
 
@@ -803,7 +809,7 @@
     }
     else{
         if(self.customListDictionary.count == 0){
-            //self.navigationItem.leftBarButtonItem = nil;
+            //self.navigationItem.rightBarButtonItem = nil;
         }
         else
             barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editTapped:)];
@@ -811,7 +817,8 @@
         self.navigationItem.rightBarButtonItem.enabled = YES;
     }
     
-    self.navigationItem.leftBarButtonItem = barButtonItem;
+    NSArray *buttonArray = [NSArray arrayWithObjects:self.addListBarbuttonItem, barButtonItem, nil];
+    self.navigationItem.rightBarButtonItems = buttonArray;
 }
 /*
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{

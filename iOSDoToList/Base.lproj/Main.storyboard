@@ -125,11 +125,11 @@
                                 <exclude reference="Gul-Tq-smF"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="KhV-mB-84d"/>
-                                <exclude reference="loE-Cc-ZKB"/>
                                 <exclude reference="Gsl-1g-Lw3"/>
                                 <exclude reference="XSI-Hg-0aJ"/>
                                 <exclude reference="xbD-86-i4x"/>
+                                <exclude reference="KhV-mB-84d"/>
+                                <exclude reference="loE-Cc-ZKB"/>
                                 <exclude reference="6cM-SN-I96"/>
                                 <exclude reference="Cg9-LM-LTk"/>
                                 <exclude reference="OOs-4i-KTr"/>
@@ -145,11 +145,11 @@
                                 <include reference="Gul-Tq-smF"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="KhV-mB-84d"/>
-                                <include reference="loE-Cc-ZKB"/>
                                 <include reference="Gsl-1g-Lw3"/>
                                 <include reference="XSI-Hg-0aJ"/>
                                 <include reference="xbD-86-i4x"/>
+                                <include reference="KhV-mB-84d"/>
+                                <include reference="loE-Cc-ZKB"/>
                                 <include reference="6cM-SN-I96"/>
                                 <include reference="Cg9-LM-LTk"/>
                                 <include reference="OOs-4i-KTr"/>
@@ -478,6 +478,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addListBarbuttonItem" destination="8cd-gw-4ww" id="GTQ-bn-5dF"/>
                         <outlet property="tableView" destination="vm8-9n-33z" id="NZY-p5-8VZ"/>
                         <segue destination="jQQ-ge-ChJ" kind="show" identifier="EverythingSegue" id="E51-kW-uCt"/>
                         <segue destination="jQQ-ge-ChJ" kind="show" identifier="CustomListSegue" id="8Hb-Gw-VHF"/>
