@@ -35,6 +35,7 @@
 		4659BA7D1A8BFC65002C6A48 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4659BA7C1A8BFC65002C6A48 /* CoreGraphics.framework */; };
 		465E90A81B333F2F00768AEE /* Big-Plus-Button.png in Resources */ = {isa = PBXBuildFile; fileRef = 465E90A71B333F2F00768AEE /* Big-Plus-Button.png */; };
 		465E90AE1B336C9900768AEE /* SelectionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 465E90AD1B336C9900768AEE /* SelectionListViewController.m */; };
+		46631F491BC16E780023910E /* InAppPurchase.m in Sources */ = {isa = PBXBuildFile; fileRef = 46631F481BC16E780023910E /* InAppPurchase.m */; settings = {ASSET_TAGS = (); }; };
 		467A525F1A86461A00BBE0BA /* AlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 467A525E1A86461A00BBE0BA /* AlertViewController.m */; };
 		467A52621A86529100BBE0BA /* RepeatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 467A52611A86529100BBE0BA /* RepeatViewController.m */; };
 		468743C41ABDC56800145F39 /* reminder_clock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 468743C31ABDC56800145F39 /* reminder_clock@2x.png */; };
@@ -103,6 +104,8 @@
 		465E90A71B333F2F00768AEE /* Big-Plus-Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Big-Plus-Button.png"; sourceTree = "<group>"; };
 		465E90AC1B336C9900768AEE /* SelectionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectionListViewController.h; sourceTree = "<group>"; };
 		465E90AD1B336C9900768AEE /* SelectionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectionListViewController.m; sourceTree = "<group>"; };
+		46631F471BC16E780023910E /* InAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchase.h; sourceTree = "<group>"; };
+		46631F481BC16E780023910E /* InAppPurchase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchase.m; sourceTree = "<group>"; };
 		467A525D1A86461A00BBE0BA /* AlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertViewController.h; sourceTree = "<group>"; };
 		467A525E1A86461A00BBE0BA /* AlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertViewController.m; sourceTree = "<group>"; };
 		467A52601A86529100BBE0BA /* RepeatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepeatViewController.h; sourceTree = "<group>"; };
@@ -232,6 +235,8 @@
 		469C06B31A69857F00ED9A9B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				46631F471BC16E780023910E /* InAppPurchase.h */,
+				46631F481BC16E780023910E /* InAppPurchase.m */,
 				4626BFA71B3AE8A100150780 /* SWRevealViewController.h */,
 				4626BFA81B3AE8A100150780 /* SWRevealViewController.m */,
 				465E90A71B333F2F00768AEE /* Big-Plus-Button.png */,
@@ -400,6 +405,7 @@
 				4626BFAC1B3AE90700150780 /* SliderNavigationViewController.m in Sources */,
 				46E6B2E81A9FAACE004AC3F2 /* Utility.m in Sources */,
 				460E22FE1AABA26700D212EE /* SegmentForToDoItem.m in Sources */,
+				46631F491BC16E780023910E /* InAppPurchase.m in Sources */,
 				467A52621A86529100BBE0BA /* RepeatViewController.m in Sources */,
 				469C06E11A6B048500ED9A9B /* ToDoListTableViewController.m in Sources */,
 				4626BFA91B3AE8A100150780 /* SWRevealViewController.m in Sources */,

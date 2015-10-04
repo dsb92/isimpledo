@@ -8,6 +8,7 @@
 
 #import "SliderNavigationViewController.h"
 #import "SWRevealViewController.h"
+#import "InAppPurchase.h"
 
 @interface SliderNavigationViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
@@ -15,12 +16,18 @@
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet UIButton *linkButton;
 
+@property (strong, nonatomic) InAppPurchase *IAP;
+
 @end
 
 @implementation SliderNavigationViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.IAP = [[InAppPurchase alloc]init];
+    [self.IAP startIAPICheck];
+    
     // Do any additional setup after loading the view.
     self.iconImageView.layer.cornerRadius = 30;
     self.iconImageView.clipsToBounds = YES;
@@ -44,6 +51,59 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+// Buy product
+
+
+- (IBAction)StoreButtonTapped:(id)sender {
+    
+    
+ 
+    UIAlertController * alert =   [UIAlertController
+                                  alertControllerWithTitle:@"Store"
+                                  message:@"Sync your to-do-items across all devices"
+                                  preferredStyle:UIAlertControllerStyleAlert];
+
+
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel
+                                                   handler:^(UIAlertAction * action) {
+                                                       NSLog(@"Cancel");
+                                                       [alert dismissViewControllerAnimated:YES completion:nil];
+                                                   }];
+
+    for (SKProduct *product in self.IAP.list){
+        
+        // Product title
+        NSString *title = product.localizedTitle;
+        
+        // Format the price to local currency price
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+        formatter.numberStyle = NSNumberFormatterCurrencyStyle;
+        formatter.locale = product.priceLocale;
+        
+        // The localized price
+        NSString *price = [formatter stringFromNumber:product.price];
+        
+        NSString *titleString = [NSString stringWithFormat:@"%@ \t %@", title, price];
+        
+        UIAlertAction* ok = [UIAlertAction actionWithTitle:titleString style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action) {
+                                                       //Do Some action here
+                                                       NSLog(@"Buying cloud...");
+                                                       [self.IAP purchaseCloud];
+                                                       
+                                                   }];
+        
+        [alert addAction:ok];
+        
+        
+        }
+    
+    [alert addAction:cancel];
+    [self presentViewController:alert animated:YES completion:nil];
+
+    
 }
 
 - (IBAction)linkButtonTapped:(id)sender {

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SliderNavigationViewController : UIViewController
+
+@interface SliderNavigationViewController : UIViewController <UIAlertViewDelegate>
 
 @end

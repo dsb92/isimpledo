@@ -85,7 +85,7 @@
     button.layer.shadowRadius = 1;
     button.layer.shadowOffset = CGSizeMake(3.0f,3.0f);
     //width and height should be same value
-    button.frame = CGRectMake(self.tableView.frame.size.width-80,self.tableView.frame.size.height-80, buttonSize,buttonSize);
+    button.frame = CGRectMake(self.tableView.frame.size.width-80,self.tableView.frame.size.height-100, buttonSize,buttonSize);
     button.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
     
     button.showsTouchWhenHighlighted = YES;
