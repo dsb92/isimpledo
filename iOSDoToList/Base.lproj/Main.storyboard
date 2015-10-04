@@ -1021,26 +1021,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cjk-Si-S2O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="237" y="-605.25"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="dct-ab-HSq">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="att-LU-cA6" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="oNS-DP-BkU">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="n2q-6F-g9N" kind="relationship" relationship="rootViewController" id="7Js-it-ACL"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="WmY-1I-jiC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="259.5" y="135.75"/>
+            <point key="canvasLocation" x="237" y="133"/>
         </scene>
         <!--Move to list-->
         <scene sceneID="eCI-rv-IB5">
@@ -1119,7 +1100,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ANg-7J-9hT" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="btl-it-deF" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3288" y="-647.25"/>
+            <point key="canvasLocation" x="4503" y="-884"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="DWm-A9-ru9">
@@ -1138,7 +1119,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jKp-6R-364" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2370" y="-647.25"/>
+            <point key="canvasLocation" x="3585" y="-884"/>
         </scene>
     </scenes>
     <resources>
@@ -1147,9 +1128,8 @@
         <image name="repeat" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uIX-si-1wa"/>
+        <segue reference="wfg-6a-amJ"/>
         <segue reference="EV9-Xy-bcl"/>
-        <segue reference="7Js-it-ACL"/>
         <segue reference="34y-np-rzd"/>
         <segue reference="n0q-0d-tEh"/>
     </inferredMetricsTieBreakers>

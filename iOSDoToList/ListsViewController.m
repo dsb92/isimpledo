@@ -752,7 +752,7 @@
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     
     if (section == 0){
-        return @"Filters";
+        return @"Filter";
     }
     else if (section == 1){
         return @"Lists";
@@ -802,7 +802,7 @@
                                                    [self.tableView reloadData];
                                                    
                                                }];
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel
                                                    handler:^(UIAlertAction * action) {
                                                        NSLog(@"Cancel");
                                                        [alert dismissViewControllerAnimated:YES completion:nil];
