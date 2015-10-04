@@ -38,9 +38,7 @@
     
     self.bundleNameLabel.text = bundleName;
     self.versionLabel.text = [NSString stringWithFormat:@"Version %@ (%@)", version, build];
-    
-    // Keep default color of uibutton
-    [self.linkButton setTitleColor:self.linkButton.tintColor forState:UIControlStateNormal];
+
 }
 
 - (void)didReceiveMemoryWarning {
