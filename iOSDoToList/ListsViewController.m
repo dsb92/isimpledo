@@ -85,7 +85,7 @@
     button.layer.shadowRadius = 1;
     button.layer.shadowOffset = CGSizeMake(3.0f,3.0f);
     //width and height should be same value
-    button.frame = CGRectMake(self.tableView.frame.size.width-80,self.tableView.frame.size.height-140, buttonSize,buttonSize);
+    button.frame = CGRectMake(self.tableView.frame.size.width-80,self.tableView.frame.size.height-80, buttonSize,buttonSize);
     button.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
     
     button.showsTouchWhenHighlighted = YES;
@@ -490,7 +490,12 @@
         // Foreach key in dictionary
         for(id key in sortedKeys) {
             NSMutableArray *list = [self.customListDictionary objectForKey:key];
-            [allLists addObjectsFromArray:list];
+            
+            for (ToDoItem *item in list) {
+                if (!item.completed) {
+                    [allLists addObject:item];
+                }
+            }
         }
         
         listCount = allLists.count;
@@ -508,9 +513,17 @@
     else if (indexPath.section == 1){
         cell.textLabel.text = [sortedKeys objectAtIndex:indexPath.row];
         
-        NSMutableArray *list = [self.customListDictionary valueForKey:sortedKeys[indexPath.row]];
+        NSMutableArray *allItemsForKey = [self.customListDictionary valueForKey:sortedKeys[indexPath.row]];
         
-        listCount = [[self.customListDictionary valueForKey:[sortedKeys objectAtIndex:indexPath.row]] count];
+        NSMutableArray *list = [[NSMutableArray alloc]init];
+        
+        for (ToDoItem *item in allItemsForKey) {
+            if (!item.completed) {
+                [list addObject:item];
+            }
+        }
+        
+        listCount = list.count;
         
         bool hasAnyOutDated = [self hasAnyOutdated:list];
         

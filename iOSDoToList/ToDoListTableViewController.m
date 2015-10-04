@@ -627,10 +627,7 @@
     self.selectedKey = source.selectedKey;
     
     if([[(UIBarButtonItem*)segue title]isEqualToString:@"Cancel"]){
-        if (source.isInEditMode)
-            [self.navigationController popToViewController:self animated:YES];
-        else
-            [self dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
         return;
     }
     
@@ -643,10 +640,6 @@
         self.toDoItem.completed = false;
     }
     else{
-        if (source.isInEditMode) {
-            [self.navigationController popToViewController:self animated:YES];
-            return;
-        }
         [self dismissViewControllerAnimated:YES completion:nil];
         return;
     }
@@ -692,7 +685,7 @@
             item.listKey = newkey;
         }
         if (source.isInEditMode) {
-            [self.navigationController popToViewController:self animated:YES];
+            [self dismissViewControllerAnimated:YES completion:nil];
             [self.tableView reloadData];
             return;
         }
@@ -929,7 +922,7 @@
     NSDate *itemdate = [DateWrapper convertToDate:item.endDate];
     NSInteger segmentValue = [self.selectedSegment integerValue];
     
-    if (segmentValue == 0) return;
+    if (segmentValue == 0 || itemdate == nil) return;
     
     NSDateComponents *itemDateComponent = [[NSCalendar currentCalendar] components:NSCalendarUnitMinute | NSCalendarUnitHour
                                            | NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:itemdate];
