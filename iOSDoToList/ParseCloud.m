@@ -25,60 +25,33 @@
     
         // Check if there is an existing Lists on the cloud
         PFQuery *query = [PFQuery queryWithClassName:@"Lists"];
+        [query whereKey:@"username" equalTo:currentUser.username];
         
         [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error){
             
             // If no errors finding existing lists
             if (error == nil){
                 
-                // If there are lists
-                if (objects != nil && objects.count != 0){
+                // Delete each list
+                for (id obj in objects){
                     
-                    for (id obj in objects){
-                        
-                        [self saveExistingList:obj dictionary:customListDictionary];
-                        
-                    }
-                    
+                    [self deleteExistingList:obj];
                     
                 }
-                else{
-                    
-                    NSLog(@"No existing lists in cloud, creating new list to store");
-                    [self saveNewList:customListDictionary];
-                    
-                    
-                }
+                
+                // Create a new list
+                [self saveNewList:customListDictionary];
                 
             }
             else{
                 
                 NSLog(@"Error finding existing lists : %@", error.description);
-                
-                
+      
             }
-            
-            
             
         }];
 
     }
-}
-
-+(void)saveExistingList:(PFObject*)list dictionary:(NSMutableDictionary*)dictionary{
-    
-    PFUser *currentUser = [PFUser currentUser];
-    
-    // Get the keys
-    NSArray * sortedKeys = [[dictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-    
-    for(id key in sortedKeys){
-        
-        list[@"username"] = currentUser.username;
-        list[@"listkey"] = key;
-        
-    }
-
 }
 
 +(void)saveNewList:(NSMutableDictionary*)dictionary{
@@ -116,10 +89,50 @@
             }
             
         }];
-        
-
+    
     }
  
+}
+
++(void)deleteExistingList:(PFObject*)list{
+    
+    PFUser *currentUser = [PFUser currentUser];
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Items"];
+    [query whereKey:@"list" equalTo:list];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        
+        if (objects.count == 0){
+            
+            NSLog(@"No items found");
+            
+        }
+        
+        // Delete the items associated with the list
+        for(PFObject *obj in objects){
+            
+            [obj deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                
+                NSLog(@"Succesfully deleted item associated with list %@", list[@"listkey"]);
+                
+            }];
+            
+        }
+        
+        // Delete the list
+        [list deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            
+            if (succeeded){
+                
+                NSLog(@"Succesfully deleted list associated with user %@", currentUser.username);
+                
+            }
+            
+        }];
+        
+    }];
+    
     
 }
 
@@ -183,190 +196,6 @@
             }
         }];
     
-    }
-
-    
-}
-
-
-+(void)saveCloud:(NSMutableDictionary*)customListDictionary{
-    
-    PFUser *currentUser = [PFUser currentUser];
-    if (currentUser) {
-        
-        // do stuff with the user
-        NSLog(@"Anonymous user %@ is logged in", currentUser);
-        
-        NSArray * sortedKeys = [[customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-        
-        for(id key in sortedKeys){
-            
-            // Create the list
-            PFQuery *query = [PFQuery queryWithClassName:@"Lists"];
-            
-            [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-                
-                if (error == nil){
-                    
-                    if (objects != nil && objects.count != 0){
-                        
-                        for (id obj in objects){
-                            
-                            obj[@"username"] = currentUser.username;
-                            obj[@"listkey"] = key;
-                            
-                            // Return to do list for each key (Grocery, school, private etc.)
-                            id list = [customListDictionary objectForKey:key];
-                            
-                            for(ToDoItem *item in list){
-                                
-                                // Create an item
-                                /* Non-nullable values */
-                                PFObject *itemToSave = [PFObject objectWithClassName:@"Items"];
-                                
-                                itemToSave[@"list"] = obj;
-                                itemToSave[@"itemid"] = item.itemid;
-                                itemToSave[@"itemname"] = item.itemName;
-                                itemToSave[@"completed"] = [NSNumber numberWithBool:item.completed];
-                                itemToSave[@"creationDate"] = item.creationDate;
-                                itemToSave[@"listkey"] = item.listKey;
-                                
-                                if(item.segmentForItem.thestringid == nil)
-                                    itemToSave[@"segmentid"] = @"";
-                                else
-                                    itemToSave[@"segmentid"] = item.segmentForItem.thestringid;
-                                
-                                if(item.segmentForItem.segment == nil)
-                                    itemToSave[@"segmentname"] = @"";
-                                else
-                                    itemToSave[@"segmentname"] = item.segmentForItem.segment;
-                                
-                                if(item.endDate == nil)
-                                    itemToSave[@"enddate"] = @"";
-                                else
-                                    itemToSave[@"enddate"] = item.endDate;
-                                
-                                if(item.alertSelection== nil)
-                                    itemToSave[@"alertselection"] = @"";
-                                else
-                                    itemToSave[@"alertselection"] = item.alertSelection;
-                                
-                                if(item.repeatSelection == nil)
-                                    itemToSave[@"repeatselection"] = @"";
-                                else
-                                    itemToSave[@"repeatselection"] = item.repeatSelection;
-                                
-                                
-                                if(item.actualEndDate == nil)
-                                    NSLog(@"%@ has nil actualEndDate", item.itemName);
-                                else
-                                    itemToSave[@"actualEndDate"] = item.actualEndDate;
-                                
-                                
-                                [itemToSave saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                                    
-                                    if (succeeded){
-                                        NSLog(@"ParseCloud: Objects saved");
-                                    }
-                                    else{
-                                        NSLog(@"ERROR ParseCloud: Objects saving failed with error: %@", error.description);
-                                    }
-                                }];
-
-                                
-                                
-                            }
-
-                            
-                        }
-                        
-                        
-                    }
-                    else {
-                        
-                        PFObject *obj = [PFObject objectWithClassName:@"Lists"];
-                        
-                        obj[@"username"] = currentUser.username;
-                        obj[@"listkey"] = key;
-                        
-                        // Return to do list for each key (Grocery, school, private etc.)
-                        id list = [customListDictionary objectForKey:key];
-                        
-                        for(ToDoItem *item in list){
-                            
-                            // Create an item
-                            /* Non-nullable values */
-                            PFObject *itemToSave = [PFObject objectWithClassName:@"Items"];
-                            
-                            [itemToSave deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                                
-                                itemToSave[@"list"] = obj;
-                                itemToSave[@"itemid"] = item.itemid;
-                                itemToSave[@"itemname"] = item.itemName;
-                                itemToSave[@"completed"] = [NSNumber numberWithBool:item.completed];
-                                itemToSave[@"creationDate"] = item.creationDate;
-                                itemToSave[@"listkey"] = item.listKey;
-                                
-                                if(item.segmentForItem.thestringid == nil)
-                                    itemToSave[@"segmentid"] = @"";
-                                else
-                                    itemToSave[@"segmentid"] = item.segmentForItem.thestringid;
-                                
-                                if(item.segmentForItem.segment == nil)
-                                    itemToSave[@"segmentname"] = @"";
-                                else
-                                    itemToSave[@"segmentname"] = item.segmentForItem.segment;
-                                
-                                if(item.endDate == nil)
-                                    itemToSave[@"enddate"] = @"";
-                                else
-                                    itemToSave[@"enddate"] = item.endDate;
-                                
-                                if(item.alertSelection== nil)
-                                    itemToSave[@"alertselection"] = @"";
-                                else
-                                    itemToSave[@"alertselection"] = item.alertSelection;
-                                
-                                if(item.repeatSelection == nil)
-                                    itemToSave[@"repeatselection"] = @"";
-                                else
-                                    itemToSave[@"repeatselection"] = item.repeatSelection;
-                                
-                                
-                                if(item.actualEndDate == nil)
-                                    NSLog(@"%@ has nil actualEndDate", item.itemName);
-                                else
-                                    itemToSave[@"actualEndDate"] = item.actualEndDate;
-                                
-                                
-                                [itemToSave saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                                    
-                                    if (succeeded){
-                                        NSLog(@"ParseCloud: Objects saved");
-                                    }
-                                    else{
-                                        NSLog(@"ERROR ParseCloud: Objects saving failed with error: %@", error.description);
-                                    }
-                                }];
-                                
-                            }];
-                            
-                            
-                        }
-
-                        
-                    }
-                    
-                }
-                
-            }];
-            
-            
-        }
-        
-        
-    } else {
-        // show the signup or login screen
     }
 
     
