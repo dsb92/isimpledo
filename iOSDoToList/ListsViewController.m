@@ -30,19 +30,29 @@
     NSLog(@"ListsViewController: View did load");
     self.filterArray = [[NSMutableArray alloc] initWithObjects:@"Everything", nil];
     
-    [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
-        if (error) {
-            NSLog(@"Anonymous login failed.");
-        } else {
-            NSLog(@"Anonymous user logged in.");
-        }
-    }];
-    
-    
+    PFUser *currentUser = [PFUser currentUser];
+    if (currentUser) {
+        // do stuff with the user
+    } else {
+        PFUser *user = [PFUser user];
+        user.username = @"my name";
+        user.password = @"my pass";
+        user.email = @"email@example.com";
+        
+        // other fields can be set just like with PFObject
+        user[@"phone"] = @"415-392-0202";
+        
+        [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (!error) {   // Hooray! Let them use the app now.
+            } else {   NSString *errorString = [error userInfo][@"error"];   // Show the errorString somewhere and let the user try again.
+            }
+        }];
+    }
     
     // Load custom lists
     self.customListDictionary = [[NSMutableDictionary alloc]init];
-    [self loadCustomDictionary];
+    //[self loadFromLocal];
+    [self loadFromCloud];
  
     // Initial lists
     if (self.customListDictionary.count == 0){
@@ -126,8 +136,78 @@
     NSLog(@"Dictionary: %@\n\n Keys: %@", self.customListDictionary, sortedKeys);
 }
 
+-(void)loadFromCloud{
+    
+    //[ParseCloud loadCloud];
+    // Get the user
+    PFUser *currentUser = [PFUser currentUser];
+    
+    // Check if not null
+    if (currentUser){
+        
+        // Check if there is an existing Lists on the cloud
+        PFQuery *query = [PFQuery queryWithClassName:@"Lists"];
+        [query whereKey:@"username" equalTo:currentUser.username];
+        
+        [query findObjectsInBackgroundWithBlock:^(NSArray *lists, NSError * _Nullable error){
+            
+            NSString *key;
+            
+            // If no errors finding existing lists
+            if (error == nil){
+                
+                if (lists.count == 0){
+                    
+                    NSLog(@"No lists found");
+                    
+                }
+                
+                for (PFObject *list in lists){
+                    
+                    key = list[@"listkey"];
+                    
+                    NSMutableArray *itemList = [[NSMutableArray alloc]init];
+                    
+                    PFQuery *query = [PFQuery queryWithClassName:@"Items"];
+                    [query whereKey:@"list" equalTo:list];
+                    
+                    [query findObjectsInBackgroundWithBlock:^(NSArray *items, NSError * _Nullable error) {
+                        
+                        if (items.count == 0){
+                            
+                            NSLog(@"No items found");
+                            
+                        }
+                        
+                        for(PFObject *item in items){
+                            
+                            ToDoItem *toDoItem = [ParseCloud createToDoItem:item];
+                            
+                            [itemList addObject:toDoItem];
+                        }
+                        
+                        [self.customListDictionary setValue:itemList forKey:key];
+                        [self.tableView reloadData];
+                        
+                    }];
+                    
+                    
+                }
+                
+            }
+            else{
+                
+                NSLog(@"Error finding existing lists : %@", error.description);
+                
+            }
+            
+        }];
+        
+    }
 
--(void) loadCustomDictionary{
+}
+
+-(void)loadFromLocal{
     NSString *filePath= [self pathOfFile];
     
     NSMutableArray *listArray = [NSMutableArray arrayWithContentsOfFile:filePath];
@@ -217,8 +297,8 @@
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification{
     
-    //[self saveCustomDictionary];
-    [self saveLocalData];
+    //[self saveToLocal];
+    [self saveToCloud];
     [self updateNotificationBadge];
     
     
@@ -228,14 +308,13 @@
     [self.tableView reloadData];
 }
 
--(void)saveLocalData{
+-(void)saveToCloud{
     
-        
     [ParseCloud saveToCloud:self.customListDictionary];
     
 }
 
--(void)saveCustomDictionary{
+-(void)saveToLocal{
     NSString *filePath= [self pathOfFile];
     
     NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];

@@ -19,9 +19,6 @@
     
     // Check if not null
     if (currentUser){
-        
-        // Do stuff with the user
-        NSLog(@"Anonymous user %@ is logged in", currentUser);
     
         // Check if there is an existing Lists on the cloud
         PFQuery *query = [PFQuery queryWithClassName:@"Lists"];
@@ -201,9 +198,28 @@
     
 }
 
-+(void)loadCloud{
+
+
++(ToDoItem *)createToDoItem:(PFObject*)item{
+
+    ToDoItem *toDoItem = [[ToDoItem alloc]init];
     
+    toDoItem.itemid = item[@"itemid"];
+    toDoItem.itemName = item[@"itemname"];
+    toDoItem.completed = [item[@"completed"] boolValue];
+    toDoItem.creationDate = item[@"creationDate"];
+    toDoItem.listKey = item[@"listkey"];
+    toDoItem.segmentForItem.thestringid = item[@"segmentid"];
+    toDoItem.segmentForItem.segment = item[@"segmentname"];
+    toDoItem.endDate = item[@"enddate"];
+    toDoItem.alertSelection = item[@"alertselection"];
+    toDoItem.repeatSelection = item[@"repeatselection"];
     
+    if (item[@"actualEndDate"]){
+        toDoItem.actualEndDate = item[@"actualEndDate"];
+    }
+    
+    return toDoItem;
     
 }
 

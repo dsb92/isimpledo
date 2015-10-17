@@ -14,6 +14,6 @@
 
 +(void)saveToCloud:(NSMutableDictionary*)customListDictionary;
 +(void)saveCloud:(NSMutableDictionary*)customListDictionary;
-+(void)loadCloud;
++(ToDoItem *)createToDoItem:(PFObject*)item;
 
 @end
