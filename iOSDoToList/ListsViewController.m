@@ -12,6 +12,8 @@
 #import "SWRevealViewController.h"
 #import "DateWrapper.h"
 #import "LocalNotifications.h"
+#import "ParseCloud.h"
+#import <Parse/Parse.h>
 
 @interface ListsViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -27,6 +29,15 @@
     // Do any additional setup after loading the view.
     NSLog(@"ListsViewController: View did load");
     self.filterArray = [[NSMutableArray alloc] initWithObjects:@"Everything", nil];
+    
+    [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
+        if (error) {
+            NSLog(@"Anonymous login failed.");
+        } else {
+            NSLog(@"Anonymous user logged in.");
+        }
+    }];
+    
     
     
     // Load custom lists
@@ -206,7 +217,8 @@
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification{
     
-    [self saveCustomDictionary];
+    //[self saveCustomDictionary];
+    [self saveLocalData];
     [self updateNotificationBadge];
     
     
@@ -214,6 +226,13 @@
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification{
     [self.tableView reloadData];
+}
+
+-(void)saveLocalData{
+    
+        
+    [ParseCloud saveToCloud:self.customListDictionary];
+    
 }
 
 -(void)saveCustomDictionary{
