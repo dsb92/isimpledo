@@ -33,6 +33,8 @@
 		4659BA791A8BFC55002C6A48 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4659BA781A8BFC55002C6A48 /* UIKit.framework */; };
 		4659BA7B1A8BFC5E002C6A48 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4659BA7A1A8BFC5E002C6A48 /* Foundation.framework */; };
 		4659BA7D1A8BFC65002C6A48 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4659BA7C1A8BFC65002C6A48 /* CoreGraphics.framework */; };
+		465A59E51BD2AC5F00D4F521 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 465A59E41BD2AC5F00D4F521 /* LoginViewController.m */; settings = {ASSET_TAGS = (); }; };
+		465A59E81BD2AD7D00D4F521 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 465A59E71BD2AD7D00D4F521 /* SignUpViewController.m */; settings = {ASSET_TAGS = (); }; };
 		465E90A81B333F2F00768AEE /* Big-Plus-Button.png in Resources */ = {isa = PBXBuildFile; fileRef = 465E90A71B333F2F00768AEE /* Big-Plus-Button.png */; };
 		465E90AE1B336C9900768AEE /* SelectionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 465E90AD1B336C9900768AEE /* SelectionListViewController.m */; };
 		46631F491BC16E780023910E /* InAppPurchase.m in Sources */ = {isa = PBXBuildFile; fileRef = 46631F481BC16E780023910E /* InAppPurchase.m */; settings = {ASSET_TAGS = (); }; };
@@ -119,6 +121,10 @@
 		4659BA781A8BFC55002C6A48 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4659BA7A1A8BFC5E002C6A48 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4659BA7C1A8BFC65002C6A48 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		465A59E31BD2AC5F00D4F521 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		465A59E41BD2AC5F00D4F521 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		465A59E61BD2AD7D00D4F521 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
+		465A59E71BD2AD7D00D4F521 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		465E90A71B333F2F00768AEE /* Big-Plus-Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Big-Plus-Button.png"; sourceTree = "<group>"; };
 		465E90AC1B336C9900768AEE /* SelectionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectionListViewController.h; sourceTree = "<group>"; };
 		465E90AD1B336C9900768AEE /* SelectionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectionListViewController.m; sourceTree = "<group>"; };
@@ -297,6 +303,10 @@
 				46F9188F1B0919E000776F2B /* ListsViewController.m */,
 				469C06DF1A6B048500ED9A9B /* ToDoListTableViewController.h */,
 				469C06E01A6B048500ED9A9B /* ToDoListTableViewController.m */,
+				465A59E31BD2AC5F00D4F521 /* LoginViewController.h */,
+				465A59E41BD2AC5F00D4F521 /* LoginViewController.m */,
+				465A59E61BD2AD7D00D4F521 /* SignUpViewController.h */,
+				465A59E71BD2AD7D00D4F521 /* SignUpViewController.m */,
 				46091FE61A7FD37A00DC2513 /* Main.storyboard */,
 				469C06C21A69857F00ED9A9B /* LaunchScreen.xib */,
 				460E22F11AA1243200D212EE /* Images.xcassets */,
@@ -476,6 +486,7 @@
 				46631F721BC19C960023910E /* ParseCloud.m in Sources */,
 				464B10E11ABF1282008627DC /* LocalNotifications.m in Sources */,
 				469C06B91A69857F00ED9A9B /* AppDelegate.m in Sources */,
+				465A59E51BD2AC5F00D4F521 /* LoginViewController.m in Sources */,
 				4659BA541A8BF912002C6A48 /* SWLongPressGestureRecognizer.m in Sources */,
 				467A525F1A86461A00BBE0BA /* AlertViewController.m in Sources */,
 				4659BA571A8BF912002C6A48 /* SWUtilityButtonView.m in Sources */,
@@ -495,6 +506,7 @@
 				469C06DE1A6B03C900ED9A9B /* AddToDoItemViewController.m in Sources */,
 				4659BA551A8BF912002C6A48 /* SWTableViewCell.m in Sources */,
 				460E22F81AA33A9D00D212EE /* DateWrapper.m in Sources */,
+				465A59E81BD2AD7D00D4F521 /* SignUpViewController.m in Sources */,
 				46091FEB1A7FD5AA00DC2513 /* ReminderViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

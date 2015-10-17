@@ -9,6 +9,10 @@
 #import "SliderNavigationViewController.h"
 #import "SWRevealViewController.h"
 #import "InAppPurchase.h"
+#import <Parse/Parse.h>
+#import <ParseUI/ParseUI.h>
+#import "LoginViewController.h"
+#import "SignUpViewController.h"
 
 @interface SliderNavigationViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
@@ -108,6 +112,26 @@
 
 - (IBAction)linkButtonTapped:(id)sender {
      [[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"http://dabdeveloper.wix.com/isimpledo"]];
+}
+
+- (IBAction)logoutTapped:(id)sender {
+    
+    [PFUser logOut];
+    
+    LoginViewController *loginViewController = [[LoginViewController alloc]init];
+    [loginViewController setDelegate:loginViewController];
+    
+    loginViewController.fields = PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton | PFLogInFieldsSignUpButton;
+    
+    // Create the sign up view controller
+    SignUpViewController *signUpViewController = [[SignUpViewController alloc] init];
+    [signUpViewController setDelegate:signUpViewController]; // Set ourselves as the delegate
+    
+    // Assign our sign up controller to be displayed from the login controller
+    [loginViewController setSignUpController:signUpViewController];
+    
+    [self presentViewController:loginViewController animated:true completion:nil];
+
 }
 
 #pragma mark - Navigation

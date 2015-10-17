@@ -6,11 +6,16 @@
 //  Copyright (c) 2015 David Buhauer. All rights reserved.
 //
 
+#import "LoginViewController.h"
+#import "SignUpViewController.h"
+#import "SWRevealViewController.h"
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
+#import <ParseUI/ParseUI.h>
 
-@interface AppDelegate ()
-
+@interface AppDelegate () <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
+@property LoginViewController *logInViewController;
+@property SignUpViewController *signUpViewController;
 @end
 
 @implementation AppDelegate
@@ -79,7 +84,41 @@
         // Cancel any notifications.
         [[UIApplication sharedApplication]cancelAllLocalNotifications];
         NSLog(@"Canceled any existing notifications to this app");
+        
     }
+    
+    PFUser *currentUser = [PFUser currentUser];
+    
+    // If user is cached (logged in)
+    if (currentUser){
+        
+        SWRevealViewController *viewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"MainViewController"];
+        
+        self.window.rootViewController = viewController;
+        [self.window makeKeyAndVisible];
+        
+    }
+    // Else show login view
+    else{
+        
+        //LoginViewController *viewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"LoginViewController"];
+        
+        // Create the log in view controller
+        self.logInViewController = [[LoginViewController alloc] init];
+        [self.logInViewController setDelegate:self.logInViewController]; // Set ourselves as the delegate
+        self.logInViewController.fields = PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton | PFLogInFieldsSignUpButton;
+        
+        // Create the sign up view controller
+        self.signUpViewController = [[SignUpViewController alloc] init];
+        [self.signUpViewController setDelegate:self.signUpViewController]; // Set ourselves as the delegate
+        
+        // Assign our sign up controller to be displayed from the login controller
+        [self.logInViewController setSignUpController:self.signUpViewController];
+        
+        self.window.rootViewController = self.logInViewController;
+        [self.window makeKeyAndVisible];
+    }
+    
     
     // [Optional] Power your app with Local Datastore. For more info, go to
     // https://parse.com/docs/ios_guide#localdatastore/iOS
@@ -95,6 +134,8 @@
     return YES;
 }
 
+
+    
 /*
 - (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {

@@ -24,9 +24,6 @@
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes" returnKeyType="done"/>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="20" y="158" width="319" height="30"/>
-                                </variation>
                                 <variation key="heightClass=regular-widthClass=regular" ambiguous="YES" misplaced="YES">
                                     <rect key="frame" x="16" y="158" width="768" height="30"/>
                                 </variation>
@@ -55,8 +52,7 @@
                                         <exclude reference="sc1-UH-oFt"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="347" y="158" width="33" height="30"/>
+                                <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="constraints">
                                         <include reference="Rwa-rK-NMe"/>
                                         <include reference="sc1-UH-oFt"/>
@@ -471,7 +467,7 @@
         <!--Reveal View Controller-->
         <scene sceneID="IL2-Lr-wwr">
             <objects>
-                <viewController id="T4V-lM-Qqc" customClass="SWRevealViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="T4V-lM-Qqc" customClass="SWRevealViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gTP-dh-gA3"/>
                         <viewControllerLayoutGuide type="bottom" id="5he-hR-7vv"/>
@@ -630,6 +626,31 @@
                                     </mask>
                                 </variation>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XV6-zJ-p0j">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <animations/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="B4D-7S-07Y"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="Log out">
+                                    <color key="titleColor" red="0.34901961679999999" green="0.69411766529999996" blue="0.30196079609999998" alpha="1" colorSpace="deviceRGB"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="B4D-7S-07Y"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="B4D-7S-07Y"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="logoutTapped:" destination="dcg-3q-pkz" eventType="touchUpInside" id="Qcv-jb-FhQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.92941176469999998" green="0.92941176469999998" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -640,6 +661,7 @@
                             <constraint firstItem="2n0-DJ-ohD" firstAttribute="top" secondItem="NhI-Z4-30c" secondAttribute="bottom" constant="8" id="28n-nk-1pq"/>
                             <constraint firstItem="dh0-QC-Tvg" firstAttribute="centerX" secondItem="F3Q-5G-jr4" secondAttribute="centerX" id="3Ud-k7-2Jb"/>
                             <constraint firstItem="dqH-mm-Ie8" firstAttribute="top" secondItem="Uc8-4P-vIV" secondAttribute="bottom" constant="20" id="6xy-kz-X7t"/>
+                            <constraint firstItem="XV6-zJ-p0j" firstAttribute="trailing" secondItem="zh8-wy-Xvc" secondAttribute="trailing" id="DrX-kl-zKP"/>
                             <constraint firstItem="dh0-QC-Tvg" firstAttribute="centerX" secondItem="Uc8-4P-vIV" secondAttribute="centerX" id="FcA-5U-s0R">
                                 <variation key="heightClass=regular-widthClass=compact" constant="-6"/>
                             </constraint>
@@ -657,12 +679,16 @@
                             </constraint>
                             <constraint firstItem="dh0-QC-Tvg" firstAttribute="centerX" secondItem="2n0-DJ-ohD" secondAttribute="centerX" id="dEk-Ov-3w9"/>
                             <constraint firstItem="F3Q-5G-jr4" firstAttribute="top" secondItem="WNg-Sh-RIK" secondAttribute="top" constant="313" id="dYT-5C-1Hw"/>
+                            <constraint firstItem="XV6-zJ-p0j" firstAttribute="leading" secondItem="zh8-wy-Xvc" secondAttribute="leading" id="fH2-fe-p8r"/>
                             <constraint firstItem="2n0-DJ-ohD" firstAttribute="centerY" secondItem="WNg-Sh-RIK" secondAttribute="centerY" id="jYX-zn-nQc"/>
-                            <constraint firstItem="zh8-wy-Xvc" firstAttribute="top" secondItem="F3Q-5G-jr4" secondAttribute="bottom" constant="8" id="nqX-ml-6Ni"/>
+                            <constraint firstItem="zh8-wy-Xvc" firstAttribute="top" secondItem="F3Q-5G-jr4" secondAttribute="bottom" constant="8" id="nqX-ml-6Ni">
+                                <variation key="heightClass=regular-widthClass=compact" constant="17"/>
+                            </constraint>
                             <constraint firstItem="Uc8-4P-vIV" firstAttribute="top" secondItem="dh0-QC-Tvg" secondAttribute="bottom" constant="19" id="oeI-nq-uGW">
                                 <variation key="heightClass=regular-widthClass=compact" constant="605"/>
                             </constraint>
                             <constraint firstAttribute="trailingMargin" secondItem="F3Q-5G-jr4" secondAttribute="trailing" id="t8g-4O-BM5"/>
+                            <constraint firstItem="XV6-zJ-p0j" firstAttribute="top" secondItem="zh8-wy-Xvc" secondAttribute="bottom" constant="17" id="vmK-wg-uyn"/>
                             <constraint firstItem="dh0-QC-Tvg" firstAttribute="top" secondItem="2n0-DJ-ohD" secondAttribute="bottom" constant="31" id="wAX-ET-7VO"/>
                             <constraint firstItem="Uc8-4P-vIV" firstAttribute="top" secondItem="dh0-QC-Tvg" secondAttribute="bottom" constant="19" id="x0i-iq-hun"/>
                         </constraints>
@@ -673,6 +699,7 @@
                                 <exclude reference="zh8-wy-Xvc"/>
                                 <exclude reference="F3Q-5G-jr4"/>
                                 <exclude reference="Uc8-4P-vIV"/>
+                                <exclude reference="XV6-zJ-p0j"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="28n-nk-1pq"/>
@@ -692,6 +719,9 @@
                                 <exclude reference="GHL-Z0-EJr"/>
                                 <exclude reference="QdT-v6-cof"/>
                                 <exclude reference="nqX-ml-6Ni"/>
+                                <exclude reference="DrX-kl-zKP"/>
+                                <exclude reference="fH2-fe-p8r"/>
+                                <exclude reference="vmK-wg-uyn"/>
                                 <exclude reference="0iv-Z7-Trw"/>
                                 <exclude reference="oeI-nq-uGW"/>
                                 <exclude reference="x0i-iq-hun"/>
@@ -705,6 +735,7 @@
                                 <include reference="zh8-wy-Xvc"/>
                                 <include reference="F3Q-5G-jr4"/>
                                 <include reference="Uc8-4P-vIV"/>
+                                <include reference="XV6-zJ-p0j"/>
                             </mask>
                             <mask key="constraints">
                                 <include reference="28n-nk-1pq"/>
@@ -724,6 +755,9 @@
                                 <include reference="GHL-Z0-EJr"/>
                                 <include reference="QdT-v6-cof"/>
                                 <include reference="nqX-ml-6Ni"/>
+                                <include reference="DrX-kl-zKP"/>
+                                <include reference="fH2-fe-p8r"/>
+                                <include reference="vmK-wg-uyn"/>
                                 <include reference="0iv-Z7-Trw"/>
                                 <exclude reference="oeI-nq-uGW"/>
                                 <exclude reference="x0i-iq-hun"/>
@@ -1101,7 +1135,6 @@
         <!--Navigation Controller-->
         <scene sceneID="NMC-es-Kqu">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Za1-Uk-qSa" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Xgx-km-Kc6" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ack-Pg-hvq">
@@ -1114,6 +1147,7 @@
                         <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="z5c-Bp-8Lh"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Za1-Uk-qSa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2829" y="135.75"/>
         </scene>
