@@ -102,6 +102,13 @@
 #pragma mark - applicationDidEnterBackGround
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification{
+    
+    //[self saveToLocal];
+    
+}
+
+-(void)saveToLocal{
+    
     NSString *filePath= [self pathOfFile];
     
     NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
@@ -159,7 +166,7 @@
                 NSLog(@"%@ has nil actualEndDate!", item.itemName);
             else
                 [array addObject:item.actualEndDate];
- 
+            
             [mainArray addObject:array];
         }
         
@@ -194,9 +201,10 @@
     //          }
     
     [listArray writeToFile:filePath atomically:YES];
-
+    
     if(![self.selectedSegment isEqualToNumber:[NSNumber numberWithInt:0]])
         [self segmentControlHandling];
+    
 }
 
 #pragma mark - applicationDidBecomeActive

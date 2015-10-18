@@ -18,6 +18,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    // Background
+    [self.signUpView setBackgroundColor:[UIColor whiteColor]];
+    
+    // Signup button
+    [[self.signUpView signUpButton] setBackgroundColor:[UIColor lightGrayColor]];
 }
 
 /* SIGN UP DELEGATES */
