@@ -23,20 +23,21 @@
     [self.logInView setBackgroundColor:[UIColor whiteColor]];
     
     // Logo
-    //[self.logInView setLogo:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"startup_logo"]]];
+    [self.logInView setLogo:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"startup_logo"]]];
     
-    // Login button
-    [[self.logInView logInButton] setBackgroundColor:[UIColor whiteColor]];
-    //[[self.logInView logInButton] setTitleColor:[UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0] forState:UIControlStateNormal];
+    [self.logInView.logInButton setBackgroundImage:nil forState:UIControlStateNormal];
+
+    [[self.logInView logInButton] setTitleColor:[UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0] forState:UIControlStateNormal];
     
     // Signup button
     [[self.logInView signUpButton] setBackgroundColor:[UIColor lightGrayColor]];
 }
 
 -(void)viewDidLayoutSubviews{
+    self.logInView.logo.contentMode = UIViewContentModeScaleAspectFill;
     
-    
-    
+    // Login button
+    self.logInView.logInButton.backgroundColor = [UIColor whiteColor];
 }
 
 

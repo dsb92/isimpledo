@@ -16,6 +16,8 @@
 #import "ParseCloud.h"
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 
 @interface AppDelegate () <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 @property LoginViewController *logInViewController;
@@ -111,7 +113,7 @@
         // Create the log in view controller
         self.logInViewController = [[LoginViewController alloc] init];
         [self.logInViewController setDelegate:self.logInViewController]; // Set ourselves as the delegate
-        self.logInViewController.fields = PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton | PFLogInFieldsSignUpButton;
+        self.logInViewController.fields = PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton | PFLogInFieldsSignUpButton | PFLogInFieldsPasswordForgotten | PFLogInFieldsFacebook | PFLogInFieldsTwitter;
         
         // Create the sign up view controller
         self.signUpViewController = [[SignUpViewController alloc] init];
@@ -133,8 +135,19 @@
     [Parse setApplicationId:@"awhAw60IjDsROJ8gzuJ96YwzTnB6ydz07zhbyTtJ"
                   clientKey:@"CUx87vZCevfaxRRSmomkQVnH40oIZcGGquv4EyqR"];
     
+    [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
+    
     // [Optional] Track statistics around application opens.
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
+    [PFUser enableAutomaticUser];
+    
+    PFACL *defaultACL = [PFACL ACL];
+    
+    // If you would like all objects to be private by default, remove this line.
+    [defaultACL setPublicReadAccess:YES];
+    
+    [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
     
     return YES;
 }
@@ -272,6 +285,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [FBSDKAppEvents activateApp];
     
     //application.applicationIconBadgeNumber = 0;
     
@@ -302,6 +316,18 @@
     }
     
     [ToDoItem saveToLocal];
+}
+
+#pragma mark Facebook SDK Integration
+
+///////////////////////////////////////////////////////////
+// Uncomment this method if you are using Facebook
+///////////////////////////////////////////////////////////
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    return [[FBSDKApplicationDelegate sharedInstance]application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
 }
 
 @end
