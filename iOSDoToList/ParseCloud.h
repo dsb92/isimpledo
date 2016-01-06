@@ -13,7 +13,6 @@
 @interface ParseCloud : NSObject
 
 +(void)saveToCloud:(NSMutableDictionary*)customListDictionary;
-+(void)saveCloud:(NSMutableDictionary*)customListDictionary;
-+(ToDoItem *)createToDoItem:(PFObject*)item;
++(void)loadFromCloud: (void(^)(NSMutableArray *))callback;
 
 @end

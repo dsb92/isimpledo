@@ -119,72 +119,57 @@
 
 -(void)loadFromCloud{
     
-    //[ParseCloud loadCloud];
-    // Get the user
-    PFUser *currentUser = [PFUser currentUser];
-    
-    // Check if not null
-    if (currentUser){
+    // Load array from the cloud
+    [ParseCloud loadFromCloud:^(NSMutableArray *listArray) {
+        NSMutableDictionary *listDictionary = [listArray objectAtIndex:0];
         
-        // Check if there is an existing Lists on the cloud
-        PFQuery *query = [PFQuery queryWithClassName:@"Lists"];
-        [query whereKey:@"username" equalTo:currentUser.username];
+        // Get the keys
+        NSArray * sortedKeys = [[listDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
         
-        [query findObjectsInBackgroundWithBlock:^(NSArray *lists, NSError * _Nullable error){
-            
-            NSString *key;
-            
-            // If no errors finding existing lists
-            if (error == nil){
+        // From each key (Grocery e.g.) deserialize the value (ToDoItems)
+        for (id key in sortedKeys) {
+            NSMutableArray *toDoListArrayWithDictionaries = [listDictionary objectForKey:key];
+            NSMutableArray *myToDoItems = [[NSMutableArray alloc]init];
+            NSError *error;
+            // From each item expressed as a dictionary, deserialize it to a ToDoItem object
+            for(id itemStr in toDoListArrayWithDictionaries){
+                NSData *data = [itemStr dataUsingEncoding:NSUTF8StringEncoding];
+                NSMutableDictionary *toDoDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                 
-                if (lists.count == 0){
-                    
-                    NSLog(@"No lists found");
-                    
-                }
+                ToDoItem *toDoItem = [[ToDoItem alloc]init];
                 
-                for (PFObject *list in lists){
-                    
-                    key = list[@"listkey"];
-                    
-                    NSMutableArray *itemList = [[NSMutableArray alloc]init];
-                    
-                    PFQuery *query = [PFQuery queryWithClassName:@"Items"];
-                    [query whereKey:@"list" equalTo:list];
-                    
-                    [query findObjectsInBackgroundWithBlock:^(NSArray *items, NSError * _Nullable error) {
-                        
-                        if (items.count == 0){
-                            
-                            NSLog(@"No items found");
-                            
-                        }
-                        
-                        for(PFObject *item in items){
-                            
-                            ToDoItem *toDoItem = [ParseCloud createToDoItem:item];
-                            
-                            [itemList addObject:toDoItem];
-                        }
-                        
-                        [self.customListDictionary setValue:itemList forKey:key];
-                        [self.tableView reloadData];
-                        
-                    }];
-                    
-                    
-                }
+                toDoItem.itemid = toDoDictionary[@"itemid"];
+                toDoItem.itemName = toDoDictionary[@"itemName"];
+                toDoItem.completed = [toDoDictionary[@"completed"] boolValue];
+                toDoItem.creationDate = toDoDictionary[@"creationDate"];
+                toDoItem.listKey = toDoDictionary[@"listKey"];
+                toDoItem.segmentForItem.thestringid = toDoDictionary[@"thestringid"];
+                toDoItem.segmentForItem.segment = toDoDictionary[@"segment"];
+                toDoItem.endDate = toDoDictionary[@"endDate"];
+                toDoItem.alertSelection = toDoDictionary[@"alertSelection"];
+                toDoItem.repeatSelection = toDoDictionary[@"repeatSelection"];
                 
-            }
-            else{
+                toDoItem.actualEndDate = toDoDictionary[@"actualEndDate"];
                 
-                NSLog(@"Error finding existing lists : %@", error.description);
-                
+                // Add deserialized item to array of ToDoItems objects
+                [myToDoItems addObject:toDoItem];
+
             }
             
-        }];
+            // Set deserialized item array with to do items to this key
+            [self.customListDictionary setObject:myToDoItems forKey:key];
+            
+            // Reset
+            toDoListArrayWithDictionaries = nil;
+            myToDoItems = nil;
+        }
         
-    }
+        // Print it all out
+        [self print];
+        
+        // Reload view
+        [self.tableView reloadData];
+    }];
 
 }
 
@@ -279,7 +264,7 @@
 - (void)applicationDidEnterBackground:(NSNotification *)notification{
     
     //[self saveToLocal];
-    [self saveToCloud];
+    [ParseCloud saveToCloud:self.customListDictionary];
     [self updateNotificationBadge];
     
     
@@ -287,12 +272,6 @@
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification{
     [self.tableView reloadData];
-}
-
--(void)saveToCloud{
-    
-    [ParseCloud saveToCloud:self.customListDictionary];
-    
 }
 
 -(void)saveToLocal{
