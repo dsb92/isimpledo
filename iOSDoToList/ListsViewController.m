@@ -14,12 +14,15 @@
 #import "LocalNotifications.h"
 #import "ParseCloud.h"
 #import <Parse/Parse.h>
+#import "AppDelegate.h"
+#import "CustomListManager.h"
 
 @interface ListsViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property NSInteger selectedListIndex;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addListBarbuttonItem;
 @property UIButton *bigPlusButton;
+@property CustomListManager *sharedManager;
 @end
 
 @implementation ListsViewController
@@ -27,20 +30,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    // Initial singleton
+    self.sharedManager = [CustomListManager sharedManager];
+    
     NSLog(@"ListsViewController: View did load");
     self.filterArray = [[NSMutableArray alloc] initWithObjects:@"Everything", nil];
     
     // Load custom lists
-    self.customListDictionary = [[NSMutableDictionary alloc]init];
-    //[self loadFromLocal];
-    [self loadFromCloud];
- 
-    // Initial lists
-    if (self.customListDictionary.count == 0){
+    if ([ParseCloud cloudEnabled]){
+        [self loadFromCloud];
+    }
+    else{
+        [ToDoItem loadFromLocal];
+    }
+    
+    if (self.sharedManager.customListDictionary.count == 0){
         NSMutableArray *newList = [[NSMutableArray alloc]init];
-        [self.customListDictionary setValue:newList forKey:@"Grocery"];
-        [self.customListDictionary setValue:newList forKey:@"Job"];
-        [self.customListDictionary setValue:newList forKey:@"Private"];
+        [self.sharedManager.customListDictionary setValue:newList forKey:@"Grocery"];
+        [self.sharedManager.customListDictionary setValue:newList forKey:@"Job"];
+        [self.sharedManager.customListDictionary setValue:newList forKey:@"Private"];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
@@ -103,6 +112,12 @@
     [self print];
 }
 
+-(void)saveToParse:(UIApplication *)application{
+    if ([ParseCloud cloudEnabled]){
+        [ParseCloud saveToCloud:self.sharedManager.customListDictionary];
+    }
+}
+
 -(void)goToAddController{
     [self performSegueWithIdentifier:@"GlobalAddSegue" sender:self];
 }
@@ -113,8 +128,8 @@
     for(UILocalNotification *localN in [[UIApplication sharedApplication]scheduledLocalNotifications])
         NSLog(@"%@", localN);
     
-    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-    NSLog(@"Dictionary: %@\n\n Keys: %@", self.customListDictionary, sortedKeys);
+    NSArray * sortedKeys = [[self.sharedManager.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    NSLog(@"Dictionary: %@\n\n Keys: %@", self.sharedManager.customListDictionary, sortedKeys);
 }
 
 -(void)loadFromCloud{
@@ -149,7 +164,7 @@
                 toDoItem.alertSelection = toDoDictionary[@"alertSelection"];
                 toDoItem.repeatSelection = toDoDictionary[@"repeatSelection"];
                 
-                toDoItem.actualEndDate = toDoDictionary[@"actualEndDate"];
+                toDoItem.actualEndDate = [DateWrapper convertToDate:toDoDictionary[@"actualEndDate"]];
                 
                 // Add deserialized item to array of ToDoItems objects
                 [myToDoItems addObject:toDoItem];
@@ -157,7 +172,7 @@
             }
             
             // Set deserialized item array with to do items to this key
-            [self.customListDictionary setObject:myToDoItems forKey:key];
+            [self.sharedManager.customListDictionary setObject:myToDoItems forKey:key];
             
             // Reset
             toDoListArrayWithDictionaries = nil;
@@ -173,99 +188,10 @@
 
 }
 
--(void)loadFromLocal{
-    NSString *filePath= [self pathOfFile];
-    
-    NSMutableArray *listArray = [NSMutableArray arrayWithContentsOfFile:filePath];
-    NSMutableArray *newList = [[NSMutableArray alloc]init];
-    NSString *key;
-    
-    for (NSMutableArray *list in listArray) {
-        key = [list objectAtIndex:0];
-        for (int i=1; i<list.count; i++) {
-            
-            ToDoItem *item = [[ToDoItem alloc]init];
-            item.segmentForItem = [[SegmentForToDoItem alloc]init];
-            NSArray *array = [list objectAtIndex:i];
-            
-            @try {
-                
-                // get item id
-                if ([array objectAtIndex:0]!=nil) {
-                    
-                    item.itemid = [array objectAtIndex:0];
-                }
-                
-                // get item name
-                if ([array objectAtIndex:1]!=nil) {
-                    
-                    item.itemName = [array objectAtIndex:1];
-                }
-                
-                // get complete state
-                if ([array objectAtIndex:2]!=nil) {
-                    // To retreive BOOL value from NSNumber object in array, add boolValue
-                    item.completed = [[array objectAtIndex:2]boolValue];
-                }
-                
-                // get creation date
-                if ([array objectAtIndex:3]!=nil) {
-                    item.creationDate = [array objectAtIndex:3];
-                }
-                
-                // get list key
-                if ([array objectAtIndex:4]!=nil) {
-                    item.listKey = [array objectAtIndex:4];
-                }
-                
-                // get segment string id for to-do item
-                if ([array objectAtIndex:5]!=nil) {
-                    item.segmentForItem.thestringid = [array objectAtIndex:5];
-                }
-                
-                // get segment segment for to-do item
-                if ([array objectAtIndex:6]!=nil) {
-                    item.segmentForItem.segment = [array objectAtIndex:6];
-                }
-                
-                // get end date
-                if ([array objectAtIndex:7]!=nil) {
-                    item.endDate = [array objectAtIndex:7];
-                }
-                
-                // get alert selection
-                if ([array objectAtIndex:8]!=nil) {
-                    item.alertSelection = [array objectAtIndex:8];
-                }
-                
-                // get repeat selection
-                if ([array objectAtIndex:9]!=nil) {
-                    item.repeatSelection = [array objectAtIndex:9];
-                }
-                
-                if ([array objectAtIndex:10]!=nil) {
-                    item.actualEndDate = [array objectAtIndex:10];
-                }
-            }
-            @catch (NSException *exception) {
-                NSLog(@"%@", exception);
-            }
-            
-            [newList addObject:item];
-        }
-        
-        
-        [self.customListDictionary setValue:newList forKey:key];
-        newList = [[NSMutableArray alloc]init];
-    }
 
-}
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification{
     
-    //[self saveToLocal];
-    [ParseCloud saveToCloud:self.customListDictionary];
-    [self updateNotificationBadge];
     
     
 }
@@ -274,183 +200,15 @@
     [self.tableView reloadData];
 }
 
--(void)saveToLocal{
-    NSString *filePath= [self pathOfFile];
-    
-    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-    NSMutableArray *listArray = [[NSMutableArray alloc]init];
-    
-    for(id key in sortedKeys){
-        NSMutableArray *mainArray = [[NSMutableArray alloc]init];
-        
-        // Add key as first item (Grocery etc..)
-        [mainArray addObject:key];
-        // Return to do list for each key (Grocery, school, private etc.)
-        id list = [self.customListDictionary objectForKey:key];
-        
-        for (ToDoItem *item in list) {
-            NSMutableArray *array = [[NSMutableArray alloc]init];
-            
-            /* Non-nullable values */
-            [array addObject:item.itemid];
-            [array addObject:item.itemName];
-            [array addObject:[NSNumber numberWithBool:item.completed]];
-            [array addObject:item.creationDate];
-            [array addObject:item.listKey];
-            
-            /* Nullable values */
-            if(item.segmentForItem.thestringid == nil)
-                [array addObject:@""];
-            else
-                [array addObject:item.segmentForItem.thestringid];
-            
-            if(item.segmentForItem.segment == nil)
-                [array addObject:@""];
-            else
-                [array addObject:item.segmentForItem.segment];
-            
-            if(item.endDate == nil)
-                [array addObject:@""];
-            else
-                [array addObject:item.endDate];
-            
-            if(item.alertSelection== nil)
-                [array addObject:@""];
-            else
-                [array addObject:item.alertSelection];
-            
-            if(item.repeatSelection == nil)
-                [array addObject:@""];
-            else
-                [array addObject:item.repeatSelection];
-            
-            if(item.actualEndDate == nil)
-                NSLog(@"%@ has nil actualEndDate!", item.itemName);
-            else
-                [array addObject:item.actualEndDate];
-            
-            [mainArray addObject:array];
-        }
-        
-        [listArray addObject:mainArray];
-    }
-    
-    // listarray{
-    //              mainArray(grocery) {
-    //                                  buy milk {
-    //                                              itemid
-    //                                              itemname
-    //                                              ...
-    //                                          }
-    //                                  buy m  {
-    //                                              itemid
-    //                                              itemname
-    //                                              ...
-    //                                          }
-    //                                  }
-    //              mainArray(school)   {
-    //                                   math {
-    //                                              itemid
-    //                                              itemname
-    //                                              ...
-    //                                          }
-    //                                  english  {
-    //                                              itemid
-    //                                              itemname
-    //                                              ...
-    //                                          }
-    //                                  }
-    //          }
-    
-    [listArray writeToFile:filePath atomically:YES];
-    NSLog(@"%@", filePath);
-    NSLog(@"%@", listArray);
-
-}
-
--(void)updateNotificationBadge{
-    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-    // How many items have exceeded the current date(if any reminder given)
-    NSUInteger count = 0;
-    // Foreach key in dictionary
-    for(id key in sortedKeys) {
-        NSMutableArray *list = [self.customListDictionary objectForKey:key];
-        
-        NSDate *currentDate = [DateWrapper convertToDate:[DateWrapper getCurrentDate]];
-        
-        for (ToDoItem *item in list) {
-            if(!item.completed && ([item.alertSelection length] != 0 || ![item.alertSelection isEqualToString:@"None"])){
-                NSDate *itemDueDate = [DateWrapper convertToDate:item.endDate];
-                if(itemDueDate==nil)continue;
-                
-                if([currentDate compare:itemDueDate] == NSOrderedDescending || [currentDate compare:itemDueDate] == NSOrderedSame){
-                    count++;
-                }
-            }
-        }
-        
-        // clear the badge on the icon
-        //[[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-        
-        // The following code renumbers the badges of pending notifications (in case user deletes or changes some local notifications while the app was running). So the following code runs, when the user
-        // gets out of the app.
-        
-        // first get a copy of all pending notifications (unfortunately you cannot 'modify' a pending notification)
-        NSArray *pendingNotifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
-        
-        // if there are any pending notifications -> adjust their badge number
-        if (pendingNotifications.count != 0)
-        {
-            // clear all pending notifications
-            [[UIApplication sharedApplication] cancelAllLocalNotifications];
-            
-            // the for loop will 'restore' the pending notifications, but with corrected badge numbers
-            // note : a more advanced method could 'sort' the notifications first !!!
-            NSUInteger badgeNbr = 1;
-            
-            // LIFO order, the last notification created is the first that gets updated.
-            for (UILocalNotification *notification in pendingNotifications)
-            {
-                // Dont schedule again for "old" fire dates (with repeatIntervals set)
-                if([[NSDate date] compare:notification.fireDate] == NSOrderedDescending || [[NSDate date] compare:notification.fireDate] == NSOrderedSame) continue;
-                
-                // modify the badgeNumber
-                notification.applicationIconBadgeNumber = badgeNbr+count;
-                badgeNbr++;
-                
-                // schedule 'again'
-                [[UIApplication sharedApplication] scheduleLocalNotification:notification];
-            }
-        }
-    }
-    
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:count];
-}
-
--(NSString *)pathOfFile{
-    // Returns an array of directories
-    // App's document is the first element in this array
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *path =[[NSString alloc] initWithString:[documentsDirectory stringByAppendingPathComponent:@"todolist.plist"]];
-    
-    return path;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 -(IBAction)unWindFromToDoList:(UIStoryboardSegue*) segue{
     ToDoListTableViewController *todoListVC = [segue sourceViewController];
     
     if (todoListVC.isEverythingFilter || todoListVC.isCompletedFilter){
-        self.customListDictionary = todoListVC.customListDictionary;
+        
     }
     else{
-        NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-        [self.customListDictionary setValue:todoListVC.tempItems forKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
+        NSArray * sortedKeys = [[self.sharedManager.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+        [self.sharedManager.customListDictionary setValue:todoListVC.tempItems forKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
     }
     
     [self.tableView reloadData];
@@ -486,7 +244,7 @@
     // Create the item and store in the dictionary with the selected key
     globalAddViewController.toDoItem.creationDate = [DateWrapper getCurrentDate];
     
-    NSMutableArray *list = [self.customListDictionary valueForKey:globalAddViewController.selectedKey];
+    NSMutableArray *list = [self.sharedManager.customListDictionary valueForKey:globalAddViewController.selectedKey];
     
     if (list.count == 0)
         list = [[NSMutableArray alloc]init];
@@ -506,7 +264,7 @@
         
         NSLog(@"Added item: %@ to list: %@", newItemToAdd, globalAddViewController.selectedKey);
         
-        [self.customListDictionary setObject:list forKey:globalAddViewController.selectedKey];
+        [self.sharedManager.customListDictionary setObject:list forKey:globalAddViewController.selectedKey];
         
         // Remember selected key choice
         self.selectedKey = newItemToAdd.listKey;
@@ -527,7 +285,7 @@
         return self.filterArray.count;
     }
     else if (section == 1){
-        return self.customListDictionary.count;
+        return self.sharedManager.customListDictionary.count;
     }
     else{
         return 1;
@@ -539,7 +297,7 @@
     UITableViewCell *cell = [[UITableViewCell alloc] init];
     
     NSUInteger listCount;
-    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    NSArray * sortedKeys = [[self.sharedManager.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
     
     if (indexPath.section == 0){
         cell.textLabel.text = [self.filterArray objectAtIndex:indexPath.row];
@@ -547,7 +305,7 @@
         NSMutableArray *allLists = [[NSMutableArray alloc]init];
         // Foreach key in dictionary
         for(id key in sortedKeys) {
-            NSMutableArray *list = [self.customListDictionary objectForKey:key];
+            NSMutableArray *list = [self.sharedManager.customListDictionary objectForKey:key];
             
             for (ToDoItem *item in list) {
                 if (!item.completed) {
@@ -571,7 +329,7 @@
     else if (indexPath.section == 1){
         cell.textLabel.text = [sortedKeys objectAtIndex:indexPath.row];
         
-        NSMutableArray *allItemsForKey = [self.customListDictionary valueForKey:sortedKeys[indexPath.row]];
+        NSMutableArray *allItemsForKey = [self.sharedManager.customListDictionary valueForKey:sortedKeys[indexPath.row]];
         
         NSMutableArray *list = [[NSMutableArray alloc]init];
         
@@ -626,7 +384,7 @@
         NSMutableArray *allLists = [[NSMutableArray alloc]init];
         // Foreach key in dictionary
         for(id key in sortedKeys) {
-            NSMutableArray *list = [self.customListDictionary objectForKey:key];
+            NSMutableArray *list = [self.sharedManager.customListDictionary objectForKey:key];
             [allLists addObjectsFromArray:list];
         }
         
@@ -715,7 +473,7 @@
         if (indexPath.section == 0) return;
         
         else if (indexPath.section == 1){
-            NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+            NSArray * sortedKeys = [[self.sharedManager.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
             NSString *oldKey = [sortedKeys objectAtIndex:indexPath.row];
             
             UIAlertController * alert=   [UIAlertController
@@ -731,14 +489,15 @@
                                                            // Set current object for old key with new key (which is not empty or equal to old key)
                                                            if (![inputTitle isEqualToString:@""] && ![inputTitle isEqualToString:oldKey])
                                                            {
-                                                               [self.customListDictionary setObject:[self.customListDictionary objectForKey:oldKey] forKey:inputTitle];
+                                                               [self.sharedManager.customListDictionary setObject:[self.sharedManager.customListDictionary objectForKey:oldKey] forKey:inputTitle];
                                                                // Delete object for old key.
-                                                               [self.customListDictionary removeObjectForKey:oldKey];
+                                                               [self.sharedManager.customListDictionary removeObjectForKey:oldKey];
                                                                
-                                                               for (ToDoItem *item in [self.customListDictionary valueForKey:inputTitle]){
+                                                               for (ToDoItem *item in [self.sharedManager.customListDictionary valueForKey:inputTitle]){
                                                                    item.listKey = inputTitle;
                                                                }
                                                                NSLog(@"Changed list titel");
+
                                                                [self.tableView reloadData];
                                                            }
                                                            
@@ -780,8 +539,8 @@
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-    NSMutableArray *list = [self.customListDictionary valueForKey:[sortedKeys objectAtIndex:indexPath.row]];
+    NSArray * sortedKeys = [[self.sharedManager.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    NSMutableArray *list = [self.sharedManager.customListDictionary valueForKey:[sortedKeys objectAtIndex:indexPath.row]];
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete local notifications if any
@@ -792,13 +551,17 @@
         
         [list removeAllObjects];
         
-        [self.customListDictionary removeObjectForKey:[sortedKeys objectAtIndex:indexPath.row]];
+        [self.sharedManager.customListDictionary removeObjectForKey:[sortedKeys objectAtIndex:indexPath.row]];
         
         // Delete the row from the data source
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         if (self.editing)
             [self editTapped:self];
         [self handleEditButton];
+        
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:@"ListUpdated"
+         object:self];
         
         [self.tableView reloadData];
         
@@ -855,8 +618,13 @@
                                                    NSString *inputTitle = ((UITextField *)[alert.textFields objectAtIndex:0]).text;
                                                    
                                                    NSMutableArray *newList = [[NSMutableArray alloc]init];
-                                                   [self.customListDictionary setValue:newList forKey:inputTitle];
+                                                   [self.sharedManager.customListDictionary setValue:newList forKey:inputTitle];
                                                    [self handleEditButton];
+                                                   
+                                                   [[NSNotificationCenter defaultCenter]
+                                                    postNotificationName:@"ListUpdated"
+                                                    object:self];
+                                                   
                                                    [self.tableView reloadData];
                                                    
                                                }];
@@ -877,7 +645,7 @@
 }
 
 -(void)handleEditButton{
-    if(self.customListDictionary.count == 0){
+    if(self.sharedManager.customListDictionary.count == 0){
         NSArray *buttonArray = [NSArray arrayWithObjects:self.addListBarbuttonItem, nil];
         self.navigationItem.rightBarButtonItems = buttonArray;
     }
@@ -904,7 +672,7 @@
         
     }
     else{
-        if(self.customListDictionary.count == 0){
+        if(self.sharedManager.customListDictionary.count == 0){
             //self.navigationItem.rightBarButtonItem = nil;
         }
         else
@@ -941,13 +709,12 @@
     // Pass the selected object to the new view controller.
     ToDoListTableViewController *toDoListViewController = [segue destinationViewController];
     
-    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    NSArray * sortedKeys = [[self.sharedManager.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
     
     if ([segue.identifier isEqualToString:@"CustomListSegue"]){
-        if(self.customListDictionary.count > 0){
+        if(self.sharedManager.customListDictionary.count > 0){
             toDoListViewController.title = [sortedKeys objectAtIndex:self.selectedListIndex];
-            toDoListViewController.toDoItems = [self.customListDictionary valueForKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
-            toDoListViewController.customListDictionary = self.customListDictionary;
+            toDoListViewController.toDoItems = [self.sharedManager.customListDictionary valueForKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
             toDoListViewController.selectedListIndex = self.selectedListIndex;
             toDoListViewController.selectedKey = [sortedKeys objectAtIndex:self.selectedListIndex];
             toDoListViewController.isEverythingFilter = false;
@@ -956,29 +723,28 @@
         }
     }
     else if ([segue.identifier isEqualToString:@"EverythingSegue"]){
-        if(self.customListDictionary.count > 0){
+        if(self.sharedManager.customListDictionary.count > 0){
             NSMutableArray *allLists = [[NSMutableArray alloc]init];
             // Foreach key in dictionary
             for(id key in sortedKeys) {
-                NSMutableArray *list = [self.customListDictionary objectForKey:key];
+                NSMutableArray *list = [self.sharedManager.customListDictionary objectForKey:key];
                 [allLists addObjectsFromArray:list];
             }
             
             toDoListViewController.title = @"Everything";
             toDoListViewController.toDoItems = allLists;
-            toDoListViewController.customListDictionary = self.customListDictionary;
             toDoListViewController.isEverythingFilter = true;
             toDoListViewController.isCompletedFilter = false;
         }
     }
     
     else if ([segue.identifier isEqualToString:@"CompletedSegue"]){
-        if(self.customListDictionary.count > 0){
+        if(self.sharedManager.customListDictionary.count > 0){
             NSMutableArray *allLists = [[NSMutableArray alloc]init];
             NSMutableArray *completedList = [[NSMutableArray alloc]init];
             // Foreach key in dictionary
             for(id key in sortedKeys) {
-                NSMutableArray *list = [self.customListDictionary objectForKey:key];
+                NSMutableArray *list = [self.sharedManager.customListDictionary objectForKey:key];
                 [allLists addObjectsFromArray:list];
             }
             
@@ -989,7 +755,6 @@
             
             toDoListViewController.title = @"Completed tasks";
             toDoListViewController.toDoItems = completedList;
-            toDoListViewController.customListDictionary = self.customListDictionary;
             toDoListViewController.isEverythingFilter = false;
             toDoListViewController.isCompletedFilter = true;
             
@@ -1000,12 +765,11 @@
     else if ([segue.identifier isEqualToString:@"GlobalAddSegue"]){
         UINavigationController *navController = (UINavigationController*)[segue destinationViewController];
         AddToDoItemViewController *globalAddViewController = (AddToDoItemViewController*)[navController topViewController];
-        globalAddViewController.customListDictionary = self.customListDictionary;
         
         if (self.selectedKey == nil || [self.selectedKey isEqualToString:@""])
             globalAddViewController.selectedKey = [sortedKeys objectAtIndex:0];
         else{
-            NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+            NSArray * sortedKeys = [[self.sharedManager.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
             
             BOOL isKeyValid = false;
             for(id key in sortedKeys)

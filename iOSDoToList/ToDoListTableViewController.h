@@ -16,7 +16,6 @@
 @property NSMutableArray *toDoItems;
 @property NSMutableArray *sortedItems;
 @property NSMutableArray *tempItems;
-@property NSMutableDictionary *customListDictionary;
 @property NSInteger selectedListIndex;
 @property NSString *selectedKey;
 @property BOOL isEverythingFilter;

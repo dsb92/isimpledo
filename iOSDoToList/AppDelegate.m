@@ -9,7 +9,11 @@
 #import "LoginViewController.h"
 #import "SignUpViewController.h"
 #import "SWRevealViewController.h"
+#import "ListsViewController.h"
 #import "AppDelegate.h"
+#import "CustomListManager.h"
+#import "DateWrapper.h"
+#import "ParseCloud.h"
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
 
@@ -26,14 +30,14 @@
     UIApplicationState state = [application applicationState];
     // If the user is currently using this app.
     if (state == UIApplicationStateActive) {
-        /*
+        
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reminder"
                                                         message:notification.alertBody
                                                        delegate:self cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show];
-        */
         
+        /*
         UIAlertController * alert=   [UIAlertController
                                       alertControllerWithTitle:@"Reminder"
                                       message:notification.alertBody
@@ -44,8 +48,9 @@
                                                    }];
         
         [alert addAction:ok];
-        #define ROOTVIEW [[[UIApplication sharedApplication] keyWindow] rootViewController]
-        [ROOTVIEW presentViewController:alert animated:YES completion:^{}];
+        ListsViewController *viewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ListsViewController"];
+        [viewController presentViewController:alert animated:YES completion:^{}];
+         */
 
     }
     // Request to reload table view data
@@ -146,12 +151,32 @@
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    
+    
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
+    // Save to cloud AND local
+    
+    if ([ParseCloud cloudEnabled]){
+        CustomListManager *sharedManager = [CustomListManager sharedManager];
+        [ParseCloud saveToCloud:sharedManager.customListDictionary];
+    }
+    
+    [ToDoItem saveToLocal];
+    
+    // Update notifications badgde
+    [self updateNotificationBadge];
+    
+    // Create a local notification
+    [self createIdleNotification];
+    
+}
+
+-(void)createIdleNotification{
     // Save an "Use a moment to plan your day" notificaiton that fires after 4 days.
     NSDateComponents *dateComponents = [[NSDateComponents alloc]init];
     [dateComponents setDay:4];
@@ -168,7 +193,7 @@
     localNotification.timeZone = [NSTimeZone localTimeZone];
     //NSUInteger nextBadgeNumber = [[[UIApplication sharedApplication] scheduledLocalNotifications] count] + 1;
     //localNotification.applicationIconBadgeNumber = nextBadgeNumber;
-
+    
     // Use a dictionary to keep track on each notification attacted to each local system notification.
     NSDictionary *info = [NSDictionary dictionaryWithObject:@"Use a moment" forKey:@"systemLocal"];
     localNotification.userInfo = info;
@@ -178,6 +203,68 @@
     
     NSLog(@"SYSTEM Notification created");
 }
+
+-(void)updateNotificationBadge{
+    CustomListManager *sharedManager = [CustomListManager sharedManager];
+    
+    NSArray * sortedKeys = [[sharedManager.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    // How many items have exceeded the current date(if any reminder given)
+    NSUInteger count = 0;
+    // Foreach key in dictionary
+    for(id key in sortedKeys) {
+        NSMutableArray *list = [sharedManager.customListDictionary objectForKey:key];
+        
+        NSDate *currentDate = [DateWrapper convertToDate:[DateWrapper getCurrentDate]];
+        
+        for (ToDoItem *item in list) {
+            if(!item.completed && ([item.alertSelection length] != 0 || ![item.alertSelection isEqualToString:@"None"])){
+                NSDate *itemDueDate = [DateWrapper convertToDate:item.endDate];
+                if(itemDueDate==nil)continue;
+                
+                if([currentDate compare:itemDueDate] == NSOrderedDescending || [currentDate compare:itemDueDate] == NSOrderedSame){
+                    count++;
+                }
+            }
+        }
+        
+        // clear the badge on the icon
+        //[[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+        
+        // The following code renumbers the badges of pending notifications (in case user deletes or changes some local notifications while the app was running). So the following code runs, when the user
+        // gets out of the app.
+        
+        // first get a copy of all pending notifications (unfortunately you cannot 'modify' a pending notification)
+        NSArray *pendingNotifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
+        
+        // if there are any pending notifications -> adjust their badge number
+        if (pendingNotifications.count != 0)
+        {
+            // clear all pending notifications
+            [[UIApplication sharedApplication] cancelAllLocalNotifications];
+            
+            // the for loop will 'restore' the pending notifications, but with corrected badge numbers
+            // note : a more advanced method could 'sort' the notifications first !!!
+            NSUInteger badgeNbr = 1;
+            
+            // LIFO order, the last notification created is the first that gets updated.
+            for (UILocalNotification *notification in pendingNotifications)
+            {
+                // Dont schedule again for "old" fire dates (with repeatIntervals set)
+                if([[NSDate date] compare:notification.fireDate] == NSOrderedDescending || [[NSDate date] compare:notification.fireDate] == NSOrderedSame) continue;
+                
+                // modify the badgeNumber
+                notification.applicationIconBadgeNumber = badgeNbr+count;
+                badgeNbr++;
+                
+                // schedule 'again'
+                [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+            }
+        }
+    }
+    
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:count];
+}
+
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
@@ -208,6 +295,13 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    
+    if ([ParseCloud cloudEnabled]){
+        CustomListManager *sharedManager = [CustomListManager sharedManager];
+        [ParseCloud saveToCloud:sharedManager.customListDictionary];
+    }
+    
+    [ToDoItem saveToLocal];
 }
 
 @end

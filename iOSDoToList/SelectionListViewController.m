@@ -7,10 +7,11 @@
 //
 
 #import "SelectionListViewController.h"
+#import "CustomListManager.h"
 
 @interface SelectionListViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
+@property CustomListManager *sharedManager;
 @end
 
 @implementation SelectionListViewController
@@ -18,6 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.sharedManager = [CustomListManager sharedManager];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -30,12 +32,12 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.customListDictionary.count;
+    return self.sharedManager.customListDictionary.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListsCell" forIndexPath:indexPath];
-    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    NSArray * sortedKeys = [[self.sharedManager.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
     cell.textLabel.text = [sortedKeys objectAtIndex:indexPath.row];
     
     if ([[sortedKeys objectAtIndex:indexPath.row] isEqualToString:self.selectedKey])
@@ -56,7 +58,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    NSArray * sortedKeys = [[self.sharedManager.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
 
     NSIndexPath *indexPath = self.tableView.indexPathForSelectedRow;
     self.selectedKey = [sortedKeys objectAtIndex:indexPath.row];

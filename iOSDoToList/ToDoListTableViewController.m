@@ -14,6 +14,8 @@
 #import "Utility.h"
 #import "DateWrapper.h"
 #import "LocalNotifications.h"
+#import "CustomListManager.h"
+#import "ParseCloud.h"
 
 @interface ToDoListTableViewController (){
     NSArray *_sections;
@@ -33,6 +35,7 @@
 @property NSInteger indexPath;
 @property NSNumber *selectedSegment;
 @property BOOL hasSelectedAllInEdit;
+@property CustomListManager *sharedManager;
 
 @end
 
@@ -44,6 +47,8 @@
     [super viewDidLoad];
 
     NSLog(@"ToDoListTableViewController View did load");
+    
+    self.sharedManager = [CustomListManager sharedManager];
     
     // Setup refresh control for example app
     
@@ -103,18 +108,28 @@
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification{
     
-    //[self saveToLocal];
+    [ToDoItem saveToLocal];
     
+}
+
+-(NSString *)pathOfFile{
+    // Returns an array of directories
+    // App's document is the first element in this array
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path =[[NSString alloc] initWithString:[documentsDirectory stringByAppendingPathComponent:@"todolist.plist"]];
+    
+    return path;
 }
 
 -(void)saveToLocal{
     
     NSString *filePath= [self pathOfFile];
     
-    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    NSArray * sortedKeys = [[self.sharedManager.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
     
     if (!self.isEverythingFilter && !self.isCompletedFilter)
-        [self.customListDictionary setValue:self.tempItems forKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
+        [self.sharedManager.customListDictionary setValue:self.tempItems forKey:[sortedKeys objectAtIndex:self.selectedListIndex]];
     
     NSMutableArray *listArray = [[NSMutableArray alloc]init];
     
@@ -124,7 +139,7 @@
         // Add key as first item (Grocery etc..)
         [mainArray addObject:key];
         // Return to do list for each key (Grocery, school, private etc.)
-        id list = [self.customListDictionary objectForKey:key];
+        id list = [self.sharedManager.customListDictionary objectForKey:key];
         
         for (ToDoItem *item in list) {
             NSMutableArray *array = [[NSMutableArray alloc]init];
@@ -662,7 +677,6 @@
     if (source.isInEditMode == NO)
         self.toDoItem.creationDate = [DateWrapper getCurrentDate];
 
-    
     if(source.isInEditMode || self.isEverythingFilter){
         [LocalNotifications editLocalNotification:item isOn:YES];
         [self printItem:item];
@@ -674,8 +688,8 @@
             NSString *newkey = source.selectedKey;
             
             // Get lists for old key and new key
-            NSMutableArray *oldlist = [self.customListDictionary valueForKey:oldkey];
-            NSMutableArray *newlist = [self.customListDictionary valueForKey:newkey];
+            NSMutableArray *oldlist = [self.sharedManager.customListDictionary valueForKey:oldkey];
+            NSMutableArray *newlist = [self.sharedManager.customListDictionary valueForKey:newkey];
             
             // Remove object from old list
             [oldlist removeObject:item];
@@ -686,13 +700,14 @@
             [newlist addObject:item];
             
             // Update dictionary
-            [self.customListDictionary setObject:oldlist forKey:oldkey];
-            [self.customListDictionary setObject:newlist forKey:newkey];
+            [self.sharedManager.customListDictionary setObject:oldlist forKey:oldkey];
+            [self.sharedManager.customListDictionary setObject:newlist forKey:newkey];
             
             // Update item with new key
             item.listKey = newkey;
         }
         if (source.isInEditMode) {
+            [self updateCustomDictionary:item operation:@"edit"];
             [self dismissViewControllerAnimated:YES completion:nil];
             [self.tableView reloadData];
             return;
@@ -717,6 +732,9 @@
     }
     
     [self printItem:item];
+    if (!self.isEverythingFilter)
+        [self updateCustomDictionary:item operation:@"add"];
+    
     [self.tableView reloadData];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -753,6 +771,8 @@
     [self printItem:self.toDoItem];
     
     [self.navigationController popToViewController:self animated:YES];
+    
+    [self updateCustomDictionary:self.toDoItem operation:@"edit"];
     [self.tableView reloadData];
 }
 
@@ -869,7 +889,7 @@
     ReminderViewController *reminderViewController;
     ToDoItem *item;
  
-    NSArray * sortedKeys = [[self.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    NSArray * sortedKeys = [[self.sharedManager.customListDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
     
     if ([segue.identifier isEqualToString:@"EditToDoItem"]) {
         item = [self.toDoItems objectAtIndex:self.indexPath];
@@ -879,7 +899,6 @@
         addToDoItemVIewController.isFilter = self.isEverythingFilter;
         addToDoItemVIewController.toDoItem = item;
         addToDoItemVIewController.selectedKey = item.listKey;
-        addToDoItemVIewController.customListDictionary = self.customListDictionary;
         addToDoItemVIewController.viewController = self;
         self.viewController = addToDoItemVIewController;
     }
@@ -895,7 +914,6 @@
         addToDoItemVIewController = (AddToDoItemViewController*)[navController topViewController];
         addToDoItemVIewController.isInEditMode = NO;
         addToDoItemVIewController.isFilter = self.isEverythingFilter;
-        addToDoItemVIewController.customListDictionary = self.customListDictionary;
         if (self.selectedKey == nil)
             addToDoItemVIewController.selectedKey = [sortedKeys objectAtIndex:self.selectedListIndex];
         else
@@ -993,33 +1011,21 @@
     [self segmentControlHandling];
 }
 
--(NSString *)pathOfFile{
-    // Returns an array of directories
-    // App's document is the first element in this array
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *path =[[NSString alloc] initWithString:[documentsDirectory stringByAppendingPathComponent:@"todolist.plist"]];
-    
-    return path;
-}
-
 -(void)updateCustomDictionary:(ToDoItem*)item operation:(NSString*)operation{
-    if (self.isEverythingFilter || self.isCompletedFilter){
-        NSMutableArray *list = [self.customListDictionary valueForKey:item.listKey];
-        NSUInteger index = [list indexOfObject:item];
-        
-        if ([operation isEqualToString:@"remove"]) {
-            [list removeObject:item];
-        }
-        else if ([operation isEqualToString:@"add"]){
-            [list addObject:item];
-        }
-        else if ([operation isEqualToString:@"edit"]){
-            [list replaceObjectAtIndex:index withObject:item];
-        }
-
-        [self.customListDictionary setObject:list forKey:item.listKey];
+    NSMutableArray *list = [self.sharedManager.customListDictionary valueForKey:item.listKey];
+    NSUInteger index = [list indexOfObject:item];
+    
+    if ([operation isEqualToString:@"remove"]) {
+        [list removeObject:item];
     }
+    else if ([operation isEqualToString:@"add"]){
+        [list addObject:item];
+    }
+    else if ([operation isEqualToString:@"edit"]){
+        [list replaceObjectAtIndex:index withObject:item];
+    }
+    
+    [self.sharedManager.customListDictionary setObject:list forKey:item.listKey];
 }
 
 -(void)handleEditButton{

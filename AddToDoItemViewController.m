@@ -242,7 +242,6 @@
     }
     else if ([segue.identifier isEqualToString:@"SelectionListSegue"]){
         SelectionListViewController *selectionViewController = [segue destinationViewController];
-        selectionViewController.customListDictionary = self.customListDictionary;
         selectionViewController.selectedKey = self.selectedKey;
     }
     

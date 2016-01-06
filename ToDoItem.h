@@ -27,4 +27,6 @@
 +(NSDate*) updateAlertDate:(ToDoItem*)item;
 +(NSCalendarUnit) getRepeat:(ToDoItem*) item;
 +(void) updateSegmentForItem:(ToDoItem*) item segment:(NSNumber*)segment;
++(void)saveToLocal;
++(void)loadFromLocal;
 @end

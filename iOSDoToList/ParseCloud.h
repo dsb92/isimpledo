@@ -14,5 +14,6 @@
 
 +(void)saveToCloud:(NSMutableDictionary*)customListDictionary;
 +(void)loadFromCloud: (void(^)(NSMutableArray *))callback;
++(BOOL)cloudEnabled;
 
 @end

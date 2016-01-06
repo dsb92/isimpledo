@@ -7,6 +7,7 @@
 //
 
 #import "ParseCloud.h"
+#import "DateWrapper.h"
 
 @interface ParseCloud ()
 
@@ -33,6 +34,8 @@
             }
             else{
                 callback(nil);
+            
+                [ToDoItem loadFromLocal];
             }
         }];
     }
@@ -64,7 +67,7 @@
             NSData *json;
             
             for(ToDoItem *item in items){
-                id dic = [self dictionaryFromToDoItem:item];
+                id dic = [NSDictionary dictionaryWithDictionary:[self dictionaryFromToDoItem:item]];
                 
                 if ([NSJSONSerialization isValidJSONObject:dic]){
                     // Serialize the dictionary
@@ -97,7 +100,7 @@
                 object[@"lists"] = myArray;
                 object[@"username"] = [PFUser currentUser].username;
                 
-                [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                [object saveEventually:^(BOOL succeeded, NSError * _Nullable error) {
                     if (succeeded) {
                         NSLog(@"LIST UPDATED!");
                     }
@@ -107,7 +110,7 @@
                 PFObject *myList = [PFObject objectWithClassName:@"Lists"];
                 myList[@"lists"] = myArray;
                 myList[@"username"] = [PFUser currentUser].username;
-                [myList saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                [myList saveEventually:^(BOOL succeeded, NSError * _Nullable error) {
                     if (succeeded) {
                         NSLog(@"NEW LIST SAVED!");
                     }
@@ -125,21 +128,27 @@
     
 }
 
++(BOOL)cloudEnabled{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"cloudenabled"];
+}
 
-+(NSDictionary *)dictionaryFromToDoItem:(ToDoItem*)item{
-    return [NSDictionary dictionaryWithObjectsAndKeys:item.itemid, @"itemid",
-     item.itemName, @"itemName",
-     [NSNumber numberWithBool:item.completed], @"completed",
-     item.creationDate, @"creationDate",
-     item.listKey, @"listKey",
-     item.segmentForItem.thestringid, @"thestringid",
-     item.segmentForItem.segment, @"segment",
-     item.endDate, @"endDate",
-     item.alertSelection, @"alertSelection",
-     item.repeatSelection, @"repeatSelection",
-     item.actualEndDate, @"actualEndDate",
-     
-     nil];
+
++(NSMutableDictionary *)dictionaryFromToDoItem:(ToDoItem*)item{
+    
+    NSMutableDictionary *myDic = [[NSMutableDictionary alloc]init];
+    [myDic setObject:item.itemid forKey:@"itemid"];
+    [myDic setObject:item.itemName forKey:@"itemName"];
+    [myDic setObject:[NSNumber numberWithBool:item.completed] forKey:@"completed"];
+    [myDic setObject:item.creationDate forKey:@"creationDate"];
+    [myDic setObject:item.listKey forKey:@"listKey"];
+    [myDic setObject: (item.segmentForItem.thestringid != nil ? item.segmentForItem.thestringid : @"") forKey:@"thestringid"];
+    [myDic setObject: (item.segmentForItem.segment != nil ? item.segmentForItem.segment : @"") forKey:@"segment"];
+    [myDic setObject:(item.endDate != nil ? item.endDate : @"") forKey:@"endDate"];
+    [myDic setObject:(item.alertSelection != nil ? item.alertSelection : @"") forKey:@"alertSelection"];
+    [myDic setObject:(item.repeatSelection != nil ? item.repeatSelection : @"") forKey:@"repeatSelection"];
+    [myDic setObject:(item.actualEndDate != nil ? [DateWrapper convertToString:item.actualEndDate] : @"") forKey:@"actualEndDate"];
+
+    return myDic;
 }
 
 @end

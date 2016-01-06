@@ -23,7 +23,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property NSMutableArray *listArray;
-@property NSMutableDictionary *customListDictionary;
 @property UIViewController *viewController;
 @property BOOL isNotifyOn;
 @property BOOL isFilter;

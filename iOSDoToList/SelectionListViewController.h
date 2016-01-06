@@ -9,6 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SelectionListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
-@property NSMutableDictionary *customListDictionary;
 @property NSString *selectedKey;
 @end
