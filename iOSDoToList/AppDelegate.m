@@ -320,9 +320,6 @@
 
 #pragma mark Facebook SDK Integration
 
-///////////////////////////////////////////////////////////
-// Uncomment this method if you are using Facebook
-///////////////////////////////////////////////////////////
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication

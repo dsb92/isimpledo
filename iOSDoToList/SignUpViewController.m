@@ -22,8 +22,22 @@
     // Background
     [self.signUpView setBackgroundColor:[UIColor whiteColor]];
     
+    // Logo
+    [self.signUpView setLogo:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"startup_logo"]]];
+    
+    [self.signUpView.signUpButton setBackgroundImage:nil forState:UIControlStateNormal];
+    
+    [[self.signUpView signUpButton] setTitleColor:[UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0] forState:UIControlStateNormal];
+    
     // Signup button
     [[self.signUpView signUpButton] setBackgroundColor:[UIColor lightGrayColor]];
+}
+
+-(void)viewDidLayoutSubviews{
+    self.signUpView.logo.contentMode = UIViewContentModeScaleAspectFill;
+    
+    // Login button
+    self.signUpView.signUpButton.backgroundColor = [UIColor whiteColor];
 }
 
 /* SIGN UP DELEGATES */

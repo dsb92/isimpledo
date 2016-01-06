@@ -121,7 +121,7 @@
     LoginViewController *loginViewController = [[LoginViewController alloc]init];
     [loginViewController setDelegate:loginViewController];
     
-    loginViewController.fields = PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton | PFLogInFieldsSignUpButton;
+    loginViewController.fields = PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton | PFLogInFieldsSignUpButton | PFLogInFieldsPasswordForgotten | PFLogInFieldsFacebook | PFLogInFieldsTwitter;
     
     // Create the sign up view controller
     SignUpViewController *signUpViewController = [[SignUpViewController alloc] init];
