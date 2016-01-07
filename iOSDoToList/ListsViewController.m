@@ -121,8 +121,6 @@
 -(void)viewWillAppear:(BOOL)animated{
     [self initializeBanner];
     
-    [self initializeInterstitials];
-    
     [self initializeLeftBarButtons];
 }
 

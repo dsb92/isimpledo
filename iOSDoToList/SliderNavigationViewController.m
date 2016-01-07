@@ -69,7 +69,15 @@
 
 - (IBAction)StoreButtonTapped:(id)sender {
     
-    
+    if (self.IAP.list.count == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Apple Store currently unavailable"
+                                                        message:@"Bad connection"
+                                                       delegate:self cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        
+        return;
+    }
  
     UIAlertController * alert =   [UIAlertController
                                   alertControllerWithTitle:@"Store"
@@ -161,6 +169,15 @@
     
     [self presentViewController:loginViewController animated:true completion:nil];
 
+}
+- (IBAction)Rate:(id)sender {
+    NSString *appID = @"979059592";
+    NSString *appName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/app/%@/id%@?mt=8", appName, appID]];
+    
+    NSLog(@"URL RATE: %@",url);
+    
+    [[UIApplication sharedApplication]openURL:url];
 }
 
 #pragma mark - Navigation

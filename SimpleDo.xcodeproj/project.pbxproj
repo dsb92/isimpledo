@@ -710,6 +710,7 @@
 				PRODUCT_NAME = SimpleDo;
 				PROVISIONING_PROFILE = "f69c9d7d-7c05-4219-9f06-e2f328e50819";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -734,6 +735,7 @@
 				PRODUCT_NAME = SimpleDo;
 				PROVISIONING_PROFILE = "f69c9d7d-7c05-4219-9f06-e2f328e50819";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
