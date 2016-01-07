@@ -66,6 +66,28 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    // [Optional] Power your app with Local Datastore. For more info, go to
+    // https://parse.com/docs/ios_guide#localdatastore/iOS
+    [Parse enableLocalDatastore];
+    
+    // Initialize Parse.
+    [Parse setApplicationId:@"awhAw60IjDsROJ8gzuJ96YwzTnB6ydz07zhbyTtJ"
+                  clientKey:@"CUx87vZCevfaxRRSmomkQVnH40oIZcGGquv4EyqR"];
+    
+    [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
+    
+    // [Optional] Track statistics around application opens.
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
+    [PFUser enableAutomaticUser];
+    
+    PFACL *defaultACL = [PFACL ACL];
+    
+    // If you would like all objects to be private by default, remove this line.
+    [defaultACL setPublicReadAccess:YES];
+    
+    [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
+    
     // Color of app
     self.window.tintColor = [UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0];
     
@@ -94,20 +116,24 @@
         
     }
     
-    PFUser *currentUser = [PFUser currentUser];
+    FBSDKAccessToken *accessToken = [FBSDKAccessToken currentAccessToken]; // Use existing access token.
     
-    // If user is cached (logged in)
-    if (currentUser){
-        
-        SWRevealViewController *viewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"MainViewController"];
-        
-        self.window.rootViewController = viewController;
-        [self.window makeKeyAndVisible];
-        
+    if (accessToken != nil){
+        // Log In (create/update currentUser) with FBSDKAccessToken
+        [PFFacebookUtils logInInBackgroundWithAccessToken:accessToken
+                                                    block:^(PFUser *user, NSError *error) {
+                                                        if (!user) {
+                                                            NSLog(@"Uh oh. There was an error logging in.");
+                                                        } else {
+                                                            NSLog(@"User logged in through Facebook!");
+                                                            SWRevealViewController *viewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"MainViewController"];
+                                                            
+                                                            self.window.rootViewController = viewController;
+                                                            [self.window makeKeyAndVisible];
+                                                        }
+                                                    }];
     }
-    // Else show login view
     else{
-        
         //LoginViewController *viewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"LoginViewController"];
         
         // Create the log in view controller
@@ -124,30 +150,11 @@
         
         self.window.rootViewController = self.logInViewController;
         [self.window makeKeyAndVisible];
+        
     }
     
     
-    // [Optional] Power your app with Local Datastore. For more info, go to
-    // https://parse.com/docs/ios_guide#localdatastore/iOS
-    [Parse enableLocalDatastore];
     
-    // Initialize Parse.
-    [Parse setApplicationId:@"awhAw60IjDsROJ8gzuJ96YwzTnB6ydz07zhbyTtJ"
-                  clientKey:@"CUx87vZCevfaxRRSmomkQVnH40oIZcGGquv4EyqR"];
-    
-    [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
-    
-    // [Optional] Track statistics around application opens.
-    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-    
-    [PFUser enableAutomaticUser];
-    
-    PFACL *defaultACL = [PFACL ACL];
-    
-    // If you would like all objects to be private by default, remove this line.
-    [defaultACL setPublicReadAccess:YES];
-    
-    [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
     
     return YES;
 }

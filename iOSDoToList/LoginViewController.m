@@ -8,6 +8,8 @@
 
 #import "LoginViewController.h"
 #import "SWRevealViewController.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 
 @interface LoginViewController ()
 
