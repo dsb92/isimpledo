@@ -12,7 +12,6 @@
 @interface ParseCloud ()
 
 @property PFObject *myList;
-
 @end
 
 @implementation ParseCloud
@@ -42,6 +41,11 @@
 }
 
 +(void)saveToCloud:(NSMutableDictionary*)customListDictionary{
+    
+    // https://parse.com/questions/saving-user-data-before-app-terminates
+    UIBackgroundTaskIdentifier backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskId];
+    }];
     
     // Get the user
     PFUser *currentUser = [PFUser currentUser];
@@ -103,6 +107,7 @@
                 [object saveEventually:^(BOOL succeeded, NSError * _Nullable error) {
                     if (succeeded) {
                         NSLog(@"LIST UPDATED!");
+                        [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskId];
                     }
                 }];
             }
@@ -113,6 +118,7 @@
                 [myList saveEventually:^(BOOL succeeded, NSError * _Nullable error) {
                     if (succeeded) {
                         NSLog(@"NEW LIST SAVED!");
+                        [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskId];
                     }
                 }];
             }
@@ -129,7 +135,7 @@
 }
 
 +(BOOL)cloudEnabled{
-    return [[NSUserDefaults standardUserDefaults] objectForKey:@"cloudenabled"];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"cloudenabled"];
 }
 
 

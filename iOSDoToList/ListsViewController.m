@@ -61,11 +61,13 @@
     
     [self handleEditButton];
     
-    // Info button which navigates to slider menu
-    UIButton *infobtn = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    [infobtn addTarget:self.viewController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
-    
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:infobtn];
+    // Menu button which navigates to slider menu
+    UIButton *menuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [menuBtn setImage:[UIImage imageNamed:@"menu.png"] forState:UIControlStateNormal];
+    [menuBtn addTarget:self.viewController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
+    menuBtn.frame = CGRectMake(0, 0, 30, 30);
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc]initWithCustomView:menuBtn];
+    self.navigationItem.leftBarButtonItem = barButton;
     
     // Conflicts with uitableview cells on swipe.
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];

@@ -192,7 +192,6 @@
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
     // Save to cloud AND local
-    
     if ([ParseCloud cloudEnabled]){
         CustomListManager *sharedManager = [CustomListManager sharedManager];
         [ParseCloud saveToCloud:sharedManager.customListDictionary];
@@ -207,6 +206,7 @@
     [self createIdleNotification];
     
 }
+
 
 -(void)createIdleNotification{
     // Save an "Use a moment to plan your day" notificaiton that fires after 4 days.
