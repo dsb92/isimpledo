@@ -126,18 +126,24 @@
     
     if (accessToken != nil){
         // Log In (create/update currentUser) with FBSDKAccessToken
-        [PFFacebookUtils logInInBackgroundWithAccessToken:accessToken
-                                                    block:^(PFUser *user, NSError *error) {
-                                                        if (!user) {
-                                                            NSLog(@"Uh oh. There was an error logging in.");
-                                                        } else {
-                                                            NSLog(@"User logged in through Facebook!");
-                                                            SWRevealViewController *viewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"MainViewController"];
-                                                            
-                                                            self.window.rootViewController = viewController;
-                                                            [self.window makeKeyAndVisible];
-                                                        }
-                                                    }];
+//        [PFFacebookUtils logInInBackgroundWithAccessToken:accessToken
+//                                                    block:^(PFUser *user, NSError *error) {
+//                                                        if (!user) {
+//                                                            NSLog(@"Uh oh. There was an error logging in.");
+//                                                        } else {
+//                                                            NSLog(@"User logged in through Facebook!");
+//                                                            SWRevealViewController *viewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"MainViewController"];
+//                                                            
+//                                                            self.window.rootViewController = viewController;
+//                                                            [self.window makeKeyAndVisible];
+//                                                        }
+//                                                    }];
+        
+        NSLog(@"User logged in through Facebook!");
+        SWRevealViewController *viewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"MainViewController"];
+        
+        self.window.rootViewController = viewController;
+        [self.window makeKeyAndVisible];
     }
     else{
         //LoginViewController *viewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"LoginViewController"];

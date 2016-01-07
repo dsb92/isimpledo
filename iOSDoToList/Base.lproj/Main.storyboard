@@ -789,7 +789,7 @@
                             </constraint>
                             <constraint firstItem="jdt-Dm-DwY" firstAttribute="centerX" secondItem="vm8-9n-33z" secondAttribute="centerX" id="LC8-w0-Ack"/>
                             <constraint firstItem="vm8-9n-33z" firstAttribute="bottom" secondItem="iIF-3W-Khz" secondAttribute="top" id="P0y-Qw-z4K">
-                                <variation key="heightClass=regular-widthClass=compact" constant="-58"/>
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                             </constraint>
                             <constraint firstItem="jdt-Dm-DwY" firstAttribute="centerX" secondItem="KGE-mF-ff6" secondAttribute="centerX" id="Qrm-PH-Roh"/>
                             <constraint firstItem="jdt-Dm-DwY" firstAttribute="centerX" secondItem="KGE-mF-ff6" secondAttribute="centerX" id="Xh7-jj-Hyg"/>

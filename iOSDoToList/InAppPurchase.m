@@ -10,6 +10,7 @@
 
 @implementation InAppPurchase
 static NSString *enable_cloud_string=@"isimpledo.iap.enablecloud";
+static NSString *remove_ads_strings=@"isimpledo.iap.removeads";
 
 -(id)init{
     
@@ -25,7 +26,7 @@ static NSString *enable_cloud_string=@"isimpledo.iap.enablecloud";
     if ([SKPaymentQueue canMakePayments]) {
         
         NSLog(@"In-App Purchase: IAP is enabled...loading");
-        NSSet *prodID = [[NSSet alloc] initWithObjects:enable_cloud_string, nil];
+        NSSet *prodID = [[NSSet alloc] initWithObjects:enable_cloud_string, remove_ads_strings, nil];
         SKProductsRequest *request = [[SKProductsRequest alloc]initWithProductIdentifiers:prodID];
         request.delegate = self;
         
@@ -46,6 +47,14 @@ static NSString *enable_cloud_string=@"isimpledo.iap.enablecloud";
         
     }
     
+}
+
+-(NSString*)getIAPCloudString{
+    return enable_cloud_string;
+}
+
+-(NSString*)getIAPRemoveAdsString{
+    return remove_ads_strings;
 }
 
 /* IN-APP PURCHASE FUNCTIONS TO BE RUN */
@@ -129,10 +138,9 @@ static NSString *enable_cloud_string=@"isimpledo.iap.enablecloud";
         
         NSString *prodID = transaction.payment.productIdentifier;
         
-        if (prodID == enable_cloud_string){
+        if ([prodID isEqualToString:enable_cloud_string] || [prodID isEqualToString:remove_ads_strings]){
             
             [self buyTransaction:prodID];
-            
         }
         
     }
@@ -148,6 +156,10 @@ static NSString *enable_cloud_string=@"isimpledo.iap.enablecloud";
         [self enableCloud];
         
     }
+    else if ([prodID isEqualToString:remove_ads_strings]){
+        NSLog(@"In-AppPurchase: remove ads");
+        [self removeAds];
+    }
     
 }
 
@@ -159,6 +171,21 @@ static NSString *enable_cloud_string=@"isimpledo.iap.enablecloud";
         
         NSString *prodID = (NSString*)product.productIdentifier;
         if ([prodID isEqualToString:enable_cloud_string]){
+            self.product = product;
+            [self buyProduct];
+            break;
+        }
+        
+    }
+    
+}
+
+-(void) purchaseRemoveAds{
+    
+    for (SKProduct *product in self.list){
+        
+        NSString *prodID = (NSString*)product.productIdentifier;
+        if ([prodID isEqualToString:remove_ads_strings]){
             self.product = product;
             [self buyProduct];
             break;
@@ -181,6 +208,13 @@ static NSString *enable_cloud_string=@"isimpledo.iap.enablecloud";
     
     [self.userDefaults setBool:YES forKey:@"cloudenabled"];
     
+}
+
+-(void) removeAds{
+    
+    NSLog(@"In-AppPurchase: removing ads from your account!");
+    
+    [self.userDefaults setBool:YES forKey:@"removeAds"];
 }
 
 @end

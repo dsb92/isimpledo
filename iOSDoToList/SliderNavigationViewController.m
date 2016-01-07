@@ -66,7 +66,7 @@
  
     UIAlertController * alert =   [UIAlertController
                                   alertControllerWithTitle:@"Store"
-                                  message:@"Sync your to-do-items across all devices"
+                                  message:@"Sync your to-do-items across all devices or choose to remove ads forever"
                                   preferredStyle:UIAlertControllerStyleAlert];
 
 
@@ -91,19 +91,41 @@
         
         NSString *titleString = [NSString stringWithFormat:@"%@ \t %@", title, price];
         
-        UIAlertAction* ok = [UIAlertAction actionWithTitle:titleString style:UIAlertActionStyleDefault
-                                                   handler:^(UIAlertAction * action) {
-                                                       //Do Some action here
-                                                       NSLog(@"Buying cloud...");
-                                                       [self.IAP purchaseCloud];
-                                                       
-                                                   }];
-        
-        [alert addAction:ok];
-        
-        
+        if ([product.productIdentifier isEqualToString:self.IAP.getIAPCloudString]){
+            UIAlertAction* cloudAction = [UIAlertAction actionWithTitle:titleString style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action) {
+                                                           //Do Some action here
+                                                           NSLog(@"Buying cloud...");
+                                                           [self.IAP purchaseCloud];
+                                                           
+                                                       }];
+            
+            [alert addAction:cloudAction];
+            
+            
         }
+        else if ([product.productIdentifier isEqualToString: self.IAP.getIAPRemoveAdsString]){
+            UIAlertAction* removeAdsAction = [UIAlertAction actionWithTitle:titleString style:UIAlertActionStyleDefault
+                                                                handler:^(UIAlertAction * action) {
+                                                                    //Do Some action here
+                                                                    NSLog(@"Buying remove ads...");
+                                                                    [self.IAP purchaseRemoveAds];
+                                                                    
+                                                                }];
+            
+            [alert addAction:removeAdsAction];
+        }
+    }
     
+    UIAlertAction* restorePurchases = [UIAlertAction actionWithTitle:@"Restore purchases" style:UIAlertActionStyleDefault
+                                                            handler:^(UIAlertAction * action) {
+                                                                //Do Some action here
+                                                                NSLog(@"Restoring purchases...");
+                                                                [self.IAP restorePurchases];
+                                                                
+                                                            }];
+    
+    [alert addAction:restorePurchases];
     [alert addAction:cancel];
     [self presentViewController:alert animated:YES completion:nil];
 

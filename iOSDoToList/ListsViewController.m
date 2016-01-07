@@ -33,10 +33,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self initializeBanner];
-    
-    [self initializeInterstitials];
-    
     // Initial singleton
     self.sharedManager = [CustomListManager sharedManager];
     
@@ -71,7 +67,6 @@
     
     // Conflicts with uitableview cells on swipe.
     //[self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-    
     
     // User can select list during editing but only to change the titel of the list.
     self.tableView.allowsSelectionDuringEditing = true;
@@ -118,38 +113,57 @@
     [self print];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [self initializeBanner];
+    
+    [self initializeInterstitials];
+}
+
 -(void)initializeBanner{
-    NSLog(@"Google Mobile Ads SDK version: %@", [GADRequest sdkVersion]);
     
-    // Test Version
-    self.bannerView.adUnitID = @"ca-app-pub-3940256099942544/2934735716";
+    BOOL removeAds = [[NSUserDefaults standardUserDefaults]boolForKey:@"removeAds"];
     
-    // Live version
-    //self.bannerView.adUnitID = @"ca-app-pub-2595377837159656/7156429321";
-    
-    self.bannerView.rootViewController = self;
-    
-    GADRequest *request = [GADRequest request];
-    // Requests test ads on devices you specify. Your test device ID is printed to the console when
-    // an ad request is made. GADBannerView automatically returns test ads when running on a
-    // simulator.
-    request.testDevices = @[
-                            @"9d76e2f8ed01fcade9b41f4fea72a5c7"  // Davids iPhone
-                            ];
-    [self.bannerView loadRequest:request];
+    if (removeAds){
+        self.bannerView.hidden = true;
+    }
+    else{
+        NSLog(@"Google Mobile Ads SDK version: %@", [GADRequest sdkVersion]);
+        
+        // Test Version
+        self.bannerView.adUnitID = @"ca-app-pub-3940256099942544/2934735716";
+        
+        // Live version
+        //self.bannerView.adUnitID = @"ca-app-pub-2595377837159656/7156429321";
+        
+        self.bannerView.rootViewController = self;
+        
+        GADRequest *request = [GADRequest request];
+        // Requests test ads on devices you specify. Your test device ID is printed to the console when
+        // an ad request is made. GADBannerView automatically returns test ads when running on a
+        // simulator.
+        request.testDevices = @[
+                                @"9d76e2f8ed01fcade9b41f4fea72a5c7"  // Davids iPhone
+                                ];
+        [self.bannerView loadRequest:request];
+    }
 }
 
 -(void)initializeInterstitials{
-    // Test version
-    self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-3940256099942544/4411468910"];
     
-    // Live version
-    //self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"cca-app-pub-2595377837159656/2028225729"];
+    BOOL removeAds = [[NSUserDefaults standardUserDefaults]boolForKey:@"removeAds"];
     
-    GADRequest *request = [GADRequest request];
-    // Requests test ads on test devices.
-    request.testDevices = @[@"9d76e2f8ed01fcade9b41f4fea72a5c7"]; // Davids iPhone
-    [self.interstitial loadRequest:request];
+    if (!removeAds){
+        // Test version
+        self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-3940256099942544/4411468910"];
+        
+        // Live version
+        //self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"cca-app-pub-2595377837159656/2028225729"];
+        
+        GADRequest *request = [GADRequest request];
+        // Requests test ads on test devices.
+        request.testDevices = @[@"9d76e2f8ed01fcade9b41f4fea72a5c7"]; // Davids iPhone
+        [self.interstitial loadRequest:request];
+    }
 }
 
 -(void)saveToParse:(UIApplication *)application{
@@ -258,14 +272,14 @@
 }
 
 -(void)tryShowInterstitials{
-    
+
     int minSessions = 3;
     int tryAgainSession = 6;
     
-    BOOL adsDisabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"displayAds"];
+    BOOL removeAds = [[NSUserDefaults standardUserDefaults] boolForKey:@"removeAds"];
     long numLaunches = [[NSUserDefaults standardUserDefaults] integerForKey:@"interstitialsLaunches"] + 1;
     
-    if (!adsDisabled && (numLaunches == minSessions || numLaunches >= (minSessions + tryAgainSession + 1))){
+    if (!removeAds && (numLaunches == minSessions || numLaunches >= (minSessions + tryAgainSession + 1))){
         if ([self.interstitial isReady]) {
             NSLog(@"****LOADING INTERSTITIALS!****");
             [self.interstitial presentFromRootViewController:self];

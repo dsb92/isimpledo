@@ -21,7 +21,9 @@
 -(void) buyProduct;
 -(void) buyTransaction:(NSString*)prodID;
 -(void) purchaseCloud;
+-(void) purchaseRemoveAds;
 -(void) restorePurchases;
 -(void) enableCloud;
-
+-(NSString*)getIAPCloudString;
+-(NSString*)getIAPRemoveAdsString;
 @end
