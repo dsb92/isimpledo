@@ -43,9 +43,9 @@
     // bundlename, version, build.
     NSDictionary *infoDictionary = [[NSBundle mainBundle]infoDictionary];
     
-    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString *version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     NSString *build = infoDictionary[(NSString*)kCFBundleVersionKey];
-    NSString *bundleName = infoDictionary[(NSString *)kCFBundleNameKey];
+    NSString *bundleName = [infoDictionary objectForKey:@"CFBundleDisplayName"];
     
     self.bundleNameLabel.text = bundleName;
     self.versionLabel.text = [NSString stringWithFormat:@"Version %@ (%@)", version, build];

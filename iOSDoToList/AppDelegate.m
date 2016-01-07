@@ -66,6 +66,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    [Parse initialize];
+    
     // [Optional] Power your app with Local Datastore. For more info, go to
     // https://parse.com/docs/ios_guide#localdatastore/iOS
     [Parse enableLocalDatastore];
@@ -73,6 +75,8 @@
     // Initialize Parse.
     [Parse setApplicationId:@"awhAw60IjDsROJ8gzuJ96YwzTnB6ydz07zhbyTtJ"
                   clientKey:@"CUx87vZCevfaxRRSmomkQVnH40oIZcGGquv4EyqR"];
+    
+    [PFUser enableRevocableSessionInBackground];
     
     [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
     
