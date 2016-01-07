@@ -56,6 +56,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(disableUserInteraction) name:@"MenuOpen" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(enableUserInteraction) name:@"MenuClosed" object:nil];
     
     [self handleEditButton];
     
@@ -66,7 +68,7 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:infobtn];
     
     // Conflicts with uitableview cells on swipe.
-    //[self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     
     // User can select list during editing but only to change the titel of the list.
     self.tableView.allowsSelectionDuringEditing = true;
@@ -95,18 +97,19 @@
     button.layer.shadowColor = [UIColor blackColor].CGColor;
     button.layer.shadowOpacity = 0.5;
     button.layer.shadowRadius = 1;
+
     button.layer.shadowOffset = CGSizeMake(3.0f,3.0f);
     //width and height should be same value
-    button.frame = CGRectMake(self.tableView.frame.size.width-80,self.tableView.frame.size.height-100, buttonSize,buttonSize);
+    button.frame = CGRectMake((self.navigationController.view.frame.size.width/2)-(buttonSize/2),self.navigationController.view.frame.size.height-(buttonSize*2), buttonSize,buttonSize);
     button.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
     
     button.showsTouchWhenHighlighted = YES;
     
     button.layer.masksToBounds = NO;
     // Bottom right corner
-    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin| UIViewAutoresizingFlexibleTopMargin;
+    //button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin| UIViewAutoresizingFlexibleTopMargin;
 
-    [self.tableView addSubview:button];
+    [self.navigationController.view addSubview:button];
     
     self.bigPlusButton = button;
     // Print notifications and dictionary
@@ -164,6 +167,14 @@
         request.testDevices = @[@"9d76e2f8ed01fcade9b41f4fea72a5c7"]; // Davids iPhone
         [self.interstitial loadRequest:request];
     }
+}
+
+-(void)enableUserInteraction{
+    self.tableView.userInteractionEnabled = true;
+}
+
+-(void)disableUserInteraction{
+    self.tableView.userInteractionEnabled = false;
 }
 
 -(void)saveToParse:(UIApplication *)application{

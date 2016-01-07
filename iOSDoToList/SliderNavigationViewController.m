@@ -52,13 +52,20 @@
 
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)viewWillAppear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"MenuOpen"
+     object:self];
 }
 
-// Buy product
+-(void)viewWillDisappear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"MenuClosed"
+     object:self];
+}
 
+
+// Buy product
 
 - (IBAction)StoreButtonTapped:(id)sender {
     
