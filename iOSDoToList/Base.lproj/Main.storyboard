@@ -759,16 +759,45 @@
                                     <outlet property="delegate" destination="n2q-6F-g9N" id="HRE-WH-Xf1"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jdt-Dm-DwY" customClass="GADBannerView">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="QfG-ID-nnc"/>
+                                    <constraint firstAttribute="width" constant="320" id="gsR-IN-kRI"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="QfG-ID-nnc"/>
+                                        <exclude reference="gsR-IN-kRI"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="QfG-ID-nnc"/>
+                                        <include reference="gsR-IN-kRI"/>
+                                    </mask>
+                                </variation>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="iIF-3W-Khz" firstAttribute="top" secondItem="jdt-Dm-DwY" secondAttribute="bottom" id="1E3-Zh-v98"/>
                             <constraint firstItem="vm8-9n-33z" firstAttribute="leading" secondItem="KGE-mF-ff6" secondAttribute="leading" id="7jy-VY-1kv"/>
                             <constraint firstItem="vm8-9n-33z" firstAttribute="height" secondItem="KGE-mF-ff6" secondAttribute="height" id="FXB-T4-zhA">
                                 <variation key="heightClass=regular-widthClass=compact" constant="-64"/>
                             </constraint>
-                            <constraint firstItem="vm8-9n-33z" firstAttribute="bottom" secondItem="iIF-3W-Khz" secondAttribute="top" id="P0y-Qw-z4K"/>
+                            <constraint firstItem="jdt-Dm-DwY" firstAttribute="centerX" secondItem="vm8-9n-33z" secondAttribute="centerX" id="LC8-w0-Ack"/>
+                            <constraint firstItem="vm8-9n-33z" firstAttribute="bottom" secondItem="iIF-3W-Khz" secondAttribute="top" id="P0y-Qw-z4K">
+                                <variation key="heightClass=regular-widthClass=compact" constant="-58"/>
+                            </constraint>
+                            <constraint firstItem="jdt-Dm-DwY" firstAttribute="centerX" secondItem="KGE-mF-ff6" secondAttribute="centerX" id="Qrm-PH-Roh"/>
+                            <constraint firstItem="jdt-Dm-DwY" firstAttribute="centerX" secondItem="KGE-mF-ff6" secondAttribute="centerX" id="Xh7-jj-Hyg"/>
+                            <constraint firstItem="jdt-Dm-DwY" firstAttribute="centerX" secondItem="vm8-9n-33z" secondAttribute="centerX" id="XrW-kP-ziq"/>
+                            <constraint firstItem="jdt-Dm-DwY" firstAttribute="centerY" secondItem="KGE-mF-ff6" secondAttribute="centerY" id="bGZ-xO-SVB"/>
                             <constraint firstAttribute="trailing" secondItem="vm8-9n-33z" secondAttribute="trailing" id="def-uM-xox"/>
                             <constraint firstItem="vm8-9n-33z" firstAttribute="leading" secondItem="KGE-mF-ff6" secondAttribute="leading" id="gSD-D0-Lc6"/>
+                            <constraint firstItem="iIF-3W-Khz" firstAttribute="top" secondItem="jdt-Dm-DwY" secondAttribute="bottom" id="gui-Ke-mwo"/>
                             <constraint firstItem="vm8-9n-33z" firstAttribute="width" secondItem="KGE-mF-ff6" secondAttribute="width" id="nxi-DW-02f"/>
                             <constraint firstItem="vm8-9n-33z" firstAttribute="top" secondItem="KGE-mF-ff6" secondAttribute="top" id="sEz-K4-0Sf">
                                 <variation key="heightClass=regular-widthClass=compact" constant="64"/>
@@ -778,6 +807,7 @@
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="vm8-9n-33z"/>
+                                <exclude reference="jdt-Dm-DwY"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="7jy-VY-1kv"/>
@@ -788,11 +818,19 @@
                                 <exclude reference="nxi-DW-02f"/>
                                 <exclude reference="sEz-K4-0Sf"/>
                                 <exclude reference="tus-xU-zTg"/>
+                                <exclude reference="LC8-w0-Ack"/>
+                                <exclude reference="Qrm-PH-Roh"/>
+                                <exclude reference="Xh7-jj-Hyg"/>
+                                <exclude reference="XrW-kP-ziq"/>
+                                <exclude reference="bGZ-xO-SVB"/>
+                                <exclude reference="1E3-Zh-v98"/>
+                                <exclude reference="gui-Ke-mwo"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="vm8-9n-33z"/>
+                                <include reference="jdt-Dm-DwY"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="7jy-VY-1kv"/>
@@ -803,6 +841,13 @@
                                 <exclude reference="nxi-DW-02f"/>
                                 <include reference="sEz-K4-0Sf"/>
                                 <exclude reference="tus-xU-zTg"/>
+                                <exclude reference="LC8-w0-Ack"/>
+                                <include reference="Qrm-PH-Roh"/>
+                                <exclude reference="Xh7-jj-Hyg"/>
+                                <exclude reference="XrW-kP-ziq"/>
+                                <exclude reference="bGZ-xO-SVB"/>
+                                <exclude reference="1E3-Zh-v98"/>
+                                <include reference="gui-Ke-mwo"/>
                             </mask>
                         </variation>
                     </view>
@@ -815,6 +860,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addListBarbuttonItem" destination="8cd-gw-4ww" id="GTQ-bn-5dF"/>
+                        <outlet property="bannerView" destination="jdt-Dm-DwY" id="KYu-MX-kT3"/>
                         <outlet property="tableView" destination="vm8-9n-33z" id="NZY-p5-8VZ"/>
                         <segue destination="jQQ-ge-ChJ" kind="show" identifier="EverythingSegue" id="E51-kW-uCt"/>
                         <segue destination="jQQ-ge-ChJ" kind="show" identifier="CustomListSegue" id="8Hb-Gw-VHF"/>

@@ -23,6 +23,8 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addListBarbuttonItem;
 @property UIButton *bigPlusButton;
 @property CustomListManager *sharedManager;
+@property(nonatomic, strong) GADInterstitial *interstitial;
+
 @end
 
 @implementation ListsViewController
@@ -30,6 +32,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [self initializeBanner];
+    
+    [self initializeInterstitials];
     
     // Initial singleton
     self.sharedManager = [CustomListManager sharedManager];
@@ -110,6 +116,40 @@
     self.bigPlusButton = button;
     // Print notifications and dictionary
     [self print];
+}
+
+-(void)initializeBanner{
+    NSLog(@"Google Mobile Ads SDK version: %@", [GADRequest sdkVersion]);
+    
+    // Test Version
+    self.bannerView.adUnitID = @"ca-app-pub-3940256099942544/2934735716";
+    
+    // Live version
+    //self.bannerView.adUnitID = @"ca-app-pub-2595377837159656/7156429321";
+    
+    self.bannerView.rootViewController = self;
+    
+    GADRequest *request = [GADRequest request];
+    // Requests test ads on devices you specify. Your test device ID is printed to the console when
+    // an ad request is made. GADBannerView automatically returns test ads when running on a
+    // simulator.
+    request.testDevices = @[
+                            @"9d76e2f8ed01fcade9b41f4fea72a5c7"  // Davids iPhone
+                            ];
+    [self.bannerView loadRequest:request];
+}
+
+-(void)initializeInterstitials{
+    // Test version
+    self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-3940256099942544/4411468910"];
+    
+    // Live version
+    //self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"cca-app-pub-2595377837159656/2028225729"];
+    
+    GADRequest *request = [GADRequest request];
+    // Requests test ads on test devices.
+    request.testDevices = @[@"9d76e2f8ed01fcade9b41f4fea72a5c7"]; // Davids iPhone
+    [self.interstitial loadRequest:request];
 }
 
 -(void)saveToParse:(UIApplication *)application{
@@ -212,6 +252,34 @@
     }
     
     [self.tableView reloadData];
+    
+    // Maybe show interstitials
+    [self tryShowInterstitials];
+}
+
+-(void)tryShowInterstitials{
+    
+    int minSessions = 3;
+    int tryAgainSession = 6;
+    
+    BOOL adsDisabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"displayAds"];
+    long numLaunches = [[NSUserDefaults standardUserDefaults] integerForKey:@"interstitialsLaunches"] + 1;
+    
+    if (!adsDisabled && (numLaunches == minSessions || numLaunches >= (minSessions + tryAgainSession + 1))){
+        if ([self.interstitial isReady]) {
+            NSLog(@"****LOADING INTERSTITIALS!****");
+            [self.interstitial presentFromRootViewController:self];
+        }
+        
+        numLaunches = minSessions + 1;
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setInteger:numLaunches forKey:@"interstitialsLaunches"];
+    
+}
+
+-(void)interstitialDidDismissScreen:(GADInterstitial *)ad{
+    [self initializeInterstitials];
 }
 
 
@@ -274,6 +342,10 @@
         
         [self dismissViewControllerAnimated:YES completion:nil];
     }
+    
+    // Maybe show interstitials
+    [self tryShowInterstitials];
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

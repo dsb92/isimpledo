@@ -87,8 +87,6 @@
     // [Optional] Track statistics around application opens.
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
-    [PFUser enableAutomaticUser];
-    
     PFACL *defaultACL = [PFACL ACL];
     
     // If you would like all objects to be private by default, remove this line.
@@ -97,7 +95,7 @@
     [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
     
     // Color of app
-    self.window.tintColor = [UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0];
+    self.window.tintColor = [UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0]; //#11BF29
     
     // Handle launching from a local notification
     UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];

@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+@import GoogleMobileAds;
 
-@interface ListsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface ListsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, GADInterstitialDelegate>
 
 @property NSMutableArray *filterArray;
 @property UIViewController *viewController;
 @property NSString *selectedKey;
+@property (weak, nonatomic) IBOutlet GADBannerView *bannerView;
 
 @end
