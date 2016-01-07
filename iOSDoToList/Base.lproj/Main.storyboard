@@ -800,7 +800,7 @@
                             <constraint firstItem="iIF-3W-Khz" firstAttribute="top" secondItem="jdt-Dm-DwY" secondAttribute="bottom" id="gui-Ke-mwo"/>
                             <constraint firstItem="vm8-9n-33z" firstAttribute="width" secondItem="KGE-mF-ff6" secondAttribute="width" id="nxi-DW-02f"/>
                             <constraint firstItem="vm8-9n-33z" firstAttribute="top" secondItem="KGE-mF-ff6" secondAttribute="top" id="sEz-K4-0Sf">
-                                <variation key="heightClass=regular-widthClass=compact" constant="64"/>
+                                <variation key="heightClass=regular-widthClass=compact" constant="20"/>
                             </constraint>
                             <constraint firstItem="vm8-9n-33z" firstAttribute="bottom" secondItem="iIF-3W-Khz" secondAttribute="top" id="tus-xU-zTg"/>
                         </constraints>

@@ -24,6 +24,7 @@
 @property UIButton *bigPlusButton;
 @property CustomListManager *sharedManager;
 @property(nonatomic, strong) GADInterstitial *interstitial;
+@property UIBarButtonItem *barButton;
 
 @end
 
@@ -66,6 +67,13 @@
     
     // User can select list during editing but only to change the titel of the list.
     self.tableView.allowsSelectionDuringEditing = true;
+    
+    // Menu button which navigates to slider menu
+    UIButton *menuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [menuBtn setImage:[UIImage imageNamed:@"menu.png"] forState:UIControlStateNormal];
+    [menuBtn addTarget:self.viewController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
+    menuBtn.frame = CGRectMake(0, 0, 30, 30);
+    self.barButton = [[UIBarButtonItem alloc]initWithCustomView:menuBtn];
     
     // Big plus button
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -166,13 +174,7 @@
 }
 
 -(void)initializeLeftBarButtons{
-    // Menu button which navigates to slider menu
-    UIButton *menuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [menuBtn setImage:[UIImage imageNamed:@"menu.png"] forState:UIControlStateNormal];
-    [menuBtn addTarget:self.viewController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
-    menuBtn.frame = CGRectMake(0, 0, 30, 30);
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc]initWithCustomView:menuBtn];
-    
+
     UIBarButtonItem *syncingButton = [[UIBarButtonItem alloc]init];
 
     if ([ParseCloud cloudEnabled]){
@@ -184,7 +186,7 @@
     
     syncingButton.enabled = false;
     
-    NSArray *buttonArray = [NSArray arrayWithObjects:barButton, syncingButton, nil];
+    NSArray *buttonArray = [NSArray arrayWithObjects:self.barButton, syncingButton, nil];
     self.navigationItem.leftBarButtonItems = buttonArray;
 }
 
