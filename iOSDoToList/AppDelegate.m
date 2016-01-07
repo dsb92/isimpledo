@@ -18,6 +18,7 @@
 #import <ParseUI/ParseUI.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
+#import <ParseTwitterUtils/PFTwitterUtils.h>
 
 @interface AppDelegate () <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 @property LoginViewController *logInViewController;
@@ -79,6 +80,9 @@
     [PFUser enableRevocableSessionInBackground];
     
     [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
+    
+    [PFTwitterUtils initializeWithConsumerKey:@"Va1Sa8Mxh5NRUy7E5OqMw2KRS"
+                               consumerSecret:@"S2PdthlelWmjLIW9KDJcpfFVJe4vVEnrjSdZ0FyBpvyiXcPRcT"];
     
     // [Optional] Track statistics around application opens.
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];

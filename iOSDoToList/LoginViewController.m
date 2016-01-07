@@ -10,6 +10,7 @@
 #import "SWRevealViewController.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
+#import <ParseTwitterUtils/PFTwitterUtils.h>
 
 @interface LoginViewController ()
 
