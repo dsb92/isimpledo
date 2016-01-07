@@ -134,14 +134,38 @@ static NSString *remove_ads_strings=@"isimpledo.iap.removeads";
     
     NSLog(@"In-AppPurchase: transactions restored");
     
+    // Bug fix so transaction queue is no more than 2
+    int purchases = 2;
+    int transactionCount = 0;
+    
     for (SKPaymentTransaction *transaction in queue.transactions) {
         
         NSString *prodID = transaction.payment.productIdentifier;
         
-        if ([prodID isEqualToString:enable_cloud_string] || [prodID isEqualToString:remove_ads_strings]){
+        if ([prodID isEqualToString:enable_cloud_string]){
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Cloud purchase restored"
+                                                            message:nil
+                                                           delegate:self cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
             
             [self buyTransaction:prodID];
+            ++transactionCount;
         }
+        else if ([prodID isEqualToString:remove_ads_strings]){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Remove Ads purchase restored"
+                                                            message:nil
+                                                           delegate:self cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            
+            [self buyTransaction:prodID];
+            ++transactionCount;
+        }
+        
+        if (transactionCount == purchases)
+            break;
         
     }
     

@@ -61,14 +61,6 @@
     
     [self handleEditButton];
     
-    // Menu button which navigates to slider menu
-    UIButton *menuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [menuBtn setImage:[UIImage imageNamed:@"menu.png"] forState:UIControlStateNormal];
-    [menuBtn addTarget:self.viewController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
-    menuBtn.frame = CGRectMake(0, 0, 30, 30);
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc]initWithCustomView:menuBtn];
-    self.navigationItem.leftBarButtonItem = barButton;
-    
     // Conflicts with uitableview cells on swipe.
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     
@@ -122,6 +114,8 @@
     [self initializeBanner];
     
     [self initializeInterstitials];
+    
+    [self initializeLeftBarButtons];
 }
 
 -(void)initializeBanner{
@@ -169,6 +163,29 @@
         request.testDevices = @[@"9d76e2f8ed01fcade9b41f4fea72a5c7"]; // Davids iPhone
         [self.interstitial loadRequest:request];
     }
+}
+
+-(void)initializeLeftBarButtons{
+    // Menu button which navigates to slider menu
+    UIButton *menuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [menuBtn setImage:[UIImage imageNamed:@"menu.png"] forState:UIControlStateNormal];
+    [menuBtn addTarget:self.viewController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
+    menuBtn.frame = CGRectMake(0, 0, 30, 30);
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc]initWithCustomView:menuBtn];
+    
+    UIBarButtonItem *syncingButton = [[UIBarButtonItem alloc]init];
+
+    if ([ParseCloud cloudEnabled]){
+        [syncingButton setTitle:@"Cloud: ON"];
+    }
+    else{
+        [syncingButton setTitle:@"Cloud: OFF"];
+    }
+    
+    syncingButton.enabled = false;
+    
+    NSArray *buttonArray = [NSArray arrayWithObjects:barButton, syncingButton, nil];
+    self.navigationItem.leftBarButtonItems = buttonArray;
 }
 
 -(void)enableUserInteraction{
