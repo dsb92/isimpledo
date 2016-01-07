@@ -784,27 +784,16 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="iIF-3W-Khz" firstAttribute="top" secondItem="jdt-Dm-DwY" secondAttribute="bottom" id="1E3-Zh-v98"/>
-                            <constraint firstItem="vm8-9n-33z" firstAttribute="leading" secondItem="KGE-mF-ff6" secondAttribute="leading" id="7jy-VY-1kv"/>
-                            <constraint firstItem="vm8-9n-33z" firstAttribute="height" secondItem="KGE-mF-ff6" secondAttribute="height" id="FXB-T4-zhA">
-                                <variation key="heightClass=regular-widthClass=compact" constant="-64"/>
-                            </constraint>
-                            <constraint firstItem="jdt-Dm-DwY" firstAttribute="centerX" secondItem="vm8-9n-33z" secondAttribute="centerX" id="LC8-w0-Ack"/>
                             <constraint firstItem="vm8-9n-33z" firstAttribute="bottom" secondItem="iIF-3W-Khz" secondAttribute="top" id="P0y-Qw-z4K">
                                 <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                             </constraint>
                             <constraint firstItem="jdt-Dm-DwY" firstAttribute="centerX" secondItem="KGE-mF-ff6" secondAttribute="centerX" id="Qrm-PH-Roh"/>
-                            <constraint firstItem="jdt-Dm-DwY" firstAttribute="centerX" secondItem="KGE-mF-ff6" secondAttribute="centerX" id="Xh7-jj-Hyg"/>
-                            <constraint firstItem="jdt-Dm-DwY" firstAttribute="centerX" secondItem="vm8-9n-33z" secondAttribute="centerX" id="XrW-kP-ziq"/>
-                            <constraint firstItem="jdt-Dm-DwY" firstAttribute="centerY" secondItem="KGE-mF-ff6" secondAttribute="centerY" id="bGZ-xO-SVB"/>
                             <constraint firstAttribute="trailing" secondItem="vm8-9n-33z" secondAttribute="trailing" id="def-uM-xox"/>
                             <constraint firstItem="vm8-9n-33z" firstAttribute="leading" secondItem="KGE-mF-ff6" secondAttribute="leading" id="gSD-D0-Lc6"/>
                             <constraint firstItem="iIF-3W-Khz" firstAttribute="top" secondItem="jdt-Dm-DwY" secondAttribute="bottom" id="gui-Ke-mwo"/>
-                            <constraint firstItem="vm8-9n-33z" firstAttribute="width" secondItem="KGE-mF-ff6" secondAttribute="width" id="nxi-DW-02f"/>
                             <constraint firstItem="vm8-9n-33z" firstAttribute="top" secondItem="KGE-mF-ff6" secondAttribute="top" id="sEz-K4-0Sf">
                                 <variation key="heightClass=regular-widthClass=compact" constant="20"/>
                             </constraint>
-                            <constraint firstItem="vm8-9n-33z" firstAttribute="bottom" secondItem="iIF-3W-Khz" secondAttribute="top" id="tus-xU-zTg"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
@@ -812,20 +801,11 @@
                                 <exclude reference="jdt-Dm-DwY"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="7jy-VY-1kv"/>
-                                <exclude reference="FXB-T4-zhA"/>
                                 <exclude reference="P0y-Qw-z4K"/>
                                 <exclude reference="def-uM-xox"/>
                                 <exclude reference="gSD-D0-Lc6"/>
-                                <exclude reference="nxi-DW-02f"/>
                                 <exclude reference="sEz-K4-0Sf"/>
-                                <exclude reference="tus-xU-zTg"/>
-                                <exclude reference="LC8-w0-Ack"/>
                                 <exclude reference="Qrm-PH-Roh"/>
-                                <exclude reference="Xh7-jj-Hyg"/>
-                                <exclude reference="XrW-kP-ziq"/>
-                                <exclude reference="bGZ-xO-SVB"/>
-                                <exclude reference="1E3-Zh-v98"/>
                                 <exclude reference="gui-Ke-mwo"/>
                             </mask>
                         </variation>
@@ -835,20 +815,11 @@
                                 <include reference="jdt-Dm-DwY"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="7jy-VY-1kv"/>
-                                <exclude reference="FXB-T4-zhA"/>
                                 <include reference="P0y-Qw-z4K"/>
                                 <include reference="def-uM-xox"/>
                                 <include reference="gSD-D0-Lc6"/>
-                                <exclude reference="nxi-DW-02f"/>
                                 <include reference="sEz-K4-0Sf"/>
-                                <exclude reference="tus-xU-zTg"/>
-                                <exclude reference="LC8-w0-Ack"/>
                                 <include reference="Qrm-PH-Roh"/>
-                                <exclude reference="Xh7-jj-Hyg"/>
-                                <exclude reference="XrW-kP-ziq"/>
-                                <exclude reference="bGZ-xO-SVB"/>
-                                <exclude reference="1E3-Zh-v98"/>
                                 <include reference="gui-Ke-mwo"/>
                             </mask>
                         </variation>

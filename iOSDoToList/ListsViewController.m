@@ -26,6 +26,10 @@
 @property(nonatomic, strong) GADInterstitial *interstitial;
 @property UIBarButtonItem *barButton;
 
+@property (nonatomic, retain) UIActivityIndicatorView *spinner;
+@property (nonatomic, retain) UIView *loadingView;
+@property (nonatomic, retain) UILabel *loadingLabel;
+
 @end
 
 @implementation ListsViewController
@@ -33,6 +37,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [self initializeBanner];
+    
+    [self initializeInterstitials];
     
     // Initial singleton
     self.sharedManager = [CustomListManager sharedManager];
@@ -42,6 +50,7 @@
     
     // Load custom lists
     if ([ParseCloud cloudEnabled]){
+        [self initializeSpinner];
         [self loadFromCloud];
     }
     else{
@@ -119,9 +128,36 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [self initializeBanner];
+    
+    BOOL removeAds = [[NSUserDefaults standardUserDefaults]boolForKey:@"removeAds"];
+    
+    if (removeAds){
+        self.bannerView.hidden = true;
+    }
     
     [self initializeLeftBarButtons];
+}
+
+-(void)initializeSpinner{
+    self.loadingView = [[UIView alloc] initWithFrame:CGRectMake(75, 155, 170, 170)];
+    self.loadingView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    self.loadingView.clipsToBounds = YES;
+    self.loadingView.layer.cornerRadius = 10.0;
+    self.loadingView.center = self.navigationController.view.center;
+    
+    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    self.spinner.frame = CGRectMake(65, 40, self.spinner.bounds.size.width, self.spinner.bounds.size.height);
+    [self.loadingView addSubview:self.spinner];
+    
+    self.loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 115, 130, 22)];
+    self.loadingLabel.backgroundColor = [UIColor clearColor];
+    self.loadingLabel.textColor = [UIColor whiteColor];
+    self.loadingLabel.adjustsFontSizeToFitWidth = YES;
+    self.loadingLabel.textAlignment = NSTextAlignmentCenter;
+    self.loadingLabel.text = @"Loading...";
+    [self.loadingView addSubview:self.loadingLabel];
+    
+    [self.navigationController.view addSubview:self.loadingView];
 }
 
 -(void)initializeBanner{
@@ -135,20 +171,15 @@
         NSLog(@"Google Mobile Ads SDK version: %@", [GADRequest sdkVersion]);
         
         // Test Version
-        self.bannerView.adUnitID = @"ca-app-pub-3940256099942544/2934735716";
+        //self.bannerView.adUnitID = @"ca-app-pub-3940256099942544/2934735716";
         
         // Live version
-        //self.bannerView.adUnitID = @"ca-app-pub-2595377837159656/7156429321";
+        self.bannerView.adUnitID = @"ca-app-pub-2595377837159656/7156429321";
         
         self.bannerView.rootViewController = self;
         
         GADRequest *request = [GADRequest request];
-        // Requests test ads on devices you specify. Your test device ID is printed to the console when
-        // an ad request is made. GADBannerView automatically returns test ads when running on a
-        // simulator.
-        request.testDevices = @[
-                                @"9d76e2f8ed01fcade9b41f4fea72a5c7"  // Davids iPhone
-                                ];
+ 
         [self.bannerView loadRequest:request];
     }
 }
@@ -159,14 +190,13 @@
     
     if (!removeAds){
         // Test version
-        self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-3940256099942544/4411468910"];
+        //self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-3940256099942544/4411468910"];
         
         // Live version
-        //self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"cca-app-pub-2595377837159656/2028225729"];
+        self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-2595377837159656/2028225729"];
         
         GADRequest *request = [GADRequest request];
-        // Requests test ads on test devices.
-        request.testDevices = @[@"9d76e2f8ed01fcade9b41f4fea72a5c7"]; // Davids iPhone
+
         [self.interstitial loadRequest:request];
     }
 }
@@ -218,6 +248,9 @@
 
 -(void)loadFromCloud{
     
+    [self.spinner startAnimating];
+    [self disableUserInteraction];
+    
     // Load array from the cloud
     [ParseCloud loadFromCloud:^(NSMutableArray *listArray) {
         NSMutableDictionary *listDictionary = [listArray objectAtIndex:0];
@@ -268,6 +301,10 @@
         
         // Reload view
         [self.tableView reloadData];
+        
+        [self.spinner stopAnimating];
+        [self.loadingView removeFromSuperview];
+        [self enableUserInteraction];
     }];
 
 }
@@ -312,10 +349,12 @@
     if (!removeAds && (numLaunches == minSessions || numLaunches >= (minSessions + tryAgainSession + 1))){
         if ([self.interstitial isReady]) {
             NSLog(@"****LOADING INTERSTITIALS!****");
+            numLaunches = minSessions + 1;
             [self.interstitial presentFromRootViewController:self];
         }
-        
-        numLaunches = minSessions + 1;
+        else{
+            [self initializeInterstitials];
+        }
     }
     
     [[NSUserDefaults standardUserDefaults] setInteger:numLaunches forKey:@"interstitialsLaunches"];
