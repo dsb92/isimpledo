@@ -297,6 +297,78 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		462940631C61F1E9007A8C76 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				469C06E21A6B0E5200ED9A9B /* ToDoItem.h */,
+				469C06E31A6B0E5200ED9A9B /* ToDoItem.m */,
+				460E22FC1AABA26700D212EE /* SegmentForToDoItem.h */,
+				460E22FD1AABA26700D212EE /* SegmentForToDoItem.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		462940641C61F20C007A8C76 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				4626BFAA1B3AE90700150780 /* SliderNavigationViewController.h */,
+				4626BFAB1B3AE90700150780 /* SliderNavigationViewController.m */,
+				465E90AC1B336C9900768AEE /* SelectionListViewController.h */,
+				465E90AD1B336C9900768AEE /* SelectionListViewController.m */,
+				469C06DC1A6B03C900ED9A9B /* AddToDoItemViewController.h */,
+				469C06DD1A6B03C900ED9A9B /* AddToDoItemViewController.m */,
+				467A525D1A86461A00BBE0BA /* AlertViewController.h */,
+				467A525E1A86461A00BBE0BA /* AlertViewController.m */,
+				467A52601A86529100BBE0BA /* RepeatViewController.h */,
+				467A52611A86529100BBE0BA /* RepeatViewController.m */,
+				46091FE91A7FD5AA00DC2513 /* ReminderViewController.h */,
+				46091FEA1A7FD5AA00DC2513 /* ReminderViewController.m */,
+				46F9188E1B0919E000776F2B /* ListsViewController.h */,
+				46F9188F1B0919E000776F2B /* ListsViewController.m */,
+				469C06DF1A6B048500ED9A9B /* ToDoListTableViewController.h */,
+				469C06E01A6B048500ED9A9B /* ToDoListTableViewController.m */,
+				465A59E31BD2AC5F00D4F521 /* LoginViewController.h */,
+				465A59E41BD2AC5F00D4F521 /* LoginViewController.m */,
+				465A59E61BD2AD7D00D4F521 /* SignUpViewController.h */,
+				465A59E71BD2AD7D00D4F521 /* SignUpViewController.m */,
+				4626BFA71B3AE8A100150780 /* SWRevealViewController.h */,
+				4626BFA81B3AE8A100150780 /* SWRevealViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		462940651C61F24D007A8C76 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				46091FE61A7FD37A00DC2513 /* Main.storyboard */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		462940661C61F28F007A8C76 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				46631F471BC16E780023910E /* InAppPurchase.h */,
+				46631F481BC16E780023910E /* InAppPurchase.m */,
+				46631F701BC19C960023910E /* ParseCloud.h */,
+				46631F711BC19C960023910E /* ParseCloud.m */,
+				464B10DF1ABF1282008627DC /* LocalNotifications.h */,
+				464B10E01ABF1282008627DC /* LocalNotifications.m */,
+			);
+			name = Features;
+			sourceTree = "<group>";
+		};
+		462940671C61F2EF007A8C76 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				46E6B2E61A9FAACE004AC3F2 /* Utility.h */,
+				46E6B2E71A9FAACE004AC3F2 /* Utility.m */,
+				460E22F61AA33A9D00D212EE /* DateWrapper.h */,
+				460E22F71AA33A9D00D212EE /* DateWrapper.m */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		4659BA451A8BF8DF002C6A48 /* PodFiles */ = {
 			isa = PBXGroup;
 			children = (
@@ -338,40 +410,19 @@
 		469C06B21A69857F00ED9A9B /* iOSDoToList */ = {
 			isa = PBXGroup;
 			children = (
-				46E6B2ED1AA1185C004AC3F2 /* LaunchScreen.png */,
+				462BD7B31C3D8D4B00B5F2BA /* CustomListManager.h */,
+				462BD7B41C3D8D4B00B5F2BA /* CustomListManager.m */,
+				462940671C61F2EF007A8C76 /* Helpers */,
+				462940661C61F28F007A8C76 /* Features */,
+				462940651C61F24D007A8C76 /* View */,
+				462940641C61F20C007A8C76 /* Controllers */,
+				462940631C61F1E9007A8C76 /* Model */,
 				4659BA451A8BF8DF002C6A48 /* PodFiles */,
-				469C06E21A6B0E5200ED9A9B /* ToDoItem.h */,
-				469C06E31A6B0E5200ED9A9B /* ToDoItem.m */,
-				460E22FC1AABA26700D212EE /* SegmentForToDoItem.h */,
-				460E22FD1AABA26700D212EE /* SegmentForToDoItem.m */,
-				4626BFAA1B3AE90700150780 /* SliderNavigationViewController.h */,
-				4626BFAB1B3AE90700150780 /* SliderNavigationViewController.m */,
-				465E90AC1B336C9900768AEE /* SelectionListViewController.h */,
-				465E90AD1B336C9900768AEE /* SelectionListViewController.m */,
-				469C06DC1A6B03C900ED9A9B /* AddToDoItemViewController.h */,
-				469C06DD1A6B03C900ED9A9B /* AddToDoItemViewController.m */,
-				467A525D1A86461A00BBE0BA /* AlertViewController.h */,
-				467A525E1A86461A00BBE0BA /* AlertViewController.m */,
-				467A52601A86529100BBE0BA /* RepeatViewController.h */,
-				467A52611A86529100BBE0BA /* RepeatViewController.m */,
-				46091FE91A7FD5AA00DC2513 /* ReminderViewController.h */,
-				46091FEA1A7FD5AA00DC2513 /* ReminderViewController.m */,
 				469C06B71A69857F00ED9A9B /* AppDelegate.h */,
 				469C06B81A69857F00ED9A9B /* AppDelegate.m */,
-				46F9188E1B0919E000776F2B /* ListsViewController.h */,
-				46F9188F1B0919E000776F2B /* ListsViewController.m */,
-				469C06DF1A6B048500ED9A9B /* ToDoListTableViewController.h */,
-				469C06E01A6B048500ED9A9B /* ToDoListTableViewController.m */,
-				465A59E31BD2AC5F00D4F521 /* LoginViewController.h */,
-				465A59E41BD2AC5F00D4F521 /* LoginViewController.m */,
-				465A59E61BD2AD7D00D4F521 /* SignUpViewController.h */,
-				465A59E71BD2AD7D00D4F521 /* SignUpViewController.m */,
-				46091FE61A7FD37A00DC2513 /* Main.storyboard */,
 				469C06C21A69857F00ED9A9B /* LaunchScreen.xib */,
 				460E22F11AA1243200D212EE /* Images.xcassets */,
 				469C06B31A69857F00ED9A9B /* Supporting Files */,
-				462BD7B31C3D8D4B00B5F2BA /* CustomListManager.h */,
-				462BD7B41C3D8D4B00B5F2BA /* CustomListManager.m */,
 			);
 			path = iOSDoToList;
 			sourceTree = "<group>";
@@ -379,19 +430,8 @@
 		469C06B31A69857F00ED9A9B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				46631F471BC16E780023910E /* InAppPurchase.h */,
-				46631F481BC16E780023910E /* InAppPurchase.m */,
-				46631F701BC19C960023910E /* ParseCloud.h */,
-				46631F711BC19C960023910E /* ParseCloud.m */,
-				4626BFA71B3AE8A100150780 /* SWRevealViewController.h */,
-				4626BFA81B3AE8A100150780 /* SWRevealViewController.m */,
+				46E6B2ED1AA1185C004AC3F2 /* LaunchScreen.png */,
 				465E90A71B333F2F00768AEE /* Big-Plus-Button.png */,
-				46E6B2E61A9FAACE004AC3F2 /* Utility.h */,
-				46E6B2E71A9FAACE004AC3F2 /* Utility.m */,
-				464B10DF1ABF1282008627DC /* LocalNotifications.h */,
-				464B10E01ABF1282008627DC /* LocalNotifications.m */,
-				460E22F61AA33A9D00D212EE /* DateWrapper.h */,
-				460E22F71AA33A9D00D212EE /* DateWrapper.m */,
 				4659BA581A8BF952002C6A48 /* list@2x.png */,
 				4659BA591A8BF952002C6A48 /* check@2x.png */,
 				4659BA5A1A8BF952002C6A48 /* cross@2x.png */,
@@ -694,8 +734,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: David Buhauer (L8W6E2RRGK)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Buhauer (L8W6E2RRGK)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -708,7 +748,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SimpleDo;
-				PROVISIONING_PROFILE = "f69c9d7d-7c05-4219-9f06-e2f328e50819";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -719,8 +759,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: David Buhauer (L8W6E2RRGK)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Buhauer (L8W6E2RRGK)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -733,7 +773,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SimpleDo;
-				PROVISIONING_PROFILE = "f69c9d7d-7c05-4219-9f06-e2f328e50819";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
