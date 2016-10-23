@@ -171,10 +171,10 @@
         NSLog(@"Google Mobile Ads SDK version: %@", [GADRequest sdkVersion]);
         
         // Test Version
-        self.bannerView.adUnitID = @"ca-app-pub-3940256099942544/2934735716";
+        //self.bannerView.adUnitID = @"ca-app-pub-3940256099942544/2934735716";
         
         // Live version
-        //self.bannerView.adUnitID = @"ca-app-pub-2595377837159656/7156429321";
+        self.bannerView.adUnitID = @"ca-app-pub-2595377837159656/7156429321";
         
         self.bannerView.rootViewController = self;
         
@@ -190,10 +190,10 @@
     
     if (!removeAds){
         // Test version
-        self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-3940256099942544/4411468910"];
+        //self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-3940256099942544/4411468910"];
         
         // Live version
-        //self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-2595377837159656/2028225729"];
+        self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-2595377837159656/2028225729"];
         
         GADRequest *request = [GADRequest request];
 

@@ -17,12 +17,12 @@
 		4602BA4F1C3E7F0D00673A0A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4602BA4E1C3E7F0D00673A0A /* MessageUI.framework */; };
 		46091FE81A7FD37A00DC2513 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46091FE61A7FD37A00DC2513 /* Main.storyboard */; };
 		46091FEB1A7FD5AA00DC2513 /* ReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46091FEA1A7FD5AA00DC2513 /* ReminderViewController.m */; };
-		460E22F21AA1243200D212EE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 460E22F11AA1243200D212EE /* Images.xcassets */; };
 		460E22F81AA33A9D00D212EE /* DateWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 460E22F71AA33A9D00D212EE /* DateWrapper.m */; };
 		460E22FE1AABA26700D212EE /* SegmentForToDoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 460E22FD1AABA26700D212EE /* SegmentForToDoItem.m */; };
+		46260CDC1DBD138200446A7D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46260CDB1DBD138200446A7D /* Assets.xcassets */; };
+		46260CDE1DBD145300446A7D /* Icon-60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46260CDD1DBD145300446A7D /* Icon-60@3x.png */; };
 		4626BFA91B3AE8A100150780 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4626BFA81B3AE8A100150780 /* SWRevealViewController.m */; };
 		4626BFAC1B3AE90700150780 /* SliderNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4626BFAB1B3AE90700150780 /* SliderNavigationViewController.m */; };
-		4626BFAE1B3AED7100150780 /* Icon-60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4626BFAD1B3AED7100150780 /* Icon-60@3x.png */; };
 		462BD7B51C3D8D4B00B5F2BA /* CustomListManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 462BD7B41C3D8D4B00B5F2BA /* CustomListManager.m */; };
 		464B10E11ABF1282008627DC /* LocalNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 464B10E01ABF1282008627DC /* LocalNotifications.m */; };
 		4659BA521A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 4659BA471A8BF912002C6A48 /* NSMutableArray+SWUtilityButtons.m */; };
@@ -99,16 +99,16 @@
 		46091FE71A7FD37A00DC2513 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = iOSDoToList/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		46091FE91A7FD5AA00DC2513 /* ReminderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReminderViewController.h; sourceTree = "<group>"; };
 		46091FEA1A7FD5AA00DC2513 /* ReminderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReminderViewController.m; sourceTree = "<group>"; };
-		460E22F11AA1243200D212EE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		460E22F61AA33A9D00D212EE /* DateWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateWrapper.h; sourceTree = "<group>"; };
 		460E22F71AA33A9D00D212EE /* DateWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateWrapper.m; sourceTree = "<group>"; };
 		460E22FC1AABA26700D212EE /* SegmentForToDoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentForToDoItem.h; sourceTree = "<group>"; };
 		460E22FD1AABA26700D212EE /* SegmentForToDoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentForToDoItem.m; sourceTree = "<group>"; };
+		46260CDB1DBD138200446A7D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		46260CDD1DBD145300446A7D /* Icon-60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@3x.png"; sourceTree = "<group>"; };
 		4626BFA71B3AE8A100150780 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		4626BFA81B3AE8A100150780 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		4626BFAA1B3AE90700150780 /* SliderNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderNavigationViewController.h; sourceTree = "<group>"; };
 		4626BFAB1B3AE90700150780 /* SliderNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SliderNavigationViewController.m; sourceTree = "<group>"; };
-		4626BFAD1B3AED7100150780 /* Icon-60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-60@3x.png"; path = "Images.xcassets/AppIcon.appiconset/Icon-60@3x.png"; sourceTree = "<group>"; };
 		462BD7B31C3D8D4B00B5F2BA /* CustomListManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomListManager.h; sourceTree = "<group>"; };
 		462BD7B41C3D8D4B00B5F2BA /* CustomListManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomListManager.m; sourceTree = "<group>"; };
 		464B10DF1ABF1282008627DC /* LocalNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalNotifications.h; sourceTree = "<group>"; };
@@ -379,6 +379,7 @@
 		469C06A71A69857F00ED9A9B = {
 			isa = PBXGroup;
 			children = (
+				46260CDB1DBD138200446A7D /* Assets.xcassets */,
 				4602BA501C3E7F3500673A0A /* Frameworks */,
 				469C06B21A69857F00ED9A9B /* iOSDoToList */,
 				469C06CC1A69857F00ED9A9B /* iOSDoToListTests */,
@@ -410,7 +411,6 @@
 				469C06B71A69857F00ED9A9B /* AppDelegate.h */,
 				469C06B81A69857F00ED9A9B /* AppDelegate.m */,
 				469C06C21A69857F00ED9A9B /* LaunchScreen.xib */,
-				460E22F11AA1243200D212EE /* Images.xcassets */,
 				469C06B31A69857F00ED9A9B /* Supporting Files */,
 			);
 			path = iOSDoToList;
@@ -419,6 +419,7 @@
 		469C06B31A69857F00ED9A9B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				46260CDD1DBD145300446A7D /* Icon-60@3x.png */,
 				46E6B2ED1AA1185C004AC3F2 /* LaunchScreen.png */,
 				465E90A71B333F2F00768AEE /* Big-Plus-Button.png */,
 				4659BA581A8BF952002C6A48 /* list@2x.png */,
@@ -426,7 +427,6 @@
 				4659BA5A1A8BF952002C6A48 /* cross@2x.png */,
 				4659BA5B1A8BF952002C6A48 /* clock@2x.png */,
 				468743CD1ABEE94400145F39 /* repeat@2x.png */,
-				4626BFAD1B3AED7100150780 /* Icon-60@3x.png */,
 				468743C31ABDC56800145F39 /* reminder_clock@2x.png */,
 				4659BA5D1A8BF952002C6A48 /* Default.png */,
 				4659BA5E1A8BF952002C6A48 /* Default@2x.png */,
@@ -565,11 +565,11 @@
 				4659BA671A8BF952002C6A48 /* Default-568h@2x.png in Resources */,
 				4659BA651A8BF952002C6A48 /* Default.png in Resources */,
 				46E6B2EE1AA1185C004AC3F2 /* LaunchScreen.png in Resources */,
+				46260CDC1DBD138200446A7D /* Assets.xcassets in Resources */,
 				4659BA661A8BF952002C6A48 /* Default@2x.png in Resources */,
+				46260CDE1DBD145300446A7D /* Icon-60@3x.png in Resources */,
 				4659BA601A8BF952002C6A48 /* list@2x.png in Resources */,
-				4626BFAE1B3AED7100150780 /* Icon-60@3x.png in Resources */,
 				46091FE81A7FD37A00DC2513 /* Main.storyboard in Resources */,
-				460E22F21AA1243200D212EE /* Images.xcassets in Resources */,
 				469C06C41A69857F00ED9A9B /* LaunchScreen.xib in Resources */,
 				4659BA631A8BF952002C6A48 /* clock@2x.png in Resources */,
 				468743CE1ABEE94400145F39 /* repeat@2x.png in Resources */,
