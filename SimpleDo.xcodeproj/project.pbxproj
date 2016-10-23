@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4602BA391C3E7E1300673A0A /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4602BA341C3E7E1300673A0A /* FBAudienceNetwork.framework */; };
+		0AFE32CB48B8FE6CF6951428 /* libPods-SimpleDo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 451BC1E0CDC1870BD69A55CF /* libPods-SimpleDo.a */; };
 		4602BA431C3E7EC900673A0A /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4602BA421C3E7EC900673A0A /* AdSupport.framework */; };
 		4602BA451C3E7EE100673A0A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4602BA441C3E7EE100673A0A /* AVFoundation.framework */; };
 		4602BA471C3E7EEE00673A0A /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4602BA461C3E7EEE00673A0A /* CoreMedia.framework */; };
@@ -72,16 +72,8 @@
 		46E6B2E81A9FAACE004AC3F2 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E6B2E71A9FAACE004AC3F2 /* Utility.m */; };
 		46E6B2EE1AA1185C004AC3F2 /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 46E6B2ED1AA1185C004AC3F2 /* LaunchScreen.png */; };
 		46F918901B0919E000776F2B /* ListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46F9188F1B0919E000776F2B /* ListsViewController.m */; };
-		46FCEE1C1C6A1DAC001ECAF2 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46FCEE161C6A1DAC001ECAF2 /* Parse.framework */; };
-		46FCEE1E1C6A1DAC001ECAF2 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46FCEE181C6A1DAC001ECAF2 /* ParseFacebookUtilsV4.framework */; };
-		46FCEE1F1C6A1DAC001ECAF2 /* ParseTwitterUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46FCEE191C6A1DAC001ECAF2 /* ParseTwitterUtils.framework */; };
-		46FCEE201C6A1DAC001ECAF2 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46FCEE1A1C6A1DAC001ECAF2 /* ParseUI.framework */; };
 		46FCEE221C6A1E62001ECAF2 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46FCEE211C6A1E62001ECAF2 /* GoogleMobileAds.framework */; };
-		46FCEE271C6A1F46001ECAF2 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46FCEE231C6A1F46001ECAF2 /* FBSDKCoreKit.framework */; };
-		46FCEE281C6A1F46001ECAF2 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46FCEE241C6A1F46001ECAF2 /* FBSDKLoginKit.framework */; };
-		46FCEE291C6A1F46001ECAF2 /* FBSDKMessengerShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46FCEE251C6A1F46001ECAF2 /* FBSDKMessengerShareKit.framework */; };
-		46FCEE2A1C6A1F46001ECAF2 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46FCEE261C6A1F46001ECAF2 /* FBSDKShareKit.framework */; };
-		46FCEE2C1C6A1F7A001ECAF2 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46FCEE2B1C6A1F7A001ECAF2 /* Bolts.framework */; };
+		557340AFF1440D7957C7036D /* libPods-SimpleDoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56D3ABEA75C352E026BA9AC2 /* libPods-SimpleDoTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +87,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		451BC1E0CDC1870BD69A55CF /* libPods-SimpleDo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SimpleDo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4602BA341C3E7E1300673A0A /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		4602BA421C3E7EC900673A0A /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		4602BA441C3E7EE100673A0A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -201,6 +194,11 @@
 		46FCEE251C6A1F46001ECAF2 /* FBSDKMessengerShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKMessengerShareKit.framework; sourceTree = "<group>"; };
 		46FCEE261C6A1F46001ECAF2 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		46FCEE2B1C6A1F7A001ECAF2 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		56D3ABEA75C352E026BA9AC2 /* libPods-SimpleDoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SimpleDoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7543E5706BD1DCABE515A4AA /* Pods-SimpleDoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleDoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SimpleDoTests/Pods-SimpleDoTests.release.xcconfig"; sourceTree = "<group>"; };
+		DFCE1C565EFE119648A39D1B /* Pods-SimpleDoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleDoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SimpleDoTests/Pods-SimpleDoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F3010DF6E0130C65AA1C3706 /* Pods-SimpleDo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleDo.release.xcconfig"; path = "Pods/Target Support Files/Pods-SimpleDo/Pods-SimpleDo.release.xcconfig"; sourceTree = "<group>"; };
+		F9B14D31C7914043EBE6BD70 /* Pods-SimpleDo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleDo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SimpleDo/Pods-SimpleDo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,7 +206,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				46FCEE201C6A1DAC001ECAF2 /* ParseUI.framework in Frameworks */,
 				46631F671BC195180023910E /* SystemConfiguration.framework in Frameworks */,
 				46631F651BC1950D0023910E /* StoreKit.framework in Frameworks */,
 				46FCEE221C6A1E62001ECAF2 /* GoogleMobileAds.framework in Frameworks */,
@@ -221,25 +218,17 @@
 				4602BA451C3E7EE100673A0A /* AVFoundation.framework in Frameworks */,
 				46631F5D1BC194CD0023910E /* AudioToolbox.framework in Frameworks */,
 				4602BA431C3E7EC900673A0A /* AdSupport.framework in Frameworks */,
-				46FCEE1C1C6A1DAC001ECAF2 /* Parse.framework in Frameworks */,
 				46631F6F1BC195500023910E /* Social.framework in Frameworks */,
 				46631F6D1BC195450023910E /* Accounts.framework in Frameworks */,
-				46FCEE2A1C6A1F46001ECAF2 /* FBSDKShareKit.framework in Frameworks */,
-				46FCEE1E1C6A1DAC001ECAF2 /* ParseFacebookUtilsV4.framework in Frameworks */,
 				46631F6B1BC1953D0023910E /* libsqlite3.tbd in Frameworks */,
 				46631F691BC195270023910E /* libz.tbd in Frameworks */,
-				46FCEE291C6A1F46001ECAF2 /* FBSDKMessengerShareKit.framework in Frameworks */,
 				46631F631BC194FB0023910E /* Security.framework in Frameworks */,
-				4602BA391C3E7E1300673A0A /* FBAudienceNetwork.framework in Frameworks */,
-				46FCEE1F1C6A1DAC001ECAF2 /* ParseTwitterUtils.framework in Frameworks */,
 				4659BA771A8BFC49002C6A48 /* QuartzCore.framework in Frameworks */,
 				46631F611BC194E80023910E /* CoreLocation.framework in Frameworks */,
-				46FCEE271C6A1F46001ECAF2 /* FBSDKCoreKit.framework in Frameworks */,
 				46631F5F1BC194D60023910E /* CFNetwork.framework in Frameworks */,
 				4659BA7B1A8BFC5E002C6A48 /* Foundation.framework in Frameworks */,
-				46FCEE2C1C6A1F7A001ECAF2 /* Bolts.framework in Frameworks */,
 				4659BA791A8BFC55002C6A48 /* UIKit.framework in Frameworks */,
-				46FCEE281C6A1F46001ECAF2 /* FBSDKLoginKit.framework in Frameworks */,
+				0AFE32CB48B8FE6CF6951428 /* libPods-SimpleDo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +236,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				557340AFF1440D7957C7036D /* libPods-SimpleDoTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +279,8 @@
 				4659BA7A1A8BFC5E002C6A48 /* Foundation.framework */,
 				4659BA781A8BFC55002C6A48 /* UIKit.framework */,
 				4659BA761A8BFC49002C6A48 /* QuartzCore.framework */,
+				451BC1E0CDC1870BD69A55CF /* libPods-SimpleDo.a */,
+				56D3ABEA75C352E026BA9AC2 /* libPods-SimpleDoTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -391,6 +383,7 @@
 				469C06B21A69857F00ED9A9B /* iOSDoToList */,
 				469C06CC1A69857F00ED9A9B /* iOSDoToListTests */,
 				469C06B11A69857F00ED9A9B /* Products */,
+				51448AFB245E07DE6F0C04BF /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -461,6 +454,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		51448AFB245E07DE6F0C04BF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F9B14D31C7914043EBE6BD70 /* Pods-SimpleDo.debug.xcconfig */,
+				F3010DF6E0130C65AA1C3706 /* Pods-SimpleDo.release.xcconfig */,
+				DFCE1C565EFE119648A39D1B /* Pods-SimpleDoTests.debug.xcconfig */,
+				7543E5706BD1DCABE515A4AA /* Pods-SimpleDoTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -468,9 +472,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 469C06D31A69857F00ED9A9B /* Build configuration list for PBXNativeTarget "SimpleDo" */;
 			buildPhases = (
+				6E92E10C36F1625A53EE0033 /* [CP] Check Pods Manifest.lock */,
 				469C06AC1A69857F00ED9A9B /* Sources */,
 				469C06AD1A69857F00ED9A9B /* Frameworks */,
 				469C06AE1A69857F00ED9A9B /* Resources */,
+				396A5C6357B4652C2A78A4CA /* [CP] Embed Pods Frameworks */,
+				FDF108E0882D85452DDED85C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -485,9 +492,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 469C06D61A69857F00ED9A9B /* Build configuration list for PBXNativeTarget "SimpleDoTests" */;
 			buildPhases = (
+				75519A532EB7467ECB5176C0 /* [CP] Check Pods Manifest.lock */,
 				469C06C51A69857F00ED9A9B /* Sources */,
 				469C06C61A69857F00ED9A9B /* Frameworks */,
 				469C06C71A69857F00ED9A9B /* Resources */,
+				CF8D6F3F789257ADB9B0B5CE /* [CP] Embed Pods Frameworks */,
+				7612289C537A1E249AED4BE6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -505,7 +515,7 @@
 		469C06A81A69857F00ED9A9B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "David Buhauer";
 				TargetAttributes = {
 					469C06AF1A69857F00ED9A9B = {
@@ -573,6 +583,99 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		396A5C6357B4652C2A78A4CA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimpleDo/Pods-SimpleDo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6E92E10C36F1625A53EE0033 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		75519A532EB7467ECB5176C0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7612289C537A1E249AED4BE6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimpleDoTests/Pods-SimpleDoTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CF8D6F3F789257ADB9B0B5CE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimpleDoTests/Pods-SimpleDoTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FDF108E0882D85452DDED85C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimpleDo/Pods-SimpleDo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		469C06AC1A69857F00ED9A9B /* Sources */ = {
@@ -661,8 +764,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -671,6 +776,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -703,8 +809,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -712,6 +820,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -727,6 +836,7 @@
 		};
 		469C06D41A69857F00ED9A9B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F9B14D31C7914043EBE6BD70 /* Pods-SimpleDo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -739,9 +849,98 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = iOSDoToList/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"FBSDKCoreKit\"",
+					"-l\"FBSDKLoginKit\"",
+					"-l\"FBSDKShareKit\"",
+					"-l\"Parse\"",
+					"-l\"ParseCrashReporting\"",
+					"-l\"ParseCrashReportingLib\"",
+					"-l\"ParseFacebookUtilsV4\"",
+					"-l\"ParseTwitterUtils\"",
+					"-l\"ParseUI\"",
+					"-l\"c++\"",
+					"-l\"sqlite3\"",
+					"-l\"stdc++.6\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreMotion\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"CoreVideo\"",
+					"-framework",
+					"\"Crashlytics\"",
+					"-framework",
+					"\"Fabric\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GLKit\"",
+					"-framework",
+					"\"GoogleMobileAds\"",
+					"-framework",
+					"\"MediaPlayer\"",
+					"-framework",
+					"\"MessageUI\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"OpenGLES\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"Accounts\"",
+					"-weak_framework",
+					"\"AdSupport\"",
+					"-weak_framework",
+					"\"AudioToolbox\"",
+					"-weak_framework",
+					"\"CoreGraphics\"",
+					"-weak_framework",
+					"\"CoreLocation\"",
+					"-weak_framework",
+					"\"Foundation\"",
+					"-weak_framework",
+					"\"JavaScriptCore\"",
+					"-weak_framework",
+					"\"QuartzCore\"",
+					"-weak_framework",
+					"\"SafariServices\"",
+					"-weak_framework",
+					"\"Security\"",
+					"-weak_framework",
+					"\"Social\"",
+					"-weak_framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"WebKit\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SimpleDo;
 				PROVISIONING_PROFILE = "";
@@ -752,6 +951,7 @@
 		};
 		469C06D51A69857F00ED9A9B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F3010DF6E0130C65AA1C3706 /* Pods-SimpleDo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -764,9 +964,98 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = iOSDoToList/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"FBSDKCoreKit\"",
+					"-l\"FBSDKLoginKit\"",
+					"-l\"FBSDKShareKit\"",
+					"-l\"Parse\"",
+					"-l\"ParseCrashReporting\"",
+					"-l\"ParseCrashReportingLib\"",
+					"-l\"ParseFacebookUtilsV4\"",
+					"-l\"ParseTwitterUtils\"",
+					"-l\"ParseUI\"",
+					"-l\"c++\"",
+					"-l\"sqlite3\"",
+					"-l\"stdc++.6\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreMotion\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"CoreVideo\"",
+					"-framework",
+					"\"Crashlytics\"",
+					"-framework",
+					"\"Fabric\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GLKit\"",
+					"-framework",
+					"\"GoogleMobileAds\"",
+					"-framework",
+					"\"MediaPlayer\"",
+					"-framework",
+					"\"MessageUI\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"OpenGLES\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"Accounts\"",
+					"-weak_framework",
+					"\"AdSupport\"",
+					"-weak_framework",
+					"\"AudioToolbox\"",
+					"-weak_framework",
+					"\"CoreGraphics\"",
+					"-weak_framework",
+					"\"CoreLocation\"",
+					"-weak_framework",
+					"\"Foundation\"",
+					"-weak_framework",
+					"\"JavaScriptCore\"",
+					"-weak_framework",
+					"\"QuartzCore\"",
+					"-weak_framework",
+					"\"SafariServices\"",
+					"-weak_framework",
+					"\"Security\"",
+					"-weak_framework",
+					"\"Social\"",
+					"-weak_framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"WebKit\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SimpleDo;
 				PROVISIONING_PROFILE = "";
@@ -777,6 +1066,7 @@
 		};
 		469C06D71A69857F00ED9A9B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DFCE1C565EFE119648A39D1B /* Pods-SimpleDoTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -797,6 +1087,7 @@
 		};
 		469C06D81A69857F00ED9A9B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7543E5706BD1DCABE515A4AA /* Pods-SimpleDoTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
