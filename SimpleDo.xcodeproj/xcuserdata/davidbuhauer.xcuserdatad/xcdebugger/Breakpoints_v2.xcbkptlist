@@ -48,7 +48,7 @@
             startingLineNumber = "73"
             endingLineNumber = "73"
             landmarkName = "-StoreButtonTapped:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -64,7 +64,7 @@
             startingLineNumber = "109"
             endingLineNumber = "109"
             landmarkName = "-StoreButtonTapped:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
