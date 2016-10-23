@@ -478,6 +478,7 @@
 				469C06AE1A69857F00ED9A9B /* Resources */,
 				396A5C6357B4652C2A78A4CA /* [CP] Embed Pods Frameworks */,
 				FDF108E0882D85452DDED85C /* [CP] Copy Pods Resources */,
+				467AC1FB1DBCFE8100489330 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -599,6 +600,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimpleDo/Pods-SimpleDo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		467AC1FB1DBCFE8100489330 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 31c24a769e20f5da0788a7e0fca7c731512e4dce c03978db58fa2faf73ab180afc4eb741e89db42e0c304f4aab504b113f266876";
 		};
 		6E92E10C36F1625A53EE0033 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
