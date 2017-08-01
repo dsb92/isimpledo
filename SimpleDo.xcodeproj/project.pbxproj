@@ -522,6 +522,7 @@
 					469C06AF1A69857F00ED9A9B = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = WC3CDPK7H2;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -860,6 +861,7 @@
 				CODE_SIGN_ENTITLEMENTS = SimpleDo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = WC3CDPK7H2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -961,7 +963,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SimpleDo;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "52e4b65a-8b9a-4043-8480-2469c39c88f0";
+				PROVISIONING_PROFILE_SPECIFIER = "iSimpleDo dev";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -975,7 +978,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = SimpleDo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = WC3CDPK7H2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1077,7 +1081,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SimpleDo;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9521333c-0688-427d-b49f-b5c52368dc39";
+				PROVISIONING_PROFILE_SPECIFIER = "iSimpleDo dist";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
