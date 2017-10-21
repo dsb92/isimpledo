@@ -173,7 +173,7 @@
 - (IBAction)Rate:(id)sender {
     NSString *appID = @"979059592";
     NSString *appName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/app/%@/id%@?mt=8", appName, appID]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/app/%@/id%@?1000ls6E&mt=8", appName, appID]];
     
     NSLog(@"URL RATE: %@",url);
     

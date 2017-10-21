@@ -58,6 +58,7 @@
 		46631F6D1BC195450023910E /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46631F6C1BC195450023910E /* Accounts.framework */; };
 		46631F6F1BC195500023910E /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46631F6E1BC195500023910E /* Social.framework */; };
 		46631F721BC19C960023910E /* ParseCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 46631F711BC19C960023910E /* ParseCloud.m */; };
+		46672A8A1F9B675B004C3B6B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46672A891F9B66E9004C3B6B /* GoogleService-Info.plist */; };
 		467A525F1A86461A00BBE0BA /* AlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 467A525E1A86461A00BBE0BA /* AlertViewController.m */; };
 		467A52621A86529100BBE0BA /* RepeatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 467A52611A86529100BBE0BA /* RepeatViewController.m */; };
 		468743C41ABDC56800145F39 /* reminder_clock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 468743C31ABDC56800145F39 /* reminder_clock@2x.png */; };
@@ -65,7 +66,6 @@
 		469C06B61A69857F00ED9A9B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06B51A69857F00ED9A9B /* main.m */; };
 		469C06B91A69857F00ED9A9B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06B81A69857F00ED9A9B /* AppDelegate.m */; };
 		469C06C41A69857F00ED9A9B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 469C06C21A69857F00ED9A9B /* LaunchScreen.xib */; };
-		469C06D01A69857F00ED9A9B /* iOSDoToListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06CF1A69857F00ED9A9B /* iOSDoToListTests.m */; };
 		469C06DE1A6B03C900ED9A9B /* AddToDoItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06DD1A6B03C900ED9A9B /* AddToDoItemViewController.m */; };
 		469C06E11A6B048500ED9A9B /* ToDoListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06E01A6B048500ED9A9B /* ToDoListTableViewController.m */; };
 		469C06E41A6B0E5200ED9A9B /* ToDoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 469C06E31A6B0E5200ED9A9B /* ToDoItem.m */; };
@@ -73,18 +73,7 @@
 		46E6B2EE1AA1185C004AC3F2 /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 46E6B2ED1AA1185C004AC3F2 /* LaunchScreen.png */; };
 		46F918901B0919E000776F2B /* ListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46F9188F1B0919E000776F2B /* ListsViewController.m */; };
 		46FCEE221C6A1E62001ECAF2 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46FCEE211C6A1E62001ECAF2 /* GoogleMobileAds.framework */; };
-		557340AFF1440D7957C7036D /* libPods-SimpleDoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56D3ABEA75C352E026BA9AC2 /* libPods-SimpleDoTests.a */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		469C06CA1A69857F00ED9A9B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 469C06A81A69857F00ED9A9B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 469C06AF1A69857F00ED9A9B;
-			remoteInfo = iOSDoToList;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		451BC1E0CDC1870BD69A55CF /* libPods-SimpleDo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SimpleDo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,6 +147,7 @@
 		46631F6E1BC195500023910E /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		46631F701BC19C960023910E /* ParseCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseCloud.h; sourceTree = "<group>"; };
 		46631F711BC19C960023910E /* ParseCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseCloud.m; sourceTree = "<group>"; };
+		46672A891F9B66E9004C3B6B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		467A525D1A86461A00BBE0BA /* AlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertViewController.h; sourceTree = "<group>"; };
 		467A525E1A86461A00BBE0BA /* AlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertViewController.m; sourceTree = "<group>"; };
 		467A52601A86529100BBE0BA /* RepeatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepeatViewController.h; sourceTree = "<group>"; };
@@ -170,9 +160,6 @@
 		469C06B71A69857F00ED9A9B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		469C06B81A69857F00ED9A9B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		469C06C31A69857F00ED9A9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		469C06C91A69857F00ED9A9B /* SimpleDoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleDoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		469C06CE1A69857F00ED9A9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		469C06CF1A69857F00ED9A9B /* iOSDoToListTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOSDoToListTests.m; sourceTree = "<group>"; };
 		469C06DC1A6B03C900ED9A9B /* AddToDoItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddToDoItemViewController.h; path = ../AddToDoItemViewController.h; sourceTree = "<group>"; };
 		469C06DD1A6B03C900ED9A9B /* AddToDoItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddToDoItemViewController.m; path = ../AddToDoItemViewController.m; sourceTree = "<group>"; };
 		469C06DF1A6B048500ED9A9B /* ToDoListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToDoListTableViewController.h; sourceTree = "<group>"; };
@@ -229,14 +216,6 @@
 				4659BA7B1A8BFC5E002C6A48 /* Foundation.framework in Frameworks */,
 				4659BA791A8BFC55002C6A48 /* UIKit.framework in Frameworks */,
 				0AFE32CB48B8FE6CF6951428 /* libPods-SimpleDo.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		469C06C61A69857F00ED9A9B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				557340AFF1440D7957C7036D /* libPods-SimpleDoTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,7 +361,6 @@
 				46260CDB1DBD138200446A7D /* Assets.xcassets */,
 				4602BA501C3E7F3500673A0A /* Frameworks */,
 				469C06B21A69857F00ED9A9B /* iOSDoToList */,
-				469C06CC1A69857F00ED9A9B /* iOSDoToListTests */,
 				469C06B11A69857F00ED9A9B /* Products */,
 				51448AFB245E07DE6F0C04BF /* Pods */,
 			);
@@ -392,7 +370,6 @@
 			isa = PBXGroup;
 			children = (
 				469C06B01A69857F00ED9A9B /* SimpleDo.app */,
-				469C06C91A69857F00ED9A9B /* SimpleDoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -419,6 +396,7 @@
 		469C06B31A69857F00ED9A9B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				46672A891F9B66E9004C3B6B /* GoogleService-Info.plist */,
 				46260CDD1DBD145300446A7D /* Icon-60@3x.png */,
 				46E6B2ED1AA1185C004AC3F2 /* LaunchScreen.png */,
 				465E90A71B333F2F00768AEE /* Big-Plus-Button.png */,
@@ -433,23 +411,6 @@
 				4659BA5F1A8BF952002C6A48 /* Default-568h@2x.png */,
 				469C06B41A69857F00ED9A9B /* Info.plist */,
 				469C06B51A69857F00ED9A9B /* main.m */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		469C06CC1A69857F00ED9A9B /* iOSDoToListTests */ = {
-			isa = PBXGroup;
-			children = (
-				469C06CF1A69857F00ED9A9B /* iOSDoToListTests.m */,
-				469C06CD1A69857F00ED9A9B /* Supporting Files */,
-			);
-			path = iOSDoToListTests;
-			sourceTree = "<group>";
-		};
-		469C06CD1A69857F00ED9A9B /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				469C06CE1A69857F00ED9A9B /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -489,34 +450,13 @@
 			productReference = 469C06B01A69857F00ED9A9B /* SimpleDo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		469C06C81A69857F00ED9A9B /* SimpleDoTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 469C06D61A69857F00ED9A9B /* Build configuration list for PBXNativeTarget "SimpleDoTests" */;
-			buildPhases = (
-				75519A532EB7467ECB5176C0 /* [CP] Check Pods Manifest.lock */,
-				469C06C51A69857F00ED9A9B /* Sources */,
-				469C06C61A69857F00ED9A9B /* Frameworks */,
-				469C06C71A69857F00ED9A9B /* Resources */,
-				CF8D6F3F789257ADB9B0B5CE /* [CP] Embed Pods Frameworks */,
-				7612289C537A1E249AED4BE6 /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				469C06CB1A69857F00ED9A9B /* PBXTargetDependency */,
-			);
-			name = SimpleDoTests;
-			productName = iOSDoToListTests;
-			productReference = 469C06C91A69857F00ED9A9B /* SimpleDoTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		469C06A81A69857F00ED9A9B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "David Buhauer";
 				TargetAttributes = {
 					469C06AF1A69857F00ED9A9B = {
@@ -531,10 +471,6 @@
 								enabled = 0;
 							};
 						};
-					};
-					469C06C81A69857F00ED9A9B = {
-						CreatedOnToolsVersion = 6.1.1;
-						TestTargetID = 469C06AF1A69857F00ED9A9B;
 					};
 				};
 			};
@@ -552,7 +488,6 @@
 			projectRoot = "";
 			targets = (
 				469C06AF1A69857F00ED9A9B /* SimpleDo */,
-				469C06C81A69857F00ED9A9B /* SimpleDoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -571,19 +506,13 @@
 				46260CDE1DBD145300446A7D /* Icon-60@3x.png in Resources */,
 				4659BA601A8BF952002C6A48 /* list@2x.png in Resources */,
 				46091FE81A7FD37A00DC2513 /* Main.storyboard in Resources */,
+				46672A8A1F9B675B004C3B6B /* GoogleService-Info.plist in Resources */,
 				469C06C41A69857F00ED9A9B /* LaunchScreen.xib in Resources */,
 				4659BA631A8BF952002C6A48 /* clock@2x.png in Resources */,
 				468743CE1ABEE94400145F39 /* repeat@2x.png in Resources */,
 				468743C41ABDC56800145F39 /* reminder_clock@2x.png in Resources */,
 				465E90A81B333F2F00768AEE /* Big-Plus-Button.png in Resources */,
 				4659BA621A8BF952002C6A48 /* cross@2x.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		469C06C71A69857F00ED9A9B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -630,52 +559,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		75519A532EB7467ECB5176C0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		7612289C537A1E249AED4BE6 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimpleDoTests/Pods-SimpleDoTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CF8D6F3F789257ADB9B0B5CE /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimpleDoTests/Pods-SimpleDoTests-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		FDF108E0882D85452DDED85C /* [CP] Copy Pods Resources */ = {
@@ -730,23 +614,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		469C06C51A69857F00ED9A9B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				469C06D01A69857F00ED9A9B /* iOSDoToListTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		469C06CB1A69857F00ED9A9B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 469C06AF1A69857F00ED9A9B /* SimpleDo */;
-			targetProxy = 469C06CA1A69857F00ED9A9B /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		46091FE61A7FD37A00DC2513 /* Main.storyboard */ = {
@@ -777,14 +645,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -822,14 +696,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -857,7 +737,6 @@
 			baseConfigurationReference = F9B14D31C7914043EBE6BD70 /* Pods-SimpleDo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = SimpleDo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -869,7 +748,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = iOSDoToList/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -975,7 +854,6 @@
 			baseConfigurationReference = F3010DF6E0130C65AA1C3706 /* Pods-SimpleDo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = SimpleDo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
@@ -987,7 +865,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = iOSDoToList/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -1088,44 +966,6 @@
 			};
 			name = Release;
 		};
-		469C06D71A69857F00ED9A9B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = DFCE1C565EFE119648A39D1B /* Pods-SimpleDoTests.debug.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = iOSDoToListTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = SimpleDoTests;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOSDoToList.app/iOSDoToList";
-			};
-			name = Debug;
-		};
-		469C06D81A69857F00ED9A9B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7543E5706BD1DCABE515A4AA /* Pods-SimpleDoTests.release.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = iOSDoToListTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = SimpleDoTests;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOSDoToList.app/iOSDoToList";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1143,15 +983,6 @@
 			buildConfigurations = (
 				469C06D41A69857F00ED9A9B /* Debug */,
 				469C06D51A69857F00ED9A9B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		469C06D61A69857F00ED9A9B /* Build configuration list for PBXNativeTarget "SimpleDoTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				469C06D71A69857F00ED9A9B /* Debug */,
-				469C06D81A69857F00ED9A9B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

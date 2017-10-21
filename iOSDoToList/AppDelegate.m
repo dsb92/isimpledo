@@ -21,6 +21,7 @@
 #import <ParseTwitterUtils/PFTwitterUtils.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#import <FirebaseCore/FirebaseCore.h>
 
 @interface AppDelegate () <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 @property LoginViewController *logInViewController;
@@ -112,6 +113,11 @@
     
     [PFTwitterUtils initializeWithConsumerKey:@"Va1Sa8Mxh5NRUy7E5OqMw2KRS"
                                consumerSecret:@"S2PdthlelWmjLIW9KDJcpfFVJe4vVEnrjSdZ0FyBpvyiXcPRcT"];
+    
+    // Use Firebase library to configure APIs.
+    [FIRApp configure];
+    // Initialize the Google Mobile Ads SDK.
+    [GADMobileAds configureWithApplicationID:@"ca-app-pub-8950051795385970~5292805152"];
     
     // [Optional] Track statistics around application opens.
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];

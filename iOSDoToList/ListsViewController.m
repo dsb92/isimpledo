@@ -16,6 +16,7 @@
 #import <Parse/Parse.h>
 #import "AppDelegate.h"
 #import "CustomListManager.h"
+#import <StoreKit/StoreKit.h>
 
 @interface ListsViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -136,6 +137,23 @@
     }
     
     [self initializeLeftBarButtons];
+    
+    [self rateMeIfNeeded];
+}
+
+-(void)rateMeIfNeeded {
+
+    int iMinSessions = 6;
+    
+    int numLaunches = [[NSUserDefaults standardUserDefaults]integerForKey:@"numLaunchesRateMe"] + 1;
+    numLaunches += 1;
+    
+    [[NSUserDefaults standardUserDefaults] setInteger:numLaunches forKey:@"numLaunchesRateMe"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+    
+    if (numLaunches % iMinSessions == 0) {
+        [SKStoreReviewController requestReview];
+    }
 }
 
 -(void)initializeSpinner{
@@ -169,17 +187,12 @@
     }
     else{
         NSLog(@"Google Mobile Ads SDK version: %@", [GADRequest sdkVersion]);
-        
-        // Test Version
-        //self.bannerView.adUnitID = @"ca-app-pub-3940256099942544/2934735716";
-        
-        // Live version
-        self.bannerView.adUnitID = @"ca-app-pub-9818395476815781/2173165953";
-        
+
+        self.bannerView.adUnitID = @"ca-app-pub-8950051795385970/9978866069";
         self.bannerView.rootViewController = self;
         
         GADRequest *request = [GADRequest request];
- 
+        request.testDevices = @[kGADSimulatorID, @"9d76e2f8ed01fcade9b41f4fea72a5c7"];
         [self.bannerView loadRequest:request];
     }
 }
@@ -189,14 +202,11 @@
     BOOL removeAds = [[NSUserDefaults standardUserDefaults]boolForKey:@"removeAds"];
     
     if (!removeAds){
-        // Test version
-        //self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-3940256099942544/4411468910"];
-        
-        // Live version
-        self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-9818395476815781/2984341288"];
+
+        self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-8950051795385970/9862605551"];
         
         GADRequest *request = [GADRequest request];
-
+        request.testDevices = @[kGADSimulatorID, @"9d76e2f8ed01fcade9b41f4fea72a5c7"];
         [self.interstitial loadRequest:request];
     }
 }
